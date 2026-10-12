@@ -1,0 +1,63 @@
+{% extends "planner/base.html" %}
+
+{% block title %}Replan unfinished work | AI Study Planner{% endblock %}
+
+{% block content %}
+<section class="page-heading">
+    <p class="eyebrow">Adjust your schedule</p>
+    <h1>Replan unfinished work</h1>
+    <p>Study plan {{ plan.id }}</p>
+</section>
+
+<section class="card form-card" aria-label="Replanning form">
+    <p>
+        Pending and Missed sessions will be rescheduled
+        from the date you choose.
+    </p>
+    <p>
+        Completed sessions retain their dates and statuses.
+        Your daily limit stays at
+        {{ plan.daily_study_minutes }} minutes.
+    </p>
+    <p>
+        If the work fits before the exams, a replacement plan
+        becomes Active and this plan is archived.
+        If it cannot fit, this plan remains unchanged.
+    </p>
+
+    <form method="post">
+        {% csrf_token %}
+
+        {% if form.errors %}
+        <div class="form-errors" role="alert">
+            <p>Please correct the errors below.</p>
+            {{ form.non_field_errors }}
+        </div>
+        {% endif %}
+
+        {% for field in form %}
+        <div class="form-field">
+            {{ field.label_tag }}
+            {{ field }}
+
+            {% if field.help_text %}
+            <div class="help-text" id="{{ field.auto_id }}_helptext">
+                {{ field.help_text }}
+            </div>
+            {% endif %}
+
+            {% if field.errors %}
+            <div role="alert">{{ field.errors }}</div>
+            {% endif %}
+        </div>
+        {% endfor %}
+
+        <div class="actions">
+            <button type="submit">Replan unfinished work</button>
+            <a href="{% url 'planner:study_plan_detail' plan.id %}">
+                Cancel
+            </a>
+        </div>
+    </form>
+</section>
+{% endblock %}

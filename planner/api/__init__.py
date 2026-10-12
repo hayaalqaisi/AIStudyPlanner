@@ -1,0 +1,1 @@
+"""JSON API endpoints for the study planner."""

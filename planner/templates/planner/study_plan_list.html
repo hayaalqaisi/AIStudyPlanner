@@ -1,0 +1,84 @@
+{% extends "planner/base.html" %}
+
+{% block title %}My study plans | AI Study Planner{% endblock %}
+
+{% block content %}
+<section class="page-heading">
+    <p class="eyebrow">Your schedules</p>
+    <h1>My study plans</h1>
+    <p>Follow your active plan and keep earlier versions as history.</p>
+
+    <div class="actions">
+        <a class="button" href="{% url 'planner:study_plan_create' %}">
+            Generate study plan
+        </a>
+    </div>
+</section>
+
+<div class="card-grid">
+    {% for plan in plans %}
+    <article class="card">
+        <span class="badge">{{ plan.get_status_display }}</span>
+
+        <h2>Study plan {{ plan.id }}</h2>
+
+        <p>
+            <strong>Original start:</strong>
+            <time datetime="{{ plan.start_date|date:'Y-m-d' }}">
+                {{ plan.start_date|date:"F j, Y" }}
+            </time>
+        </p>
+
+        {% if plan.resume_date %}
+        <p>
+            <strong>Rescheduled from:</strong>
+            <time datetime="{{ plan.resume_date|date:'Y-m-d' }}">
+                {{ plan.resume_date|date:"F j, Y" }}
+            </time>
+        </p>
+        {% endif %}
+
+        <p>
+            <strong>Daily limit:</strong>
+            {{ plan.daily_study_minutes }} minutes
+        </p>
+
+        <div class="actions">
+            <a class="button"
+               href="{% url 'planner:study_plan_detail' plan.id %}"
+               aria-label="View study plan {{ plan.id }}">
+                View plan
+            </a>
+
+            {% if plan.status == "active" %}
+            <a class="button button-secondary"
+               href="{% url 'planner:plan_review' plan.id %}"
+               aria-label="Review study plan {{ plan.id }} with AI">
+                Review with AI
+            </a>
+            {% endif %}
+        </div>
+
+        {% if plan.status == "active" %}
+        <div class="actions">
+            <a href="{% url 'planner:study_plan_archive' plan.id %}"
+               aria-label="Archive study plan {{ plan.id }}">
+                Archive plan
+            </a>
+        </div>
+        {% endif %}
+    </article>
+    {% empty %}
+    <section class="card">
+        <h2>No study plans yet</h2>
+        <p>
+            Add exams, extract syllabus topics, and save your daily
+            study time before generating a plan.
+        </p>
+        <a class="button" href="{% url 'planner:study_plan_create' %}">
+            Generate your first plan
+        </a>
+    </section>
+    {% endfor %}
+</div>
+{% endblock %}

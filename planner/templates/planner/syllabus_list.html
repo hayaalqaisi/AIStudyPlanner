@@ -1,0 +1,63 @@
+{% extends "planner/base.html" %}
+
+{% block title %}Course syllabi | AI Study Planner{% endblock %}
+
+{% block content %}
+<section class="page-heading">
+    <p class="eyebrow">Course materials</p>
+    <h1>Syllabi for {{ course.name }}</h1>
+    <p>Upload course content, preview its text, and extract study topics.</p>
+
+    <div class="actions">
+        <a class="button"
+           href="{% url 'planner:syllabus_upload' course.id %}">
+            Upload syllabus
+        </a>
+        <a href="{% url 'planner:course_list' %}">Back to courses</a>
+    </div>
+</section>
+
+<div class="card-grid">
+    {% for syllabus in syllabi %}
+    <article class="card">
+        <h2>{{ syllabus.original_filename }}</h2>
+
+        <p>
+            Uploaded:
+            <time datetime="{{ syllabus.uploaded_at|date:'c' }}">
+                {{ syllabus.uploaded_at|date:"F j, Y, g:i a" }}
+            </time>
+        </p>
+
+        <div class="actions">
+            <a class="button"
+               href="{% url 'planner:topic_list' syllabus.id %}"
+               aria-label="View study topics for {{ syllabus.original_filename }}">
+                Study topics
+            </a>
+            <a class="button button-secondary"
+               href="{% url 'planner:syllabus_text' syllabus.id %}"
+               aria-label="Preview text from {{ syllabus.original_filename }}">
+                Preview text
+            </a>
+        </div>
+
+        <div class="actions">
+            <a href="{% url 'planner:syllabus_download' syllabus.id %}"
+               aria-label="Download {{ syllabus.original_filename }}">
+                Download original file
+            </a>
+        </div>
+    </article>
+    {% empty %}
+    <section class="card">
+        <h2>No syllabi uploaded yet</h2>
+        <p>Upload a PDF or UTF-8 TXT file to get started.</p>
+        <a class="button"
+           href="{% url 'planner:syllabus_upload' course.id %}">
+            Upload your first syllabus
+        </a>
+    </section>
+    {% endfor %}
+</div>
+{% endblock %}

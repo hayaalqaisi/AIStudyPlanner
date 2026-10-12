@@ -1,0 +1,142 @@
+{
+  "created_at": "2026-10-12T19:16:15.834813+00:00",
+  "model": "gpt-4.1-mini-2025-04-14",
+  "repetitions_per_case": 1,
+  "notes": [
+    "Cases are synthetic and references are predefined.",
+    "Titles match after case and whitespace normalization.",
+    "Equivalent wording may require manual semantic review.",
+    "Failed extractions count as missing all expected topics.",
+    "Latency covers extraction and validation, not report writing.",
+    "RSS readings describe the entire local Python process.",
+    "Memory readings are before/after samples, not peak usage.",
+    "Requests run sequentially in the same process."
+  ],
+  "summary": {
+    "attempts": 3,
+    "successful_attempts": 3,
+    "failed_attempts": 0,
+    "micro_precision": 0.8888888888888888,
+    "micro_recall": 0.8888888888888888,
+    "micro_f1": 0.8888888888888888,
+    "average_duration_ms": 1843.3333333333333,
+    "average_memory_after_bytes": 71740074.66666667,
+    "average_memory_delta_bytes": 6843050.666666667
+  },
+  "results": [
+    {
+      "case": "database_baseline",
+      "repetition": 1,
+      "outcome": "succeeded",
+      "error_message": "",
+      "expected_titles": [
+        "Introduction to databases",
+        "Relational models",
+        "SQL queries",
+        "Database normalization",
+        "Transactions and concurrency",
+        "Indexes"
+      ],
+      "predicted_titles": [
+        "Introduction to databases",
+        "Relational models",
+        "SQL queries",
+        "Database normalization",
+        "Transactions and concurrency",
+        "Indexes"
+      ],
+      "quality": {
+        "expected_count": 6,
+        "predicted_count": 6,
+        "true_positives": 6,
+        "false_positives": 0,
+        "false_negatives": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "performance": {
+        "duration_ms": 1898,
+        "memory_before_bytes": 51380224,
+        "memory_after_bytes": 71557120,
+        "memory_delta_bytes": 20176896
+      }
+    },
+    {
+      "case": "operating_systems_with_admin_text",
+      "repetition": 1,
+      "outcome": "succeeded",
+      "error_message": "",
+      "expected_titles": [
+        "Processes and threads",
+        "CPU scheduling",
+        "Synchronization",
+        "Deadlocks",
+        "Memory management",
+        "File systems"
+      ],
+      "predicted_titles": [
+        "Processes and Threads",
+        "CPU Scheduling Algorithms",
+        "Synchronization Mechanisms",
+        "Deadlocks",
+        "Memory Management",
+        "File Systems"
+      ],
+      "quality": {
+        "expected_count": 6,
+        "predicted_count": 6,
+        "true_positives": 4,
+        "false_positives": 2,
+        "false_negatives": 2,
+        "precision": 0.6666666666666666,
+        "recall": 0.6666666666666666,
+        "f1": 0.6666666666666666
+      },
+      "performance": {
+        "duration_ms": 1830,
+        "memory_before_bytes": 71561216,
+        "memory_after_bytes": 71749632,
+        "memory_delta_bytes": 188416
+      }
+    },
+    {
+      "case": "networks_with_repeated_topic",
+      "repetition": 1,
+      "outcome": "succeeded",
+      "error_message": "",
+      "expected_titles": [
+        "Network models",
+        "Ethernet and switching",
+        "IPv4 and subnetting",
+        "Routing",
+        "TCP and UDP",
+        "DNS and HTTP"
+      ],
+      "predicted_titles": [
+        "Network models",
+        "Ethernet and switching",
+        "IPv4 and subnetting",
+        "Routing",
+        "TCP and UDP",
+        "DNS and HTTP"
+      ],
+      "quality": {
+        "expected_count": 6,
+        "predicted_count": 6,
+        "true_positives": 6,
+        "false_positives": 0,
+        "false_negatives": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "performance": {
+        "duration_ms": 1802,
+        "memory_before_bytes": 71749632,
+        "memory_after_bytes": 71913472,
+        "memory_delta_bytes": 163840
+      }
+    }
+  ]
+}

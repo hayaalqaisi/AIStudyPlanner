@@ -1,0 +1,89 @@
+{% extends "planner/base.html" %}
+
+{% block title %}Home | AI Study Planner{% endblock %}
+
+{% block content %}
+<section class="page-heading" aria-labelledby="welcome-heading">
+    <p class="eyebrow">Your study workspace</p>
+    <h1 id="welcome-heading">Make time for what you need to learn.</h1>
+    <p>
+        Turn syllabus topics into a realistic study schedule.
+        Track completed sessions and adjust your plan when work is missed.
+    </p>
+</section>
+
+{% if user.is_authenticated %}
+<div class="card-grid">
+    <section class="card" aria-labelledby="courses-heading">
+        <h2 id="courses-heading">1. Prepare your courses</h2>
+        <p>
+            Add courses and exam dates, upload your syllabi,
+            and extract study topics.
+        </p>
+        <div class="actions">
+            <a class="button" href="{% url 'planner:course_list' %}">
+                My courses
+            </a>
+        </div>
+    </section>
+
+    <section class="card" aria-labelledby="settings-heading">
+        <h2 id="settings-heading">2. Set your daily study time</h2>
+        <p>
+            Choose a realistic daily limit across all your courses.
+            Review topic estimates before generating your plan.
+        </p>
+        <div class="actions">
+            <a class="button button-secondary"
+               href="{% url 'planner:study_preferences' %}">
+                Study settings
+            </a>
+        </div>
+    </section>
+
+    <section class="card" aria-labelledby="plans-heading">
+        <h2 id="plans-heading">3. Follow your study plan</h2>
+        <p>
+            Generate study and revision sessions before your exams,
+            then mark sessions Completed or Missed.
+        </p>
+        <div class="actions">
+            <a class="button" href="{% url 'planner:study_plan_list' %}">
+                My study plans
+            </a>
+        </div>
+    </section>
+
+    <section class="card" aria-labelledby="agent-heading">
+        <h2 id="agent-heading">4. Review and adapt</h2>
+        <p>
+            Use Review with AI on an active plan.
+            Check the agent's decisions and outcomes in your history.
+        </p>
+        <div class="actions">
+            <a class="button button-secondary"
+               href="{% url 'planner:agent_log_list' %}">
+                Agent review history
+            </a>
+        </div>
+    </section>
+</div>
+{% else %}
+<section class="card" aria-labelledby="get-started-heading">
+    <h2 id="get-started-heading">Build a plan around your courses.</h2>
+    <p>
+        Create an account to organize syllabus topics,
+        set exam deadlines, and track your study progress.
+    </p>
+    <div class="actions">
+        <a class="button" href="{% url 'accounts:register' %}">
+            Create account
+        </a>
+        <a class="button button-secondary"
+           href="{% url 'accounts:login' %}">
+            Log in
+        </a>
+    </div>
+</section>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,44 @@
+{% extends "planner/base.html" %}
+
+{% block title %}Syllabus text | AI Study Planner{% endblock %}
+
+{% block content %}
+<section class="page-heading">
+    <p class="eyebrow">Text preview</p>
+    <h1>Syllabus text</h1>
+    <p><strong>Course:</strong> {{ syllabus.course.name }}</p>
+    <p><strong>File:</strong> {{ syllabus.original_filename }}</p>
+
+    <div class="actions">
+        <a href="{% url 'planner:syllabus_list' syllabus.course_id %}">
+            Back to syllabi
+        </a>
+        <a href="{% url 'planner:topic_list' syllabus.id %}">
+            Study topics
+        </a>
+    </div>
+</section>
+
+{% if extraction_error %}
+<section class="card" aria-labelledby="error-heading">
+    <div class="form-errors" role="alert">
+        <h2 id="error-heading">Text extraction failed</h2>
+        <p>{{ extraction_error }}</p>
+    </div>
+
+    <a class="button"
+       href="{% url 'planner:syllabus_upload' syllabus.course_id %}">
+        Upload another syllabus
+    </a>
+</section>
+{% else %}
+<section class="card" aria-labelledby="text-heading">
+    <h2 id="text-heading">Extracted text</h2>
+    <p>
+        Check that the main syllabus content appears below.
+        PDF spacing and line breaks may differ from the original.
+    </p>
+    <pre>{{ text }}</pre>
+</section>
+{% endif %}
+{% endblock %}

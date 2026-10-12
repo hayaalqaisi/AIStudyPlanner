@@ -1,0 +1,91 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>{% block title %}AI Study Planner{% endblock %}</title>
+
+    <link rel="stylesheet"
+          href="{% static 'planner/css/app.css' %}">
+
+    {% block extra_head %}{% endblock %}
+</head>
+<body>
+    <a class="skip-link" href="#main-content">Skip to content</a>
+
+    <header class="site-header">
+        <div class="header-inner">
+            <a class="brand" href="{% url 'planner:home' %}">
+                AI Study Planner
+            </a>
+
+            <nav class="site-nav" aria-label="Main navigation">
+                {% if user.is_authenticated %}
+                <a href="{% url 'planner:course_list' %}">
+                    My courses
+                </a>
+                <a href="{% url 'planner:study_plan_list' %}">
+                    Study plans
+                </a>
+                <a href="{% url 'planner:study_preferences' %}">
+                    Study settings
+                </a>
+                <a href="{% url 'planner:agent_log_list' %}">
+                    Agent history
+                </a>
+                {% else %}
+                <a href="{% url 'accounts:login' %}">Log in</a>
+                <a href="{% url 'accounts:register' %}">
+                    Create account
+                </a>
+                {% endif %}
+            </nav>
+
+            {% if user.is_authenticated %}
+            <div class="account-controls">
+                <span class="account-name">
+                    Signed in as {{ user.username }}
+                </span>
+
+                <form method="post"
+                      action="{% url 'accounts:logout' %}">
+                    {% csrf_token %}
+                    <button class="button button-secondary"
+                            type="submit">
+                        Log out
+                    </button>
+                </form>
+            </div>
+            {% endif %}
+        </div>
+    </header>
+
+    <main id="main-content" class="page-container" tabindex="-1">
+        {% if messages %}
+        <div class="message-list" aria-label="Notifications">
+            {% for message in messages %}
+            {% if message.level_tag == "error" %}
+            <div class="message" role="alert">
+                {{ message }}
+            </div>
+            {% else %}
+            <div class="message" role="status">
+                {{ message }}
+            </div>
+            {% endif %}
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer class="site-footer">
+        <p>Plan your study time. Track progress. Adapt when things change.</p>
+    </footer>
+
+    {% block extra_scripts %}{% endblock %}
+</body>
+</html>

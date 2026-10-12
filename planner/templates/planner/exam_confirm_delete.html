@@ -1,0 +1,42 @@
+{% extends "planner/base.html" %}
+
+{% block title %}Delete exam | AI Study Planner{% endblock %}
+
+{% block content %}
+<section class="page-heading">
+    <p class="eyebrow">Exam management</p>
+    <h1>Delete exam</h1>
+    <p><strong>Course:</strong> {{ exam.course.name }}</p>
+</section>
+
+<section class="card form-card" aria-labelledby="confirmation-heading">
+    <h2 id="confirmation-heading">{{ exam.title }}</h2>
+
+    <p>
+        <strong>Exam date:</strong>
+        <time datetime="{{ exam.exam_date|date:'Y-m-d' }}">
+            {{ exam.exam_date|date:"F j, Y" }}
+        </time>
+    </p>
+
+    <p>
+        This removes the exam from the course.
+        Existing study-plan sessions keep their saved exam
+        title and deadline.
+    </p>
+
+    <p><strong>This action cannot be undone.</strong></p>
+
+    <form method="post">
+        {% csrf_token %}
+
+        <div class="actions">
+            <button type="submit">Delete exam permanently</button>
+            <a class="button button-secondary"
+               href="{% url 'planner:exam_list' exam.course_id %}">
+                Cancel
+            </a>
+        </div>
+    </form>
+</section>
+{% endblock %}

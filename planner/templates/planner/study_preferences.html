@@ -1,0 +1,61 @@
+{% extends "planner/base.html" %}
+
+{% block title %}Study settings | AI Study Planner{% endblock %}
+
+{% block content %}
+<section class="page-heading">
+    <p class="eyebrow">Daily capacity</p>
+    <h1>Study settings</h1>
+    <p>
+        Choose how much time you can realistically study each day
+        across all your courses.
+    </p>
+</section>
+
+<section class="card form-card" aria-label="Study settings form">
+    {% if not has_saved_preferences %}
+    <p>
+        You have not saved your study settings yet.
+        The suggested starting value is 120 minutes per day.
+    </p>
+    {% endif %}
+
+    <p>
+        These settings apply when generating a new plan.
+        Existing plans retain their saved daily limits.
+    </p>
+
+    <form method="post">
+        {% csrf_token %}
+
+        {% if form.errors %}
+        <div class="form-errors" role="alert">
+            <p>Please correct the errors below.</p>
+            {{ form.non_field_errors }}
+        </div>
+        {% endif %}
+
+        {% for field in form %}
+        <div class="form-field">
+            {{ field.label_tag }}
+            {{ field }}
+
+            {% if field.help_text %}
+            <div class="help-text" id="{{ field.auto_id }}_helptext">
+                {{ field.help_text }}
+            </div>
+            {% endif %}
+
+            {% if field.errors %}
+            <div role="alert">{{ field.errors }}</div>
+            {% endif %}
+        </div>
+        {% endfor %}
+
+        <div class="actions">
+            <button type="submit">Save study settings</button>
+            <a href="{% url 'planner:home' %}">Back to home</a>
+        </div>
+    </form>
+</section>
+{% endblock %}

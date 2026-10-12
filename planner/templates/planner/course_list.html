@@ -1,0 +1,65 @@
+{% extends "planner/base.html" %}
+
+{% block title %}My courses | AI Study Planner{% endblock %}
+
+{% block content %}
+<section class="page-heading">
+    <p class="eyebrow">Course workspace</p>
+    <h1>My courses</h1>
+    <p>Manage your syllabi, study topics, and exam deadlines.</p>
+
+    <div class="actions">
+        <a class="button" href="{% url 'planner:course_create' %}">
+            Add course
+        </a>
+    </div>
+</section>
+
+<div class="card-grid">
+    {% for course in courses %}
+    <article class="card">
+        <h2>{{ course.name }}</h2>
+
+        {% if course.description %}
+        <p>{{ course.description|linebreaksbr }}</p>
+        {% else %}
+        <p>No description added.</p>
+        {% endif %}
+
+        <div class="actions">
+            <a class="button"
+               href="{% url 'planner:syllabus_list' course.id %}"
+               aria-label="View syllabi for {{ course.name }}">
+                Syllabi
+            </a>
+
+            <a class="button button-secondary"
+               href="{% url 'planner:exam_list' course.id %}"
+               aria-label="View exams for {{ course.name }}">
+                Exams
+            </a>
+        </div>
+
+        <div class="actions">
+            <a href="{% url 'planner:course_update' course.id %}"
+               aria-label="Edit {{ course.name }}">
+                Edit course
+            </a>
+
+            <a href="{% url 'planner:course_delete' course.id %}"
+               aria-label="Delete {{ course.name }}">
+                Delete course
+            </a>
+        </div>
+    </article>
+    {% empty %}
+    <section class="card">
+        <h2>No courses yet</h2>
+        <p>Add your first course to begin organizing your study work.</p>
+        <a class="button" href="{% url 'planner:course_create' %}">
+            Add your first course
+        </a>
+    </section>
+    {% endfor %}
+</div>
+{% endblock %}

@@ -1,0 +1,135 @@
+{% extends "planner/base.html" %}
+
+{% block title %}Study plan {{ plan.id }} | AI Study Planner{% endblock %}
+
+{% block content %}
+<section class="page-heading">
+    <p class="eyebrow">Your study schedule</p>
+    <h1>Study plan {{ plan.id }}</h1>
+    <span class="badge">{{ plan.get_status_display }}</span>
+
+    <div class="actions">
+        <a href="{% url 'planner:study_plan_list' %}">
+            Back to study plans
+        </a>
+
+        {% if plan.replanned_from_id %}
+        <a href="{% url 'planner:study_plan_detail' plan.replanned_from_id %}">
+            View original plan
+        </a>
+        {% endif %}
+    </div>
+</section>
+
+<section class="card" aria-labelledby="summary-heading">
+    <h2 id="summary-heading">Plan summary</h2>
+
+    <p>
+        <strong>Original start:</strong>
+        <time datetime="{{ plan.start_date|date:'Y-m-d' }}">
+            {{ plan.start_date|date:"F j, Y" }}
+        </time>
+    </p>
+
+    {% if plan.resume_date %}
+    <p>
+        <strong>Unfinished work rescheduled from:</strong>
+        <time datetime="{{ plan.resume_date|date:'Y-m-d' }}">
+            {{ plan.resume_date|date:"F j, Y" }}
+        </time>
+    </p>
+    {% endif %}
+
+    <p>
+        <strong>Daily limit:</strong>
+        {{ plan.daily_study_minutes }} minutes
+    </p>
+    <p>
+        <strong>Total scheduled time:</strong>
+        {{ total_minutes }} minutes
+    </p>
+    <p>
+        Topic estimates determine study time.
+        Each topic also receives 15 minutes of revision.
+    </p>
+
+    {% if plan.status == "active" %}
+    <div class="actions">
+        <a class="button"
+           href="{% url 'planner:plan_review' plan.id %}">
+            Review with AI
+        </a>
+        <a class="button button-secondary"
+           href="{% url 'planner:study_plan_replan' plan.id %}">
+            Replan unfinished work
+        </a>
+        <a href="{% url 'planner:study_plan_archive' plan.id %}">
+            Archive plan
+        </a>
+    </div>
+    {% else %}
+    <p>This plan is archived. Its session statuses are read-only.</p>
+    {% endif %}
+</section>
+
+<div class="stack">
+    {% for day in days %}
+    <section class="card"
+             aria-labelledby="day-{{ forloop.counter }}">
+        <h2 id="day-{{ forloop.counter }}">
+            <time datetime="{{ day.date|date:'Y-m-d' }}">
+                {{ day.date|date:"l, F j, Y" }}
+            </time>
+        </h2>
+
+        <p>
+            <strong>Daily total:</strong>
+            {{ day.total_minutes }} / {{ plan.daily_study_minutes }}
+            minutes
+        </p>
+
+        <div class="card-grid">
+            {% for session in day.sessions %}
+            <article class="card">
+                <span class="badge">{{ session.get_status_display }}</span>
+                <h3>{{ session.topic_title }}</h3>
+
+                <p><strong>Course:</strong> {{ session.course_name }}</p>
+                <p>
+                    <strong>Activity:</strong>
+                    {{ session.get_kind_display }}
+                </p>
+                <p>
+                    <strong>Duration:</strong>
+                    {{ session.duration_minutes }} minutes
+                </p>
+
+                <p>
+                    <strong>Exam:</strong>
+                    {{ session.exam_title }} —
+                    <time datetime="{{ session.exam_date|date:'Y-m-d' }}">
+                        {{ session.exam_date|date:"F j, Y" }}
+                    </time>
+                </p>
+
+                {% if plan.status == "active" %}
+                <div class="actions">
+                    <a class="button button-secondary"
+                       href="{% url 'planner:study_session_status' session.id %}"
+                       aria-label="Update {{ session.get_kind_display }} session status for {{ session.topic_title }} on {{ session.study_date|date:'F j, Y' }}">
+                        Update status
+                    </a>
+                </div>
+                {% endif %}
+            </article>
+            {% endfor %}
+        </div>
+    </section>
+    {% empty %}
+    <section class="card">
+        <h2>No sessions</h2>
+        <p>This plan has no scheduled sessions.</p>
+    </section>
+    {% endfor %}
+</div>
+{% endblock %}

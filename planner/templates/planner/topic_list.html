@@ -1,0 +1,103 @@
+{% extends "planner/base.html" %}
+
+{% block title %}Study topics | AI Study Planner{% endblock %}
+
+{% block content %}
+<section class="page-heading">
+    <p class="eyebrow">Study workload</p>
+    <h1>Study topics</h1>
+    <p><strong>Course:</strong> {{ syllabus.course.name }}</p>
+    <p><strong>Syllabus:</strong> {{ syllabus.original_filename }}</p>
+
+    <div class="actions">
+        <a href="{% url 'planner:syllabus_list' syllabus.course_id %}">
+            Back to syllabi
+        </a>
+        <a href="{% url 'planner:syllabus_text' syllabus.id %}">
+            Preview syllabus text
+        </a>
+    </div>
+</section>
+
+{% if topics %}
+<p>
+    Check these AI-extracted topics against your syllabus.
+    Study estimates start at 60 minutes per topic; adjust them
+    to match your workload.
+</p>
+
+<div class="card-grid">
+    {% for topic in topics %}
+    <article class="card">
+        <span class="badge">Topic {{ topic.position }}</span>
+        <h2>{{ topic.title }}</h2>
+
+        {% if topic.description %}
+        <p>{{ topic.description|linebreaksbr }}</p>
+        {% endif %}
+
+        <p>
+            <strong>Estimated study time:</strong>
+            {{ topic.estimated_study_minutes }} minutes
+        </p>
+
+        <div class="actions">
+            <a class="button button-secondary"
+               href="{% url 'planner:topic_duration' topic.id %}"
+               aria-label="Edit study time for {{ topic.title }}">
+                Edit study time
+            </a>
+        </div>
+    </article>
+    {% endfor %}
+</div>
+{% else %}
+<section class="card form-card" aria-labelledby="extract-heading">
+    <h2 id="extract-heading">No study topics yet</h2>
+    <p>
+        Extracting topics sends your syllabus text to OpenAI
+        and uses API credit.
+    </p>
+
+    <form id="topic-form"
+          method="post"
+          action="{% url 'planner:topic_generate' syllabus.id %}">
+        {% csrf_token %}
+
+        <button id="generate-button" type="submit">
+            Extract study topics
+        </button>
+    </form>
+
+    <p id="processing-message" role="status" hidden>
+        Extracting topics. Please wait…
+    </p>
+</section>
+{% endif %}
+{% endblock %}
+
+{% block extra_scripts %}
+{% if not topics %}
+<script>
+    const form = document.getElementById("topic-form");
+    const button = document.getElementById("generate-button");
+    const processingMessage = document.getElementById(
+        "processing-message"
+    );
+
+    form.addEventListener("submit", function () {
+        button.disabled = true;
+        button.textContent = "Extracting…";
+        processingMessage.hidden = false;
+        form.setAttribute("aria-busy", "true");
+    });
+
+    window.addEventListener("pageshow", function () {
+        button.disabled = false;
+        button.textContent = "Extract study topics";
+        processingMessage.hidden = true;
+        form.removeAttribute("aria-busy");
+    });
+</script>
+{% endif %}
+{% endblock %}

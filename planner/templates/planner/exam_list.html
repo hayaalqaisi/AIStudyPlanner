@@ -1,0 +1,58 @@
+{% extends "planner/base.html" %}
+
+{% block title %}Course exams | AI Study Planner{% endblock %}
+
+{% block content %}
+<section class="page-heading">
+    <p class="eyebrow">Exam deadlines</p>
+    <h1>Exams for {{ course.name }}</h1>
+    <p>Manage the deadlines used to schedule study and revision.</p>
+
+    <div class="actions">
+        <a class="button"
+           href="{% url 'planner:exam_create' course.id %}">
+            Add exam
+        </a>
+        <a href="{% url 'planner:course_list' %}">
+            Back to courses
+        </a>
+    </div>
+</section>
+
+<div class="card-grid">
+    {% for exam in exams %}
+    <article class="card">
+        <h2>{{ exam.title }}</h2>
+
+        <p>
+            <strong>Exam date:</strong>
+            <time datetime="{{ exam.exam_date|date:'Y-m-d' }}">
+                {{ exam.exam_date|date:"F j, Y" }}
+            </time>
+        </p>
+
+        <div class="actions">
+            <a class="button button-secondary"
+               href="{% url 'planner:exam_update' exam.id %}"
+               aria-label="Edit {{ exam.title }}">
+                Edit exam
+            </a>
+            <a href="{% url 'planner:exam_delete' exam.id %}"
+               aria-label="Delete {{ exam.title }}">
+                Delete exam
+            </a>
+        </div>
+    </article>
+    {% empty %}
+    <section class="card">
+        <h2>No exams yet</h2>
+        <p>Add an exam date before generating a study plan.</p>
+
+        <a class="button"
+           href="{% url 'planner:exam_create' course.id %}">
+            Add your first exam
+        </a>
+    </section>
+    {% endfor %}
+</div>
+{% endblock %}

@@ -1,0 +1,37 @@
+{% extends "planner/base.html" %}
+
+{% block title %}Delete course | AI Study Planner{% endblock %}
+
+{% block content %}
+<section class="page-heading">
+    <p class="eyebrow">Course management</p>
+    <h1>Delete course</h1>
+    <p>Review what will be removed before confirming.</p>
+</section>
+
+<section class="card form-card" aria-labelledby="confirmation-heading">
+    <h2 id="confirmation-heading">{{ course.name }}</h2>
+
+    <p>
+        Deleting this course removes its exam records,
+        syllabi records, and extracted topics.
+    </p>
+    <p>
+        Existing study-plan sessions keep their saved names,
+        dates, durations, and statuses.
+    </p>
+    <p><strong>This action cannot be undone.</strong></p>
+
+    <form method="post">
+        {% csrf_token %}
+
+        <div class="actions">
+            <button type="submit">Delete course permanently</button>
+            <a class="button button-secondary"
+               href="{% url 'planner:course_list' %}">
+                Cancel
+            </a>
+        </div>
+    </form>
+</section>
+{% endblock %}

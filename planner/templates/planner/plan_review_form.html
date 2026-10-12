@@ -1,0 +1,98 @@
+{% extends "planner/base.html" %}
+
+{% block title %}Review plan with AI | AI Study Planner{% endblock %}
+
+{% block content %}
+<section class="page-heading">
+    <p class="eyebrow">Review and adapt</p>
+    <h1>Review plan with AI</h1>
+    <p>Study plan {{ plan.id }}</p>
+</section>
+
+<section class="card form-card" aria-label="AI plan-review form">
+    <p>
+        The agent reviews Completed, Pending, and Missed study time.
+        Pending sessions before your chosen resume date count
+        as overdue work.
+    </p>
+    <p>
+        If missed or overdue work needs rescheduling, the server
+        checks daily capacity and exam deadlines before saving
+        a replacement.
+    </p>
+    <p>
+        Completed work is preserved. A successful replacement
+        archives the original plan. If no changes are needed,
+        the current plan stays Active.
+    </p>
+    <p>
+        <strong>
+            This review sends numeric progress totals to OpenAI
+            and uses API credit.
+        </strong>
+    </p>
+
+    <form id="review-form" method="post">
+        {% csrf_token %}
+
+        {% if form.errors %}
+        <div class="form-errors" role="alert">
+            <p>Please correct the errors below.</p>
+            {{ form.non_field_errors }}
+        </div>
+        {% endif %}
+
+        {% for field in form %}
+        <div class="form-field">
+            {{ field.label_tag }}
+            {{ field }}
+
+            {% if field.help_text %}
+            <div class="help-text" id="{{ field.auto_id }}_helptext">
+                {{ field.help_text }}
+            </div>
+            {% endif %}
+
+            {% if field.errors %}
+            <div role="alert">{{ field.errors }}</div>
+            {% endif %}
+        </div>
+        {% endfor %}
+
+        <div class="actions">
+            <button id="review-button" type="submit">
+                Review and apply changes if needed
+            </button>
+            <a href="{% url 'planner:study_plan_detail' plan.id %}">
+                Cancel
+            </a>
+        </div>
+    </form>
+
+    <p id="review-progress" role="status" hidden>
+        Reviewing your progress. Please wait…
+    </p>
+</section>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+    const form = document.getElementById("review-form");
+    const button = document.getElementById("review-button");
+    const progress = document.getElementById("review-progress");
+
+    form.addEventListener("submit", function () {
+        button.disabled = true;
+        button.textContent = "Reviewing…";
+        progress.hidden = false;
+        form.setAttribute("aria-busy", "true");
+    });
+
+    window.addEventListener("pageshow", function () {
+        button.disabled = false;
+        button.textContent = "Review and apply changes if needed";
+        progress.hidden = true;
+        form.removeAttribute("aria-busy");
+    });
+</script>
+{% endblock %}

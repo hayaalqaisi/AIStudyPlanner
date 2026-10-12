@@ -1,0 +1,50 @@
+{% extends "planner/base.html" %}
+
+{% block title %}Archive study plan | AI Study Planner{% endblock %}
+
+{% block content %}
+<section class="page-heading">
+    <p class="eyebrow">Plan history</p>
+    <h1>Archive study plan {{ plan.id }}</h1>
+</section>
+
+<section class="card form-card" aria-label="Archive confirmation">
+    <span class="badge">{{ plan.get_status_display }}</span>
+
+    <p>
+        <strong>Original start:</strong>
+        <time datetime="{{ plan.start_date|date:'Y-m-d' }}">
+            {{ plan.start_date|date:"F j, Y" }}
+        </time>
+    </p>
+
+    {% if plan.status == "active" %}
+    <p>
+        Archiving ends this plan's active use and allows you
+        to generate another plan.
+    </p>
+    <p>
+        This plan and its sessions remain available in history.
+        Archived session statuses are read-only.
+    </p>
+
+    <form method="post">
+        {% csrf_token %}
+
+        <div class="actions">
+            <button type="submit">Archive plan</button>
+            <a class="button button-secondary"
+               href="{% url 'planner:study_plan_detail' plan.id %}">
+                Cancel
+            </a>
+        </div>
+    </form>
+    {% else %}
+    <p>This plan is already archived.</p>
+    <a class="button button-secondary"
+       href="{% url 'planner:study_plan_detail' plan.id %}">
+        Back to plan
+    </a>
+    {% endif %}
+</section>
+{% endblock %}

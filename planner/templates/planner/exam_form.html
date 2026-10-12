@@ -1,0 +1,50 @@
+{% extends "planner/base.html" %}
+
+{% block title %}{{ page_title }} | AI Study Planner{% endblock %}
+
+{% block content %}
+<section class="page-heading">
+    <p class="eyebrow">Exam deadline</p>
+    <h1>{{ page_title }}</h1>
+    <p><strong>Course:</strong> {{ course.name }}</p>
+</section>
+
+<section class="card form-card" aria-label="Exam form">
+    <p>New or changed exam dates must be today or later.</p>
+
+    <form method="post">
+        {% csrf_token %}
+
+        {% if form.errors %}
+        <div class="form-errors" role="alert">
+            <p>Please correct the errors below.</p>
+            {{ form.non_field_errors }}
+        </div>
+        {% endif %}
+
+        {% for field in form %}
+        <div class="form-field">
+            {{ field.label_tag }}
+            {{ field }}
+
+            {% if field.help_text %}
+            <div class="help-text" id="{{ field.auto_id }}_helptext">
+                {{ field.help_text }}
+            </div>
+            {% endif %}
+
+            {% if field.errors %}
+            <div role="alert">{{ field.errors }}</div>
+            {% endif %}
+        </div>
+        {% endfor %}
+
+        <div class="actions">
+            <button type="submit">{{ submit_label }}</button>
+            <a href="{% url 'planner:exam_list' course.id %}">
+                Cancel
+            </a>
+        </div>
+    </form>
+</section>
+{% endblock %}

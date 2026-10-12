@@ -1,0 +1,370 @@
+{
+  "created_at": "2026-10-12T19:20:26.313684+00:00",
+  "model": "gpt-4.1-mini-2025-04-14",
+  "repetitions_per_case": 3,
+  "notes": [
+    "Cases are synthetic and references are predefined.",
+    "Titles match after case and whitespace normalization.",
+    "Equivalent wording may require manual semantic review.",
+    "Failed extractions count as missing all expected topics.",
+    "Latency covers extraction and validation, not report writing.",
+    "RSS readings describe the entire local Python process.",
+    "Memory readings are before/after samples, not peak usage.",
+    "Requests run sequentially in the same process."
+  ],
+  "summary": {
+    "attempts": 9,
+    "successful_attempts": 9,
+    "failed_attempts": 0,
+    "micro_precision": 0.9259259259259259,
+    "micro_recall": 0.9259259259259259,
+    "micro_f1": 0.9259259259259259,
+    "average_duration_ms": 1468.3333333333333,
+    "average_memory_after_bytes": 71980373.33333333,
+    "average_memory_delta_bytes": 2333809.777777778
+  },
+  "results": [
+    {
+      "case": "database_baseline",
+      "repetition": 1,
+      "outcome": "succeeded",
+      "error_message": "",
+      "expected_titles": [
+        "Introduction to databases",
+        "Relational models",
+        "SQL queries",
+        "Database normalization",
+        "Transactions and concurrency",
+        "Indexes"
+      ],
+      "predicted_titles": [
+        "Introduction to databases",
+        "Relational models",
+        "SQL queries",
+        "Database normalization",
+        "Transactions and concurrency",
+        "Indexes"
+      ],
+      "quality": {
+        "expected_count": 6,
+        "predicted_count": 6,
+        "true_positives": 6,
+        "false_positives": 0,
+        "false_negatives": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "performance": {
+        "duration_ms": 1580,
+        "memory_before_bytes": 51171328,
+        "memory_after_bytes": 71704576,
+        "memory_delta_bytes": 20533248
+      }
+    },
+    {
+      "case": "operating_systems_with_admin_text",
+      "repetition": 1,
+      "outcome": "succeeded",
+      "error_message": "",
+      "expected_titles": [
+        "Processes and threads",
+        "CPU scheduling",
+        "Synchronization",
+        "Deadlocks",
+        "Memory management",
+        "File systems"
+      ],
+      "predicted_titles": [
+        "Processes and threads",
+        "CPU scheduling",
+        "Synchronization",
+        "Deadlocks",
+        "Memory management",
+        "File systems"
+      ],
+      "quality": {
+        "expected_count": 6,
+        "predicted_count": 6,
+        "true_positives": 6,
+        "false_positives": 0,
+        "false_negatives": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "performance": {
+        "duration_ms": 1873,
+        "memory_before_bytes": 71708672,
+        "memory_after_bytes": 71860224,
+        "memory_delta_bytes": 151552
+      }
+    },
+    {
+      "case": "networks_with_repeated_topic",
+      "repetition": 1,
+      "outcome": "succeeded",
+      "error_message": "",
+      "expected_titles": [
+        "Network models",
+        "Ethernet and switching",
+        "IPv4 and subnetting",
+        "Routing",
+        "TCP and UDP",
+        "DNS and HTTP"
+      ],
+      "predicted_titles": [
+        "Network models",
+        "Ethernet and switching",
+        "IPv4 and subnetting",
+        "Routing",
+        "TCP and UDP",
+        "DNS and HTTP"
+      ],
+      "quality": {
+        "expected_count": 6,
+        "predicted_count": 6,
+        "true_positives": 6,
+        "false_positives": 0,
+        "false_negatives": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "performance": {
+        "duration_ms": 1172,
+        "memory_before_bytes": 71860224,
+        "memory_after_bytes": 71913472,
+        "memory_delta_bytes": 53248
+      }
+    },
+    {
+      "case": "database_baseline",
+      "repetition": 2,
+      "outcome": "succeeded",
+      "error_message": "",
+      "expected_titles": [
+        "Introduction to databases",
+        "Relational models",
+        "SQL queries",
+        "Database normalization",
+        "Transactions and concurrency",
+        "Indexes"
+      ],
+      "predicted_titles": [
+        "Introduction to databases",
+        "Relational models",
+        "SQL queries",
+        "Database normalization",
+        "Transactions and concurrency",
+        "Indexes"
+      ],
+      "quality": {
+        "expected_count": 6,
+        "predicted_count": 6,
+        "true_positives": 6,
+        "false_positives": 0,
+        "false_negatives": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "performance": {
+        "duration_ms": 1373,
+        "memory_before_bytes": 71913472,
+        "memory_after_bytes": 71962624,
+        "memory_delta_bytes": 49152
+      }
+    },
+    {
+      "case": "operating_systems_with_admin_text",
+      "repetition": 2,
+      "outcome": "succeeded",
+      "error_message": "",
+      "expected_titles": [
+        "Processes and threads",
+        "CPU scheduling",
+        "Synchronization",
+        "Deadlocks",
+        "Memory management",
+        "File systems"
+      ],
+      "predicted_titles": [
+        "Processes and Threads",
+        "CPU Scheduling Algorithms",
+        "Synchronization Mechanisms",
+        "Deadlocks",
+        "Memory Management",
+        "File Systems"
+      ],
+      "quality": {
+        "expected_count": 6,
+        "predicted_count": 6,
+        "true_positives": 4,
+        "false_positives": 2,
+        "false_negatives": 2,
+        "precision": 0.6666666666666666,
+        "recall": 0.6666666666666666,
+        "f1": 0.6666666666666666
+      },
+      "performance": {
+        "duration_ms": 1620,
+        "memory_before_bytes": 71962624,
+        "memory_after_bytes": 71991296,
+        "memory_delta_bytes": 28672
+      }
+    },
+    {
+      "case": "networks_with_repeated_topic",
+      "repetition": 2,
+      "outcome": "succeeded",
+      "error_message": "",
+      "expected_titles": [
+        "Network models",
+        "Ethernet and switching",
+        "IPv4 and subnetting",
+        "Routing",
+        "TCP and UDP",
+        "DNS and HTTP"
+      ],
+      "predicted_titles": [
+        "Network models",
+        "Ethernet and switching",
+        "IPv4 and subnetting",
+        "Routing",
+        "TCP and UDP",
+        "DNS and HTTP"
+      ],
+      "quality": {
+        "expected_count": 6,
+        "predicted_count": 6,
+        "true_positives": 6,
+        "false_positives": 0,
+        "false_negatives": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "performance": {
+        "duration_ms": 1056,
+        "memory_before_bytes": 71991296,
+        "memory_after_bytes": 72011776,
+        "memory_delta_bytes": 20480
+      }
+    },
+    {
+      "case": "database_baseline",
+      "repetition": 3,
+      "outcome": "succeeded",
+      "error_message": "",
+      "expected_titles": [
+        "Introduction to databases",
+        "Relational models",
+        "SQL queries",
+        "Database normalization",
+        "Transactions and concurrency",
+        "Indexes"
+      ],
+      "predicted_titles": [
+        "Introduction to databases",
+        "Relational models",
+        "SQL queries",
+        "Database normalization",
+        "Transactions and concurrency",
+        "Indexes"
+      ],
+      "quality": {
+        "expected_count": 6,
+        "predicted_count": 6,
+        "true_positives": 6,
+        "false_positives": 0,
+        "false_negatives": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "performance": {
+        "duration_ms": 1687,
+        "memory_before_bytes": 72011776,
+        "memory_after_bytes": 72077312,
+        "memory_delta_bytes": 65536
+      }
+    },
+    {
+      "case": "operating_systems_with_admin_text",
+      "repetition": 3,
+      "outcome": "succeeded",
+      "error_message": "",
+      "expected_titles": [
+        "Processes and threads",
+        "CPU scheduling",
+        "Synchronization",
+        "Deadlocks",
+        "Memory management",
+        "File systems"
+      ],
+      "predicted_titles": [
+        "Processes and threads",
+        "CPU scheduling algorithms",
+        "Synchronization mechanisms",
+        "Deadlocks",
+        "Memory management",
+        "File systems"
+      ],
+      "quality": {
+        "expected_count": 6,
+        "predicted_count": 6,
+        "true_positives": 4,
+        "false_positives": 2,
+        "false_negatives": 2,
+        "precision": 0.6666666666666666,
+        "recall": 0.6666666666666666,
+        "f1": 0.6666666666666666
+      },
+      "performance": {
+        "duration_ms": 1516,
+        "memory_before_bytes": 72077312,
+        "memory_after_bytes": 72122368,
+        "memory_delta_bytes": 45056
+      }
+    },
+    {
+      "case": "networks_with_repeated_topic",
+      "repetition": 3,
+      "outcome": "succeeded",
+      "error_message": "",
+      "expected_titles": [
+        "Network models",
+        "Ethernet and switching",
+        "IPv4 and subnetting",
+        "Routing",
+        "TCP and UDP",
+        "DNS and HTTP"
+      ],
+      "predicted_titles": [
+        "Network models",
+        "Ethernet and switching",
+        "IPv4 and subnetting",
+        "Routing",
+        "TCP and UDP",
+        "DNS and HTTP"
+      ],
+      "quality": {
+        "expected_count": 6,
+        "predicted_count": 6,
+        "true_positives": 6,
+        "false_positives": 0,
+        "false_negatives": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "performance": {
+        "duration_ms": 1338,
+        "memory_before_bytes": 72122368,
+        "memory_after_bytes": 72179712,
+        "memory_delta_bytes": 57344
+      }
+    }
+  ]
+}

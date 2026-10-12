@@ -1,0 +1,116 @@
+{% extends "planner/base.html" %}
+
+{% block title %}Agent review history | AI Study Planner{% endblock %}
+
+{% block content %}
+<section class="page-heading">
+    <p class="eyebrow">Decisions and outcomes</p>
+    <h1>Agent review history</h1>
+    <p>
+        Inspect review decisions, tool results, elapsed time,
+        and local process memory readings.
+    </p>
+    <p>
+        Memory readings describe the whole Django process,
+        not peak memory or OpenAI's remote servers.
+    </p>
+</section>
+
+<div class="stack">
+    {% for log in page_obj %}
+    <article class="card">
+        <span class="badge">{{ log.get_outcome_display }}</span>
+        <h2>{{ log.get_action_display }}</h2>
+
+        <p>
+            <strong>Reviewed:</strong>
+            <time datetime="{{ log.created_at|date:'c' }}">
+                {{ log.created_at|date:"F j, Y, g:i a" }}
+            </time>
+        </p>
+
+        <p>
+            <strong>Elapsed time:</strong>
+            {{ log.duration_ms }} milliseconds
+        </p>
+
+        {% if log.memory_before_bytes != None and log.memory_after_bytes != None %}
+        <p>
+            <strong>Process memory before:</strong>
+            {{ log.memory_before_bytes }} bytes
+        </p>
+        <p>
+            <strong>Process memory after:</strong>
+            {{ log.memory_after_bytes }} bytes
+        </p>
+        <p>
+            <strong>Memory change:</strong>
+            {{ log.memory_delta_bytes }} bytes
+        </p>
+        {% else %}
+        <p>Memory was not recorded for this review.</p>
+        {% endif %}
+
+        {% if log.decision_reason %}
+        <h3>Decision explanation</h3>
+        <p>{{ log.decision_reason|linebreaksbr }}</p>
+        {% endif %}
+
+        {% if log.result_message %}
+        <h3>Result</h3>
+        <p>{{ log.result_message|linebreaksbr }}</p>
+        {% endif %}
+
+        <div class="actions">
+            {% if log.plan_id %}
+            <a class="button button-secondary"
+               href="{% url 'planner:study_plan_detail' log.plan_id %}">
+                View reviewed plan
+            </a>
+            {% endif %}
+
+            {% if log.replacement_plan_id %}
+            <a class="button"
+               href="{% url 'planner:study_plan_detail' log.replacement_plan_id %}">
+                View replacement plan
+            </a>
+            {% endif %}
+        </div>
+
+        {% if not log.plan_id %}
+        <p>The reviewed plan is no longer available.</p>
+        {% endif %}
+    </article>
+    {% empty %}
+    <section class="card">
+        <h2>No reviews yet</h2>
+        <p>Open an active study plan and choose Review with AI.</p>
+        <a class="button" href="{% url 'planner:study_plan_list' %}">
+            My study plans
+        </a>
+    </section>
+    {% endfor %}
+</div>
+
+{% if page_obj.paginator.num_pages > 1 %}
+<nav class="actions" aria-label="Review history pages">
+    {% if page_obj.has_previous %}
+    <a class="button button-secondary"
+       href="?page={{ page_obj.previous_page_number }}">
+        Previous
+    </a>
+    {% endif %}
+
+    <span>
+        Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
+    </span>
+
+    {% if page_obj.has_next %}
+    <a class="button button-secondary"
+       href="?page={{ page_obj.next_page_number }}">
+        Next
+    </a>
+    {% endif %}
+</nav>
+{% endif %}
+{% endblock %}

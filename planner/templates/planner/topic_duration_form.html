@@ -1,0 +1,49 @@
+{% extends "planner/base.html" %}
+
+{% block title %}Edit study time | AI Study Planner{% endblock %}
+
+{% block content %}
+<section class="page-heading">
+    <p class="eyebrow">Topic workload</p>
+    <h1>Edit study time</h1>
+    <p><strong>Topic:</strong> {{ topic.title }}</p>
+    <p><strong>Course:</strong> {{ topic.syllabus.course.name }}</p>
+</section>
+
+<section class="card form-card" aria-label="Topic study-time form">
+    <form method="post">
+        {% csrf_token %}
+
+        {% if form.errors %}
+        <div class="form-errors" role="alert">
+            <p>Please correct the errors below.</p>
+            {{ form.non_field_errors }}
+        </div>
+        {% endif %}
+
+        {% for field in form %}
+        <div class="form-field">
+            {{ field.label_tag }}
+            {{ field }}
+
+            {% if field.help_text %}
+            <div class="help-text" id="{{ field.auto_id }}_helptext">
+                {{ field.help_text }}
+            </div>
+            {% endif %}
+
+            {% if field.errors %}
+            <div role="alert">{{ field.errors }}</div>
+            {% endif %}
+        </div>
+        {% endfor %}
+
+        <div class="actions">
+            <button type="submit">Save study time</button>
+            <a href="{% url 'planner:topic_list' topic.syllabus_id %}">
+                Cancel
+            </a>
+        </div>
+    </form>
+</section>
+{% endblock %}
