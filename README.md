@@ -1,190 +1,525 @@
 # AI Study Planner
 
-AI Study Planner is a Django web application that helps students turn course syllabi and exam dates into an organized, adjustable study schedule. It keeps course materials, study topics, preferences, plans, and session progress together so students can see what to study and respond when they fall behind.
+AI Study Planner is a Django application that helps students organize courses,
+extract syllabus topics, prepare for exams, and adapt study schedules as
+progress changes.
 
 ## Problem Statement
 
-Students often have course information spread across syllabi, exam calendars, and personal notes. Converting those materials into a realistic day-by-day study plan takes time, and a plan can quickly become outdated when study sessions are missed. This is especially challenging for students managing several courses and deadlines at once.
+Students often have course content, exam dates, and study tasks spread across
+different documents. Creating a realistic schedule takes time, and missed
+sessions can make that schedule unsuitable.
 
 ## Proposed Solution
 
-The application provides an authenticated workspace for managing courses and exams, uploading PDF syllabi, extracting study topics, estimating time per topic, and generating a study plan around the student's preferences and exam dates. Students can track sessions as pending, completed, or missed, then review or replan unfinished work while preserving completed sessions.
+The application combines deterministic scheduling with AI-assisted topic
+extraction and study-plan recommendations.
 
-The project combines deterministic scheduling and server-side validation with two focused AI features. OpenAI is used to extract supported topics from syllabus text and to select a constrained study-plan review action. The application validates structured AI output and checks scheduling feasibility in its own services before saving changes.
+Python services enforce workload limits, exam deadlines, ownership, and data
+integrity. The AI recommends a feasible scheduling option using the student's
+preferences. Students review and approve proposed changes before application.
 
 ## Features
 
 - Account registration, login, and logout.
 - Course and exam management.
-- PDF syllabus upload, text extraction, and download.
-- AI-assisted topic extraction with validated structured output.
-- Per-topic study-time estimates and study preferences.
-- Study-plan generation, review, replanning, and archiving.
-- Study-session status tracking and agent review history.
-- JSON API endpoints for courses, study plans, and session status.
+- PDF and UTF-8 TXT syllabus uploads.
+- Authenticated syllabus downloads and extracted-text previews.
+- AI-assisted topic extraction with structured output validation.
+- Editable study-time estimates per topic.
+- Daily study preferences.
+- Study and revision scheduling across courses.
+- Session status tracking: Pending, Completed, and Missed.
+- Manual replanning and plan archiving.
+- AI proposals with explicit student approval.
+- Agent history with outcomes, elapsed time, and process memory readings.
+- Session-authenticated JSON APIs.
+- Read-only inspection of Planner models through Django admin.
+- Automated tests and separate evaluations of both AI features.
 
-## Technologies Used
+## Technologies
 
 - Python
 - Django 5.2
 - PostgreSQL with psycopg
-- OpenAI API (Responses API; configured model defaults to `gpt-4.1-mini-2025-04-14`)
-- `python-dotenv` for local environment configuration
-- `pypdf` for extracting text from PDF syllabi
-- `psutil` for process memory measurements in the evaluation utility
-- HTML templates and CSS for the web interface
+- OpenAI Responses API
+- python-dotenv
+- pypdf
+- psutil
+- Django templates, HTML, CSS, and JavaScript
+
+Exact dependency versions are listed in `requirements.txt`.
 
 ## Project Structure
 
-```text
-AIStudyPlanner/
-├── accounts/                 # Custom user model, registration, login, and account views
-├── evaluation/               # Topic extraction cases, evaluation runner, and saved JSON results
-├── planner/
-│   ├── ai/                   # Topic extraction and plan-review AI integrations
-│   ├── api/                  # JSON API endpoints
-│   ├── forms/                # Input forms and validation
-│   ├── migrations/           # Database schema migrations
-│   ├── models/               # Domain models, split by entity
-│   ├── services/             # Scheduling, persistence, syllabus, and business rules
-│   ├── static/                # Stylesheets
-│   ├── templates/             # Server-rendered pages
-│   ├── utils/                 # Performance and topic-evaluation helpers
-│   └── views/                  # Web request handlers, organized by feature
-├── study_planner/            # Django settings and project URL/ASGI/WSGI configuration
-├── .env.example              # Safe template for required local settings
-├── .gitignore                # Excludes secrets, local files, and generated artifacts
-├── manage.py                 # Django management entry point
-└── requirements.txt          # Python dependencies
-```
+| Location | Responsibility |
+| --- | --- |
+| `accounts/` | User accounts, authentication, and registration |
+| `evaluation/` | Synthetic cases, scoring, evaluation runners, and saved reports |
+| `planner/ai/` | Shared OpenAI client, AI integrations, tools, and validation |
+| `planner/ai/prompts/` | Markdown instructions for both AI features |
+| `planner/api/` | JSON endpoints and shared API decorator |
+| `planner/forms/` | Input validation |
+| `planner/migrations/` | Database schema history |
+| `planner/models/` | Domain models and constraints |
+| `planner/services/` | Scheduling and application business logic |
+| `planner/static/` | Stylesheets |
+| `planner/templates/` | Server-rendered pages |
+| `planner/tests/` | Automated tests |
+| `planner/utils/` | Measurement and topic-scoring helpers |
+| `planner/views/` | Web request handlers |
+| `planner/admin.py` | Read-only Planner model registrations |
+| `study_planner/` | Django settings and project configuration |
+| `manage.py` | Django management entry point |
 
 ## Requirements
 
 - Python 3.10 or newer.
-- PostgreSQL running locally or reachable from your machine.
-- An OpenAI API key and access to the model configured in `OPENAI_MODEL` for topic extraction and AI plan review.
+- PostgreSQL.
+- An OpenAI API key and access to the configured model for real AI requests.
 
-## How to Run the Project
+## Local Setup
 
-The commands below use PowerShell on Windows. From a terminal, move into the `AIStudyPlanner` project directory first.
+Run the following PowerShell commands from the project root.
 
-1. Create and activate a virtual environment:
+### 1. Create and activate a virtual environment
 
-   ```powershell
-   py -m venv .venv
-   .\.venv\Scripts\Activate.ps1
-   ```
+```powershell
+py -m venv .venv
+.\.venv\Scripts\Activate.ps1
+```
 
-   On macOS or Linux, use `python3 -m venv .venv` and `source .venv/bin/activate`.
+If the environment already exists, activate it without recreating it.
 
-2. Install the dependencies:
+### 2. Install dependencies
 
-   ```powershell
-   python -m pip install --upgrade pip
-   pip install -r requirements.txt
-   ```
+```powershell
+python -m pip install -r requirements.txt
+```
 
-3. Create a PostgreSQL database and user, or use an existing PostgreSQL account. For example, from `psql` as a PostgreSQL administrator:
+### 3. Configure PostgreSQL
 
-   ```sql
-   CREATE USER studyplanner_user WITH PASSWORD 'choose-a-local-password';
-   CREATE DATABASE ai_study_planner OWNER studyplanner_user;
-   ```
+Create a database and use an appropriate PostgreSQL account.
 
-   If you already have a database user, set its values in the next step instead of creating this example user.
+For example, from psql as a PostgreSQL administrator:
 
-4. Create a local `.env` file by copying `.env.example`, then edit the values:
+```sql
+CREATE USER studyplanner_user WITH PASSWORD 'choose-a-local-password';
+CREATE DATABASE ai_study_planner OWNER studyplanner_user;
+```
 
-   ```powershell
-   Copy-Item .env.example .env
-   ```
+### 4. Configure environment variables
 
-   Set `DB_NAME`, `DB_USER`, `DB_PASSWORD`, `DB_HOST`, and `DB_PORT` to match your PostgreSQL setup. Add your OpenAI API key. Do not commit `.env` or put real credentials in the repository.
+For a new setup:
 
-5. Apply database migrations:
+```powershell
+Copy-Item .env.example .env
+```
 
-   ```powershell
-   python manage.py migrate
-   ```
+Do not overwrite an existing configured `.env`.
 
-6. (Optional) Create an administrator account for Django's admin interface:
+Edit `.env` with your database connection details, a private Django secret key,
+and OpenAI configuration. Never commit real secrets.
 
-   ```powershell
-   python manage.py createsuperuser
-   ```
+| Variable | Purpose |
+| --- | --- |
+| `DJANGO_SECRET_KEY` | Required Django signing key |
+| `DJANGO_DEBUG` | Set `True` for local development |
+| `DJANGO_ALLOWED_HOSTS` | Comma-separated allowed host names |
+| `DB_NAME` | PostgreSQL database name |
+| `DB_USER` | PostgreSQL user |
+| `DB_PASSWORD` | PostgreSQL password |
+| `DB_HOST` | PostgreSQL host |
+| `DB_PORT` | PostgreSQL port |
+| `OPENAI_API_KEY` | Required for real AI requests |
+| `OPENAI_MODEL` | Model used by both AI integrations |
 
-7. Start the development server:
+The example model is `gpt-4.1-mini-2025-04-14`. Access to the configured model
+must be available to the OpenAI account.
 
-   ```powershell
-   python manage.py runserver
-   ```
+### 5. Apply migrations
 
-8. Open the web application at [http://127.0.0.1:8000/](http://127.0.0.1:8000/). The Django admin is at [http://127.0.0.1:8000/admin/](http://127.0.0.1:8000/admin/).
+```powershell
+python manage.py migrate
+```
 
-The AI topic extraction and plan-review actions require a valid OpenAI API key, network access, and model availability. Other application setup also requires PostgreSQL to be running and reachable with the configured database values.
+### 6. Optionally create an administrator
 
-## Environment Variables
+```powershell
+python manage.py createsuperuser
+```
 
-The application reads `.env` from the project root. `.env.example` contains placeholders only.
+### 7. Start the development server
 
-| Variable | Required | Purpose |
-| --- | --- | --- |
-| `DJANGO_SECRET_KEY` | Yes | Django signing and security key. Use a private, randomly generated value. |
-| `DJANGO_DEBUG` | No | Enables Django debug mode when set to `True`; the example enables it for local development. |
-| `DJANGO_ALLOWED_HOSTS` | For deployment | Comma-separated host names Django may serve. The example lists local development hosts. |
-| `DB_NAME` | Yes | PostgreSQL database name. |
-| `DB_USER` | Yes | PostgreSQL user name. |
-| `DB_PASSWORD` | Yes | Password for the PostgreSQL user. |
-| `DB_HOST` | Yes | PostgreSQL server host, commonly `localhost` for local development. |
-| `DB_PORT` | Yes | PostgreSQL server port, commonly `5432`. |
-| `OPENAI_API_KEY` | For AI features | API key used for syllabus topic extraction and study-plan review. |
-| `OPENAI_MODEL` | For AI features | Model name used for both AI features; the example sets `gpt-4.1-mini-2025-04-14`. |
+```powershell
+python manage.py runserver
+```
 
-For a deployed environment, set a production secret, turn debug mode off, and configure the real allowed host names. Never publish private credentials.
+Open [the application](http://127.0.0.1:8000/).
 
-## Web Pages and API
+The [Django admin](http://127.0.0.1:8000/admin/) requires an authorized
+staff account.
 
-The main web interface is served from `/`. Common pages include `/courses/`, `/study-plans/`, `/study-settings/`, and `/agent-history/`. Account pages are under `/accounts/`.
+### Visual Studio
 
-The JSON API is mounted under `/api/`:
+The repository retains its Visual Studio project and solution files.
+
+The startup file is `manage.py`, with `runserver` configured as the script
+argument. Select the project's `.venv` interpreter when using Visual Studio.
+
+The empty original startup file and unused test placeholder were removed.
+Microsoft Office temporary lock files are excluded through `.gitignore`.
+
+## Scheduling Rules
+
+- Daily study time is shared across selected courses.
+- Each selected course requires one exam and one syllabus with extracted topics.
+- Earlier exams are prioritized.
+- Each topic receives its estimated study time plus 15 minutes of revision.
+- Sessions must be scheduled before their exam dates.
+- Work may be split across days.
+- Only one study plan per user may be Active.
+- Archived plans have read-only session statuses.
+- Saved session snapshots preserve historical names and deadlines when source
+  records are changed or deleted.
+
+Manual replanning uses the plan's existing daily limit. It preserves completed
+sessions and reschedules Pending and Missed work.
+
+## Shared OpenAI Configuration
+
+Both AI features use `planner/ai/openai_client.py`.
+
+The shared client reads the API key and model through Django settings.
+The timeout is configured as 60 seconds, automatic retries are disabled, and
+requests use `store=False`.
+
+SDK errors are translated into `AIServiceError`. Each feature translates that
+exception into its existing user-facing error type and validates its own
+response structure.
+
+Prompts are loaded as UTF-8 text from:
+
+- `planner/ai/prompts/topic_extraction.md`
+- `planner/ai/prompts/plan_review.md`
+
+The standalone evaluation runners initialize Django and use the same settings.
+
+## AI Topic Extraction
+
+The application extracts text from an owned syllabus and sends that text to
+OpenAI.
+
+The response must follow a strict JSON schema. Python then validates titles,
+descriptions, field names, topic count, and duplicate titles before saving.
+
+Extracted topics initially receive a 60-minute study estimate. Students should
+review extracted content and adjust estimates before generating a plan.
+
+## AI Plan Review and Approval
+
+The review agent recommends a scheduling tradeoff rather than following a
+single predetermined tool-selection rule.
+
+### Student input
+
+The student provides:
+
+- A valid resume date.
+- A maximum acceptable daily study limit.
+- A preference for a lighter workload or finishing sooner.
+
+### Server-calculated options
+
+The server uses the replanning scheduler to calculate feasible options within
+the student's permitted range.
+
+Candidate limits start at the current limit and increase in 15-minute steps.
+The exact maximum is also considered.
+
+Each option includes its daily limit, projected finish date, number of study
+days, and peak scheduled daily workload.
+
+### AI recommendation
+
+The agent receives progress totals, feasible scheduling options, the resume
+date, daily limits, and the student's preference. Syllabus text, topic names,
+and individual exam deadlines are not included in the review input.
+
+It can recommend:
+
+- Keeping the current plan when no missed or overdue work requires repair.
+- Replanning with one of the feasible daily limits.
+- Reporting that unfinished work cannot fit when no feasible option exists.
+
+The model can choose among different feasible limits. Python validates its
+proposal but does not force one particular feasible limit.
+
+### Approval and application
+
+Requesting a proposal does not change the study plan.
+
+A replanning proposal requires explicit student approval. Its signed token:
+
+- Expires after 10 minutes.
+- Is tied to the account and plan.
+- Includes a fingerprint of the reviewed plan and sessions.
+- Is rejected if the reviewed plan or progress changes.
+
+On approval, the server recalculates feasibility inside a transaction before
+creating the replacement plan.
+
+Completed work is preserved, the original plan is archived, and the replacement
+becomes Active. Saved Study settings are unchanged.
+
+Approval does not make another OpenAI request.
+
+### Explanation limitations
+
+The scheduling checks validate the proposed plan, not every sentence in the
+AI's explanation.
+
+Manual evaluation found that an explanation could incorrectly claim the
+current daily limit could not meet deadlines even when that limit appeared
+among the feasible options. The recommended higher limit could still be valid
+and correctly reflect the student's preference for finishing sooner.
+
+The prompt was refined and the evaluation repeated. Correct actions and
+preference matches were maintained, but an incorrect capacity claim still
+appeared in the repeated run.
+
+Another explanation described the resume date as though it were a completion
+deadline. The resume date is when rescheduling starts.
+
+Students should review explanations critically. Correct decision scores do
+not establish factual explanation accuracy, and prompt instructions do not
+guarantee factual output.
+
+## Django Admin
+
+The following Planner models are registered as read-only:
+
+- Course
+- Exam
+- Syllabus
+- Topic
+- StudyPlan
+- StudySession
+- AgentLog
+
+Authorized administrators can inspect records, search, and use the configured
+filters. Adding, changing, deleting, and bulk actions are disabled for these
+registrations.
+
+The syllabus admin omits the storage file field. Authenticated application
+downloads remain the route for retrieving syllabus files.
+
+Existing User and Group administration retain their own permissions.
+
+## Automated Tests
+
+Run from the project root with the virtual environment activated:
+
+```powershell
+python manage.py test --verbosity 2
+```
+
+The current suite contains **123 tests**, confirmed passing during development.
+
+Coverage includes:
+
+- Scheduling limits, deadlines, revision workload, and impossible schedules.
+- Replanning calculations and replacement-plan persistence.
+- User ownership protection in web views and APIs.
+- Shared API authentication, method checks, and cache handling.
+- Shared OpenAI configuration and SDK error translation.
+- Topic extraction validation.
+- AI review forms and feasible scheduling options.
+- Proposal validation and mocked AI responses.
+- Signed approval tokens, expiry, tampering, and changed progress.
+- Proposal preview, approval, error handling, and CSRF rejection.
+- Exact and fuzzy title scoring.
+- Agent-evaluation scoring and mocked evaluation runners.
+
+OpenAI calls are mocked in the automated tests, so they use no API credit.
+
+Database tests require PostgreSQL and permission to create a test database.
+Django normally creates `test_ai_study_planner` and removes it afterward.
+The application database is not used for test records.
+
+Mocked tests verify application behaviour and validation. They do not measure
+the real model's recommendation quality.
+
+## Web Pages and JSON API
+
+Main pages include:
+
+- `/courses/`
+- `/study-plans/`
+- `/study-settings/`
+- `/agent-history/`
+
+Account pages are under `/accounts/`.
 
 | Endpoint | Purpose |
 | --- | --- |
-| `GET /api/courses/` | List the signed-in user's courses. |
-| `GET /api/study-plans/` | List the signed-in user's study plans. |
-| `GET /api/study-plans/<plan_id>/` | Retrieve an owned study plan and its sessions. |
-| `PATCH /api/study-sessions/<session_id>/status/` | Update a session status by sending JSON such as `{"status":"completed"}`. |
+| `GET /api/courses/` | List the signed-in user's courses |
+| `GET /api/study-plans/` | List the signed-in user's plans |
+| `GET /api/study-plans/<plan_id>/` | Retrieve an owned plan and its sessions |
+| `PATCH /api/study-sessions/<session_id>/status/` | Update an owned active-plan session |
 
-The API uses Django's session authentication and requires a signed-in user. The session-status endpoint accepts `application/json` and is subject to Django CSRF protection when used with session cookies.
+The API uses Django session authentication. The shared `api_view_json`
+decorator handles authentication, allowed methods, and no-cache headers.
 
-## AI Evaluation Snapshot
+At the view layer, unauthenticated requests return 401 and unsupported methods
+return 405 with an `Allow` header. Django's CSRF middleware can reject unsafe
+requests before the view runs.
 
-The repository includes topic-extraction evaluation cases and saved JSON results in `evaluation/results/`. The included run used 3 repetitions across 3 synthetic cases (9 attempts total) with the model recorded in the result file:
+PATCH requests require JSON and remain subject to CSRF protection.
 
-- Successful extractions: 9 of 9.
-- Micro precision: 0.926.
-- Micro recall: 0.926.
-- Micro F1: 0.926.
-- Mean extraction duration: about 1.47 seconds.
-- Mean process memory after an attempt: about 71.98 MB; this is a process RSS sample, not peak memory.
+Example request body:
 
-The title metric normalizes case and whitespace; equivalent wording may need manual semantic review. These results reflect the included small synthetic evaluation set, not a broad real-world benchmark. Latency covers extraction and validation, and memory measurements sample the local Python process before and after each attempt.
+```json
+{"status": "completed"}
+```
 
-To run the evaluation again, configure `OPENAI_API_KEY` and `OPENAI_MODEL` in `.env`, activate the environment, and run:
+## AI Evaluation
+
+Evaluation reports are stored in `evaluation/results/`. Both runners make real
+OpenAI requests and use API credit. They do not modify application study plans.
+
+### Expanded topic extraction evaluation
+
+The expanded set contains six synthetic syllabus cases, including longer
+examples with administrative text, a weekly table, numbered subtopics, and
+repeated content.
+
+The October 15, 2026 run used three repetitions per case:
+
+| Metric | Result |
+| --- | --- |
+| Attempts | 18 |
+| Successful extractions | 18 |
+| Failed extractions | 0 |
+| Exact micro precision, recall, and F1 | Approximately 0.949 each |
+| Fuzzy micro precision, recall, and F1 | Approximately 0.949 each |
+| Fuzzy similarity threshold | 0.85 |
+| Average extraction duration | Approximately 2.08 seconds |
+| Average process memory afterward | Approximately 98.61 MB |
+
+Report: `evaluation/results/topic_evaluation_20261015T192749345674Z.json`
+
+Exact matching normalizes case and whitespace. Fuzzy matching uses Python's
+character-similarity scoring with one-to-one title assignments. Duplicate
+predictions count against precision.
+
+Fuzzy matching found no additional matches at the selected threshold in this
+run. It measures wording similarity, not semantic correctness.
+
+Run the evaluation with:
 
 ```powershell
 python -m evaluation.run_topic_evaluation --repetitions 3
 ```
 
-Each repetition makes one API request per evaluation case and may incur API usage. A new JSON report is saved under `evaluation/results/`.
+With six cases and three repetitions, this makes 18 OpenAI requests.
 
-## Security and Uploaded Files
+### Plan-review evaluation
 
-- Keep `.env` private; it is excluded by `.gitignore`.
-- The example environment file contains placeholders, not working credentials.
-- Syllabus PDF uploads are limited to 5 MB by the application setting.
-- Uploaded media files are stored locally in `media/`, which is excluded from version control.
+Six synthetic scenarios cover:
+
+- A completed plan.
+- Missed work with a lighter-workload preference.
+- The same workload with a finish-sooner preference.
+- Completed work consuming capacity and requiring a higher daily limit.
+- An insufficient maximum daily limit.
+- An exam deadline already reached at the resume date.
+
+Feasible options are calculated using the application's scheduler.
+
+The preference rubric selects the lowest feasible daily limit for
+lighter-workload cases. For finish-sooner cases, it selects the earliest finish,
+then the lowest daily limit achieving that date.
+
+These are explicit benchmark expectations, not universal measures of the
+best recommendation.
+
+The repeated October 15, 2026 run after prompt refinement recorded:
+
+| Metric | Result |
+| --- | --- |
+| Attempts | 18 |
+| Successful attempts | 18 |
+| Accepted proposals | 18 of 18 |
+| Correct actions | 18 of 18 |
+| Preference matches | 9 of 9 applicable attempts |
+| Average proposal duration | Approximately 1.61 seconds |
+| Average process memory afterward | Approximately 99.19 MB |
+
+Report: `evaluation/results/plan_review_evaluation_20261015T193408073484Z.json`
+
+The earlier run is also retained:
+
+`evaluation/results/plan_review_evaluation_20261015T192925553820Z.json`
+
+Application validation rejects invalid proposals before returning them to the
+runner. Therefore, accepted-proposal rate is not a measurement of the raw
+model's safety. Raw rejected model outputs are not captured.
+
+Failures remain in the relevant metric denominators. Explanations are saved
+for manual review, but their factual accuracy is not automatically scored.
+
+Run the evaluation with:
+
+```powershell
+python -m evaluation.run_plan_review_evaluation --repetitions 3
+```
+
+With six cases and three repetitions, this makes 18 OpenAI requests.
+
+### Interpretation and limitations
+
+- Both evaluations use small synthetic datasets.
+- The longer syllabi remain controlled examples with explicit main headings.
+- Topic scores do not measure description quality, topic ordering, or PDF
+  extraction quality.
+- Fuzzy title similarity is not semantic evaluation.
+- Agent scores reflect the defined scenario rubrics and validated proposals.
+- Manual review identified factual errors in some agent explanations despite
+  correct actions and preference matches.
+- The same agent scenarios were reused after prompt refinement. The repeated
+  run is a development evaluation, not an independent held-out benchmark.
+- Results do not establish performance across real student populations or
+  varied real-world syllabi.
+- Further evaluation should include unseen cases and a documented rubric for
+  explanation accuracy.
+
+Latency measurements cover the AI feature call and its application validation.
+Scheduling-option generation and evaluation scoring are outside the reported
+agent latency.
+
+Memory readings describe the entire local Python process. They are
+before-and-after samples, not peak usage or remote model memory. MB figures
+use decimal units.
+
+Earlier reports and `Performance_Evaluation.docx` describe the original,
+smaller topic evaluation. They are historical results and do not replace the
+expanded reports above.
+
+## Security and Uploads
+
+- Keep `.env` and credentials private.
+- Uploaded PDF and TXT files are limited to 5 MB.
+- PDF extraction is limited to 50 pages.
+- Extracted text is limited to 100,000 characters.
+- Scanned PDFs require a text-based alternative; OCR is not implemented.
+- Downloads require authentication and ownership checks.
+- Uploaded files use randomly generated storage names.
+- AI responses are validated before use.
+- Review proposals require confirmation before application.
+- Production requires `DEBUG=False`, correct allowed hosts, HTTPS, and an
+  appropriate deployment configuration.
 
 ## License
 
-No license file is currently included. Add a license before redistributing the project if you intend to grant reuse rights.
+No license file is currently included.
