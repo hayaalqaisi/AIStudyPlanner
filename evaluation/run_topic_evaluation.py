@@ -2,22 +2,25 @@ import argparse
 import json
 import os
 from datetime import datetime, timezone
-from pathlib import Path
 from statistics import mean
 
-from dotenv import load_dotenv
+import django
+from django.conf import settings
 
 from evaluation.cases import TOPIC_EXTRACTION_CASES
 from planner.ai.topic_extractor import TopicExtractionError, extract_topics
 from planner.utils.performance import PerformanceMeasurement
-from planner.utils.topic_evaluation import evaluate_topic_titles
+from planner.utils.topic_evaluation import (
+    evaluate_topic_titles,
+    evaluate_topic_titles_fuzzy,
+)
 
 
-PROJECT_ROOT = Path(__file__).resolve().parent.parent
+FUZZY_THRESHOLD = 0.85
 
 
 def evaluate_case(case, repetition):
-    """Measure one extraction and compare it with fixed reference titles."""
+    """Measure extraction and calculate exact and fuzzy title scores."""
     predicted_titles = []
     outcome = "succeeded"
     error_message = ""
@@ -41,20 +44,28 @@ def evaluate_case(case, repetition):
             case["expected_titles"],
             predicted_titles,
         ),
+        "quality_fuzzy": evaluate_topic_titles_fuzzy(
+            case["expected_titles"],
+            predicted_titles,
+            threshold=FUZZY_THRESHOLD,
+        ),
         "performance": measurement.as_dict(),
     }
 
 
-def build_summary(results):
-    """Summarize all attempts, including failed extractions."""
+def _micro_scores(results, quality_field):
+    """Aggregate matching counts before calculating overall scores."""
     true_positives = sum(
-        result["quality"]["true_positives"] for result in results
+        result[quality_field]["true_positives"]
+        for result in results
     )
     false_positives = sum(
-        result["quality"]["false_positives"] for result in results
+        result[quality_field]["false_positives"]
+        for result in results
     )
     false_negatives = sum(
-        result["quality"]["false_negatives"] for result in results
+        result[quality_field]["false_negatives"]
+        for result in results
     )
 
     precision = (
@@ -74,6 +85,21 @@ def build_summary(results):
     )
 
     return {
+        "micro_precision": precision,
+        "micro_recall": recall,
+        "micro_f1": f1,
+    }
+
+
+def build_summary(results):
+    """Summarize all attempts, including failed extractions."""
+    if not results:
+        raise ValueError("Provide at least one evaluation result.")
+
+    exact = _micro_scores(results, "quality")
+    fuzzy = _micro_scores(results, "quality_fuzzy")
+
+    return {
         "attempts": len(results),
         "successful_attempts": sum(
             result["outcome"] == "succeeded" for result in results
@@ -81,9 +107,11 @@ def build_summary(results):
         "failed_attempts": sum(
             result["outcome"] == "failed" for result in results
         ),
-        "micro_precision": precision,
-        "micro_recall": recall,
-        "micro_f1": f1,
+        **exact,
+        "fuzzy_threshold": FUZZY_THRESHOLD,
+        "fuzzy_micro_precision": fuzzy["micro_precision"],
+        "fuzzy_micro_recall": fuzzy["micro_recall"],
+        "fuzzy_micro_f1": fuzzy["micro_f1"],
         "average_duration_ms": mean(
             result["performance"]["duration_ms"] for result in results
         ),
@@ -112,12 +140,13 @@ def main():
     )
     args = parser.parse_args()
 
-    load_dotenv(PROJECT_ROOT / ".env")
+    os.environ.setdefault(
+        "DJANGO_SETTINGS_MODULE",
+        "study_planner.settings",
+    )
+    django.setup()
 
-    if (
-        not os.getenv("OPENAI_API_KEY", "").strip()
-        or not os.getenv("OPENAI_MODEL", "").strip()
-    ):
+    if not settings.OPENAI_API_KEY or not settings.OPENAI_MODEL:
         parser.error(
             "Configure OPENAI_API_KEY and OPENAI_MODEL in your local .env."
         )
@@ -135,7 +164,8 @@ def main():
 
             print(
                 f"  Outcome: {result['outcome']}; "
-                f"F1: {result['quality']['f1']:.3f}; "
+                f"Exact F1: {result['quality']['f1']:.3f}; "
+                f"Fuzzy F1: {result['quality_fuzzy']['f1']:.3f}; "
                 f"Duration: {result['performance']['duration_ms']} ms"
             )
 
@@ -143,24 +173,32 @@ def main():
     timestamp = datetime.now(timezone.utc)
 
     report = {
+        "report_version": 2,
         "created_at": timestamp.isoformat(),
-        "model": os.environ["OPENAI_MODEL"].strip(),
+        "model": settings.OPENAI_MODEL,
+        "case_count": len(TOPIC_EXTRACTION_CASES),
         "repetitions_per_case": args.repetitions,
         "notes": [
             "Cases are synthetic and references are predefined.",
-            "Titles match after case and whitespace normalization.",
-            "Equivalent wording may require manual semantic review.",
+            "Cases include baseline and longer structured syllabi.",
+            "Exact matching normalizes case and whitespace.",
+            "Fuzzy matching uses character similarity, not semantics.",
+            "Fuzzy matching uses one-to-one title assignments.",
+            "Duplicate predictions count against precision.",
+            "The fuzzy threshold is fixed at 0.85.",
+            "Inspect matched title pairs before interpreting fuzzy scores.",
             "Failed extractions count as missing all expected topics.",
-            "Latency covers extraction and validation, not report writing.",
+            "Latency covers extraction and validation, not scoring.",
             "RSS readings describe the entire local Python process.",
             "Memory readings are before/after samples, not peak usage.",
             "Requests run sequentially in the same process.",
+            "This report evaluates topics, not plan-review recommendations.",
         ],
         "summary": summary,
         "results": results,
     }
 
-    output_directory = PROJECT_ROOT / "evaluation" / "results"
+    output_directory = settings.BASE_DIR / "evaluation" / "results"
     output_directory.mkdir(parents=True, exist_ok=True)
 
     output_path = output_directory / (

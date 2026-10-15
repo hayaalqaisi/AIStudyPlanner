@@ -1,0 +1,1531 @@
+{
+  "report_version": 2,
+  "created_at": "2026-10-15T19:27:49.345674+00:00",
+  "model": "gpt-4.1-mini-2025-04-14",
+  "case_count": 6,
+  "repetitions_per_case": 3,
+  "notes": [
+    "Cases are synthetic and references are predefined.",
+    "Cases include baseline and longer structured syllabi.",
+    "Exact matching normalizes case and whitespace.",
+    "Fuzzy matching uses character similarity, not semantics.",
+    "Fuzzy matching uses one-to-one title assignments.",
+    "Duplicate predictions count against precision.",
+    "The fuzzy threshold is fixed at 0.85.",
+    "Inspect matched title pairs before interpreting fuzzy scores.",
+    "Failed extractions count as missing all expected topics.",
+    "Latency covers extraction and validation, not scoring.",
+    "RSS readings describe the entire local Python process.",
+    "Memory readings are before/after samples, not peak usage.",
+    "Requests run sequentially in the same process.",
+    "This report evaluates topics, not plan-review recommendations."
+  ],
+  "summary": {
+    "attempts": 18,
+    "successful_attempts": 18,
+    "failed_attempts": 0,
+    "micro_precision": 0.9487179487179487,
+    "micro_recall": 0.9487179487179487,
+    "micro_f1": 0.9487179487179487,
+    "fuzzy_threshold": 0.85,
+    "fuzzy_micro_precision": 0.9487179487179487,
+    "fuzzy_micro_recall": 0.9487179487179487,
+    "fuzzy_micro_f1": 0.9487179487179487,
+    "average_duration_ms": 2084.6666666666665,
+    "average_memory_after_bytes": 98605511.1111111,
+    "average_memory_delta_bytes": 1331882.6666666667
+  },
+  "results": [
+    {
+      "case": "database_baseline",
+      "repetition": 1,
+      "outcome": "succeeded",
+      "error_message": "",
+      "expected_titles": [
+        "Introduction to databases",
+        "Relational models",
+        "SQL queries",
+        "Database normalization",
+        "Transactions and concurrency",
+        "Indexes"
+      ],
+      "predicted_titles": [
+        "Introduction to databases",
+        "Relational models",
+        "SQL queries",
+        "Database normalization",
+        "Transactions and concurrency",
+        "Indexes"
+      ],
+      "quality": {
+        "expected_count": 6,
+        "predicted_count": 6,
+        "true_positives": 6,
+        "false_positives": 0,
+        "false_negatives": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "quality_fuzzy": {
+        "expected_count": 6,
+        "predicted_count": 6,
+        "true_positives": 6,
+        "false_positives": 0,
+        "false_negatives": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "threshold": 0.85,
+        "matches": [
+          {
+            "expected_title": "introduction to databases",
+            "predicted_title": "introduction to databases",
+            "similarity": 1.0
+          },
+          {
+            "expected_title": "relational models",
+            "predicted_title": "relational models",
+            "similarity": 1.0
+          },
+          {
+            "expected_title": "sql queries",
+            "predicted_title": "sql queries",
+            "similarity": 1.0
+          },
+          {
+            "expected_title": "database normalization",
+            "predicted_title": "database normalization",
+            "similarity": 1.0
+          },
+          {
+            "expected_title": "transactions and concurrency",
+            "predicted_title": "transactions and concurrency",
+            "similarity": 1.0
+          },
+          {
+            "expected_title": "indexes",
+            "predicted_title": "indexes",
+            "similarity": 1.0
+          }
+        ]
+      },
+      "performance": {
+        "duration_ms": 3135,
+        "memory_before_bytes": 74792960,
+        "memory_after_bytes": 98197504,
+        "memory_delta_bytes": 23404544
+      }
+    },
+    {
+      "case": "operating_systems_with_admin_text",
+      "repetition": 1,
+      "outcome": "succeeded",
+      "error_message": "",
+      "expected_titles": [
+        "Processes and threads",
+        "CPU scheduling",
+        "Synchronization",
+        "Deadlocks",
+        "Memory management",
+        "File systems"
+      ],
+      "predicted_titles": [
+        "Processes and threads",
+        "CPU scheduling algorithms",
+        "Synchronization mechanisms",
+        "Deadlocks",
+        "Memory management",
+        "File systems"
+      ],
+      "quality": {
+        "expected_count": 6,
+        "predicted_count": 6,
+        "true_positives": 4,
+        "false_positives": 2,
+        "false_negatives": 2,
+        "precision": 0.6666666666666666,
+        "recall": 0.6666666666666666,
+        "f1": 0.6666666666666666
+      },
+      "quality_fuzzy": {
+        "expected_count": 6,
+        "predicted_count": 6,
+        "true_positives": 4,
+        "false_positives": 2,
+        "false_negatives": 2,
+        "precision": 0.6666666666666666,
+        "recall": 0.6666666666666666,
+        "f1": 0.6666666666666666,
+        "threshold": 0.85,
+        "matches": [
+          {
+            "expected_title": "processes and threads",
+            "predicted_title": "processes and threads",
+            "similarity": 1.0
+          },
+          {
+            "expected_title": "deadlocks",
+            "predicted_title": "deadlocks",
+            "similarity": 1.0
+          },
+          {
+            "expected_title": "memory management",
+            "predicted_title": "memory management",
+            "similarity": 1.0
+          },
+          {
+            "expected_title": "file systems",
+            "predicted_title": "file systems",
+            "similarity": 1.0
+          }
+        ]
+      },
+      "performance": {
+        "duration_ms": 3205,
+        "memory_before_bytes": 98201600,
+        "memory_after_bytes": 98385920,
+        "memory_delta_bytes": 184320
+      }
+    },
+    {
+      "case": "networks_with_repeated_topic",
+      "repetition": 1,
+      "outcome": "succeeded",
+      "error_message": "",
+      "expected_titles": [
+        "Network models",
+        "Ethernet and switching",
+        "IPv4 and subnetting",
+        "Routing",
+        "TCP and UDP",
+        "DNS and HTTP"
+      ],
+      "predicted_titles": [
+        "Network models",
+        "Ethernet and switching",
+        "IPv4 and subnetting",
+        "Routing",
+        "TCP and UDP",
+        "DNS and HTTP"
+      ],
+      "quality": {
+        "expected_count": 6,
+        "predicted_count": 6,
+        "true_positives": 6,
+        "false_positives": 0,
+        "false_negatives": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "quality_fuzzy": {
+        "expected_count": 6,
+        "predicted_count": 6,
+        "true_positives": 6,
+        "false_positives": 0,
+        "false_negatives": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "threshold": 0.85,
+        "matches": [
+          {
+            "expected_title": "network models",
+            "predicted_title": "network models",
+            "similarity": 1.0
+          },
+          {
+            "expected_title": "ethernet and switching",
+            "predicted_title": "ethernet and switching",
+            "similarity": 1.0
+          },
+          {
+            "expected_title": "ipv4 and subnetting",
+            "predicted_title": "ipv4 and subnetting",
+            "similarity": 1.0
+          },
+          {
+            "expected_title": "routing",
+            "predicted_title": "routing",
+            "similarity": 1.0
+          },
+          {
+            "expected_title": "tcp and udp",
+            "predicted_title": "tcp and udp",
+            "similarity": 1.0
+          },
+          {
+            "expected_title": "dns and http",
+            "predicted_title": "dns and http",
+            "similarity": 1.0
+          }
+        ]
+      },
+      "performance": {
+        "duration_ms": 2588,
+        "memory_before_bytes": 98385920,
+        "memory_after_bytes": 98451456,
+        "memory_delta_bytes": 65536
+      }
+    },
+    {
+      "case": "software_engineering_weekly_table",
+      "repetition": 1,
+      "outcome": "succeeded",
+      "error_message": "",
+      "expected_titles": [
+        "Software processes",
+        "Requirements engineering",
+        "Software modeling",
+        "Software architecture",
+        "Software testing",
+        "Software maintenance",
+        "Configuration management"
+      ],
+      "predicted_titles": [
+        "Software processes",
+        "Requirements engineering",
+        "Software modeling",
+        "Software architecture",
+        "Software testing",
+        "Software maintenance",
+        "Configuration management"
+      ],
+      "quality": {
+        "expected_count": 7,
+        "predicted_count": 7,
+        "true_positives": 7,
+        "false_positives": 0,
+        "false_negatives": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "quality_fuzzy": {
+        "expected_count": 7,
+        "predicted_count": 7,
+        "true_positives": 7,
+        "false_positives": 0,
+        "false_negatives": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "threshold": 0.85,
+        "matches": [
+          {
+            "expected_title": "software processes",
+            "predicted_title": "software processes",
+            "similarity": 1.0
+          },
+          {
+            "expected_title": "requirements engineering",
+            "predicted_title": "requirements engineering",
+            "similarity": 1.0
+          },
+          {
+            "expected_title": "software modeling",
+            "predicted_title": "software modeling",
+            "similarity": 1.0
+          },
+          {
+            "expected_title": "software architecture",
+            "predicted_title": "software architecture",
+            "similarity": 1.0
+          },
+          {
+            "expected_title": "software testing",
+            "predicted_title": "software testing",
+            "similarity": 1.0
+          },
+          {
+            "expected_title": "software maintenance",
+            "predicted_title": "software maintenance",
+            "similarity": 1.0
+          },
+          {
+            "expected_title": "configuration management",
+            "predicted_title": "configuration management",
+            "similarity": 1.0
+          }
+        ]
+      },
+      "performance": {
+        "duration_ms": 1762,
+        "memory_before_bytes": 98451456,
+        "memory_after_bytes": 98500608,
+        "memory_delta_bytes": 49152
+      }
+    },
+    {
+      "case": "data_structures_numbered_subtopics",
+      "repetition": 1,
+      "outcome": "succeeded",
+      "error_message": "",
+      "expected_titles": [
+        "Algorithm analysis",
+        "Linear data structures",
+        "Trees",
+        "Hashing",
+        "Graphs",
+        "Sorting and searching"
+      ],
+      "predicted_titles": [
+        "Algorithm analysis",
+        "Linear data structures",
+        "Trees",
+        "Hashing",
+        "Graphs",
+        "Sorting and searching"
+      ],
+      "quality": {
+        "expected_count": 6,
+        "predicted_count": 6,
+        "true_positives": 6,
+        "false_positives": 0,
+        "false_negatives": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "quality_fuzzy": {
+        "expected_count": 6,
+        "predicted_count": 6,
+        "true_positives": 6,
+        "false_positives": 0,
+        "false_negatives": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "threshold": 0.85,
+        "matches": [
+          {
+            "expected_title": "algorithm analysis",
+            "predicted_title": "algorithm analysis",
+            "similarity": 1.0
+          },
+          {
+            "expected_title": "linear data structures",
+            "predicted_title": "linear data structures",
+            "similarity": 1.0
+          },
+          {
+            "expected_title": "trees",
+            "predicted_title": "trees",
+            "similarity": 1.0
+          },
+          {
+            "expected_title": "hashing",
+            "predicted_title": "hashing",
+            "similarity": 1.0
+          },
+          {
+            "expected_title": "graphs",
+            "predicted_title": "graphs",
+            "similarity": 1.0
+          },
+          {
+            "expected_title": "sorting and searching",
+            "predicted_title": "sorting and searching",
+            "similarity": 1.0
+          }
+        ]
+      },
+      "performance": {
+        "duration_ms": 1736,
+        "memory_before_bytes": 98500608,
+        "memory_after_bytes": 98525184,
+        "memory_delta_bytes": 24576
+      }
+    },
+    {
+      "case": "web_development_repeated_content",
+      "repetition": 1,
+      "outcome": "succeeded",
+      "error_message": "",
+      "expected_titles": [
+        "Semantic HTML",
+        "Responsive CSS",
+        "JavaScript fundamentals",
+        "HTTP and REST",
+        "Server-side development",
+        "Database integration",
+        "Authentication and authorization",
+        "Web application security"
+      ],
+      "predicted_titles": [
+        "Semantic HTML",
+        "Responsive CSS",
+        "JavaScript fundamentals",
+        "HTTP and REST",
+        "Server-side development",
+        "Database integration",
+        "Authentication and authorization",
+        "Web application security"
+      ],
+      "quality": {
+        "expected_count": 8,
+        "predicted_count": 8,
+        "true_positives": 8,
+        "false_positives": 0,
+        "false_negatives": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "quality_fuzzy": {
+        "expected_count": 8,
+        "predicted_count": 8,
+        "true_positives": 8,
+        "false_positives": 0,
+        "false_negatives": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "threshold": 0.85,
+        "matches": [
+          {
+            "expected_title": "semantic html",
+            "predicted_title": "semantic html",
+            "similarity": 1.0
+          },
+          {
+            "expected_title": "responsive css",
+            "predicted_title": "responsive css",
+            "similarity": 1.0
+          },
+          {
+            "expected_title": "javascript fundamentals",
+            "predicted_title": "javascript fundamentals",
+            "similarity": 1.0
+          },
+          {
+            "expected_title": "http and rest",
+            "predicted_title": "http and rest",
+            "similarity": 1.0
+          },
+          {
+            "expected_title": "server-side development",
+            "predicted_title": "server-side development",
+            "similarity": 1.0
+          },
+          {
+            "expected_title": "database integration",
+            "predicted_title": "database integration",
+            "similarity": 1.0
+          },
+          {
+            "expected_title": "authentication and authorization",
+            "predicted_title": "authentication and authorization",
+            "similarity": 1.0
+          },
+          {
+            "expected_title": "web application security",
+            "predicted_title": "web application security",
+            "similarity": 1.0
+          }
+        ]
+      },
+      "performance": {
+        "duration_ms": 2956,
+        "memory_before_bytes": 98525184,
+        "memory_after_bytes": 98586624,
+        "memory_delta_bytes": 61440
+      }
+    },
+    {
+      "case": "database_baseline",
+      "repetition": 2,
+      "outcome": "succeeded",
+      "error_message": "",
+      "expected_titles": [
+        "Introduction to databases",
+        "Relational models",
+        "SQL queries",
+        "Database normalization",
+        "Transactions and concurrency",
+        "Indexes"
+      ],
+      "predicted_titles": [
+        "Introduction to databases",
+        "Relational models",
+        "SQL queries",
+        "Database normalization",
+        "Transactions and concurrency",
+        "Indexes"
+      ],
+      "quality": {
+        "expected_count": 6,
+        "predicted_count": 6,
+        "true_positives": 6,
+        "false_positives": 0,
+        "false_negatives": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "quality_fuzzy": {
+        "expected_count": 6,
+        "predicted_count": 6,
+        "true_positives": 6,
+        "false_positives": 0,
+        "false_negatives": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "threshold": 0.85,
+        "matches": [
+          {
+            "expected_title": "introduction to databases",
+            "predicted_title": "introduction to databases",
+            "similarity": 1.0
+          },
+          {
+            "expected_title": "relational models",
+            "predicted_title": "relational models",
+            "similarity": 1.0
+          },
+          {
+            "expected_title": "sql queries",
+            "predicted_title": "sql queries",
+            "similarity": 1.0
+          },
+          {
+            "expected_title": "database normalization",
+            "predicted_title": "database normalization",
+            "similarity": 1.0
+          },
+          {
+            "expected_title": "transactions and concurrency",
+            "predicted_title": "transactions and concurrency",
+            "similarity": 1.0
+          },
+          {
+            "expected_title": "indexes",
+            "predicted_title": "indexes",
+            "similarity": 1.0
+          }
+        ]
+      },
+      "performance": {
+        "duration_ms": 2417,
+        "memory_before_bytes": 98586624,
+        "memory_after_bytes": 98598912,
+        "memory_delta_bytes": 12288
+      }
+    },
+    {
+      "case": "operating_systems_with_admin_text",
+      "repetition": 2,
+      "outcome": "succeeded",
+      "error_message": "",
+      "expected_titles": [
+        "Processes and threads",
+        "CPU scheduling",
+        "Synchronization",
+        "Deadlocks",
+        "Memory management",
+        "File systems"
+      ],
+      "predicted_titles": [
+        "Processes and threads",
+        "CPU scheduling algorithms",
+        "Synchronization mechanisms",
+        "Deadlocks",
+        "Memory management",
+        "File systems"
+      ],
+      "quality": {
+        "expected_count": 6,
+        "predicted_count": 6,
+        "true_positives": 4,
+        "false_positives": 2,
+        "false_negatives": 2,
+        "precision": 0.6666666666666666,
+        "recall": 0.6666666666666666,
+        "f1": 0.6666666666666666
+      },
+      "quality_fuzzy": {
+        "expected_count": 6,
+        "predicted_count": 6,
+        "true_positives": 4,
+        "false_positives": 2,
+        "false_negatives": 2,
+        "precision": 0.6666666666666666,
+        "recall": 0.6666666666666666,
+        "f1": 0.6666666666666666,
+        "threshold": 0.85,
+        "matches": [
+          {
+            "expected_title": "processes and threads",
+            "predicted_title": "processes and threads",
+            "similarity": 1.0
+          },
+          {
+            "expected_title": "deadlocks",
+            "predicted_title": "deadlocks",
+            "similarity": 1.0
+          },
+          {
+            "expected_title": "memory management",
+            "predicted_title": "memory management",
+            "similarity": 1.0
+          },
+          {
+            "expected_title": "file systems",
+            "predicted_title": "file systems",
+            "similarity": 1.0
+          }
+        ]
+      },
+      "performance": {
+        "duration_ms": 1890,
+        "memory_before_bytes": 98598912,
+        "memory_after_bytes": 98603008,
+        "memory_delta_bytes": 4096
+      }
+    },
+    {
+      "case": "networks_with_repeated_topic",
+      "repetition": 2,
+      "outcome": "succeeded",
+      "error_message": "",
+      "expected_titles": [
+        "Network models",
+        "Ethernet and switching",
+        "IPv4 and subnetting",
+        "Routing",
+        "TCP and UDP",
+        "DNS and HTTP"
+      ],
+      "predicted_titles": [
+        "Network models",
+        "Ethernet and switching",
+        "IPv4 and subnetting",
+        "Routing",
+        "TCP and UDP",
+        "DNS and HTTP"
+      ],
+      "quality": {
+        "expected_count": 6,
+        "predicted_count": 6,
+        "true_positives": 6,
+        "false_positives": 0,
+        "false_negatives": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "quality_fuzzy": {
+        "expected_count": 6,
+        "predicted_count": 6,
+        "true_positives": 6,
+        "false_positives": 0,
+        "false_negatives": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "threshold": 0.85,
+        "matches": [
+          {
+            "expected_title": "network models",
+            "predicted_title": "network models",
+            "similarity": 1.0
+          },
+          {
+            "expected_title": "ethernet and switching",
+            "predicted_title": "ethernet and switching",
+            "similarity": 1.0
+          },
+          {
+            "expected_title": "ipv4 and subnetting",
+            "predicted_title": "ipv4 and subnetting",
+            "similarity": 1.0
+          },
+          {
+            "expected_title": "routing",
+            "predicted_title": "routing",
+            "similarity": 1.0
+          },
+          {
+            "expected_title": "tcp and udp",
+            "predicted_title": "tcp and udp",
+            "similarity": 1.0
+          },
+          {
+            "expected_title": "dns and http",
+            "predicted_title": "dns and http",
+            "similarity": 1.0
+          }
+        ]
+      },
+      "performance": {
+        "duration_ms": 2421,
+        "memory_before_bytes": 98603008,
+        "memory_after_bytes": 98607104,
+        "memory_delta_bytes": 4096
+      }
+    },
+    {
+      "case": "software_engineering_weekly_table",
+      "repetition": 2,
+      "outcome": "succeeded",
+      "error_message": "",
+      "expected_titles": [
+        "Software processes",
+        "Requirements engineering",
+        "Software modeling",
+        "Software architecture",
+        "Software testing",
+        "Software maintenance",
+        "Configuration management"
+      ],
+      "predicted_titles": [
+        "Software processes",
+        "Requirements engineering",
+        "Software modeling",
+        "Software architecture",
+        "Software testing",
+        "Software maintenance",
+        "Configuration management"
+      ],
+      "quality": {
+        "expected_count": 7,
+        "predicted_count": 7,
+        "true_positives": 7,
+        "false_positives": 0,
+        "false_negatives": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "quality_fuzzy": {
+        "expected_count": 7,
+        "predicted_count": 7,
+        "true_positives": 7,
+        "false_positives": 0,
+        "false_negatives": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "threshold": 0.85,
+        "matches": [
+          {
+            "expected_title": "software processes",
+            "predicted_title": "software processes",
+            "similarity": 1.0
+          },
+          {
+            "expected_title": "requirements engineering",
+            "predicted_title": "requirements engineering",
+            "similarity": 1.0
+          },
+          {
+            "expected_title": "software modeling",
+            "predicted_title": "software modeling",
+            "similarity": 1.0
+          },
+          {
+            "expected_title": "software architecture",
+            "predicted_title": "software architecture",
+            "similarity": 1.0
+          },
+          {
+            "expected_title": "software testing",
+            "predicted_title": "software testing",
+            "similarity": 1.0
+          },
+          {
+            "expected_title": "software maintenance",
+            "predicted_title": "software maintenance",
+            "similarity": 1.0
+          },
+          {
+            "expected_title": "configuration management",
+            "predicted_title": "configuration management",
+            "similarity": 1.0
+          }
+        ]
+      },
+      "performance": {
+        "duration_ms": 1850,
+        "memory_before_bytes": 98607104,
+        "memory_after_bytes": 98627584,
+        "memory_delta_bytes": 20480
+      }
+    },
+    {
+      "case": "data_structures_numbered_subtopics",
+      "repetition": 2,
+      "outcome": "succeeded",
+      "error_message": "",
+      "expected_titles": [
+        "Algorithm analysis",
+        "Linear data structures",
+        "Trees",
+        "Hashing",
+        "Graphs",
+        "Sorting and searching"
+      ],
+      "predicted_titles": [
+        "Algorithm analysis",
+        "Linear data structures",
+        "Trees",
+        "Hashing",
+        "Graphs",
+        "Sorting and searching"
+      ],
+      "quality": {
+        "expected_count": 6,
+        "predicted_count": 6,
+        "true_positives": 6,
+        "false_positives": 0,
+        "false_negatives": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "quality_fuzzy": {
+        "expected_count": 6,
+        "predicted_count": 6,
+        "true_positives": 6,
+        "false_positives": 0,
+        "false_negatives": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "threshold": 0.85,
+        "matches": [
+          {
+            "expected_title": "algorithm analysis",
+            "predicted_title": "algorithm analysis",
+            "similarity": 1.0
+          },
+          {
+            "expected_title": "linear data structures",
+            "predicted_title": "linear data structures",
+            "similarity": 1.0
+          },
+          {
+            "expected_title": "trees",
+            "predicted_title": "trees",
+            "similarity": 1.0
+          },
+          {
+            "expected_title": "hashing",
+            "predicted_title": "hashing",
+            "similarity": 1.0
+          },
+          {
+            "expected_title": "graphs",
+            "predicted_title": "graphs",
+            "similarity": 1.0
+          },
+          {
+            "expected_title": "sorting and searching",
+            "predicted_title": "sorting and searching",
+            "similarity": 1.0
+          }
+        ]
+      },
+      "performance": {
+        "duration_ms": 1877,
+        "memory_before_bytes": 98627584,
+        "memory_after_bytes": 98639872,
+        "memory_delta_bytes": 12288
+      }
+    },
+    {
+      "case": "web_development_repeated_content",
+      "repetition": 2,
+      "outcome": "succeeded",
+      "error_message": "",
+      "expected_titles": [
+        "Semantic HTML",
+        "Responsive CSS",
+        "JavaScript fundamentals",
+        "HTTP and REST",
+        "Server-side development",
+        "Database integration",
+        "Authentication and authorization",
+        "Web application security"
+      ],
+      "predicted_titles": [
+        "Semantic HTML",
+        "Responsive CSS",
+        "JavaScript fundamentals",
+        "HTTP and REST",
+        "Server-side development",
+        "Database integration",
+        "Authentication and authorization",
+        "Web application security"
+      ],
+      "quality": {
+        "expected_count": 8,
+        "predicted_count": 8,
+        "true_positives": 8,
+        "false_positives": 0,
+        "false_negatives": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "quality_fuzzy": {
+        "expected_count": 8,
+        "predicted_count": 8,
+        "true_positives": 8,
+        "false_positives": 0,
+        "false_negatives": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "threshold": 0.85,
+        "matches": [
+          {
+            "expected_title": "semantic html",
+            "predicted_title": "semantic html",
+            "similarity": 1.0
+          },
+          {
+            "expected_title": "responsive css",
+            "predicted_title": "responsive css",
+            "similarity": 1.0
+          },
+          {
+            "expected_title": "javascript fundamentals",
+            "predicted_title": "javascript fundamentals",
+            "similarity": 1.0
+          },
+          {
+            "expected_title": "http and rest",
+            "predicted_title": "http and rest",
+            "similarity": 1.0
+          },
+          {
+            "expected_title": "server-side development",
+            "predicted_title": "server-side development",
+            "similarity": 1.0
+          },
+          {
+            "expected_title": "database integration",
+            "predicted_title": "database integration",
+            "similarity": 1.0
+          },
+          {
+            "expected_title": "authentication and authorization",
+            "predicted_title": "authentication and authorization",
+            "similarity": 1.0
+          },
+          {
+            "expected_title": "web application security",
+            "predicted_title": "web application security",
+            "similarity": 1.0
+          }
+        ]
+      },
+      "performance": {
+        "duration_ms": 1705,
+        "memory_before_bytes": 98639872,
+        "memory_after_bytes": 98697216,
+        "memory_delta_bytes": 57344
+      }
+    },
+    {
+      "case": "database_baseline",
+      "repetition": 3,
+      "outcome": "succeeded",
+      "error_message": "",
+      "expected_titles": [
+        "Introduction to databases",
+        "Relational models",
+        "SQL queries",
+        "Database normalization",
+        "Transactions and concurrency",
+        "Indexes"
+      ],
+      "predicted_titles": [
+        "Introduction to databases",
+        "Relational models",
+        "SQL queries",
+        "Database normalization",
+        "Transactions and concurrency",
+        "Indexes"
+      ],
+      "quality": {
+        "expected_count": 6,
+        "predicted_count": 6,
+        "true_positives": 6,
+        "false_positives": 0,
+        "false_negatives": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "quality_fuzzy": {
+        "expected_count": 6,
+        "predicted_count": 6,
+        "true_positives": 6,
+        "false_positives": 0,
+        "false_negatives": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "threshold": 0.85,
+        "matches": [
+          {
+            "expected_title": "introduction to databases",
+            "predicted_title": "introduction to databases",
+            "similarity": 1.0
+          },
+          {
+            "expected_title": "relational models",
+            "predicted_title": "relational models",
+            "similarity": 1.0
+          },
+          {
+            "expected_title": "sql queries",
+            "predicted_title": "sql queries",
+            "similarity": 1.0
+          },
+          {
+            "expected_title": "database normalization",
+            "predicted_title": "database normalization",
+            "similarity": 1.0
+          },
+          {
+            "expected_title": "transactions and concurrency",
+            "predicted_title": "transactions and concurrency",
+            "similarity": 1.0
+          },
+          {
+            "expected_title": "indexes",
+            "predicted_title": "indexes",
+            "similarity": 1.0
+          }
+        ]
+      },
+      "performance": {
+        "duration_ms": 1189,
+        "memory_before_bytes": 98697216,
+        "memory_after_bytes": 98725888,
+        "memory_delta_bytes": 28672
+      }
+    },
+    {
+      "case": "operating_systems_with_admin_text",
+      "repetition": 3,
+      "outcome": "succeeded",
+      "error_message": "",
+      "expected_titles": [
+        "Processes and threads",
+        "CPU scheduling",
+        "Synchronization",
+        "Deadlocks",
+        "Memory management",
+        "File systems"
+      ],
+      "predicted_titles": [
+        "Processes and Threads",
+        "CPU Scheduling Algorithms",
+        "Synchronization Mechanisms",
+        "Deadlocks",
+        "Memory Management",
+        "File Systems"
+      ],
+      "quality": {
+        "expected_count": 6,
+        "predicted_count": 6,
+        "true_positives": 4,
+        "false_positives": 2,
+        "false_negatives": 2,
+        "precision": 0.6666666666666666,
+        "recall": 0.6666666666666666,
+        "f1": 0.6666666666666666
+      },
+      "quality_fuzzy": {
+        "expected_count": 6,
+        "predicted_count": 6,
+        "true_positives": 4,
+        "false_positives": 2,
+        "false_negatives": 2,
+        "precision": 0.6666666666666666,
+        "recall": 0.6666666666666666,
+        "f1": 0.6666666666666666,
+        "threshold": 0.85,
+        "matches": [
+          {
+            "expected_title": "processes and threads",
+            "predicted_title": "processes and threads",
+            "similarity": 1.0
+          },
+          {
+            "expected_title": "deadlocks",
+            "predicted_title": "deadlocks",
+            "similarity": 1.0
+          },
+          {
+            "expected_title": "memory management",
+            "predicted_title": "memory management",
+            "similarity": 1.0
+          },
+          {
+            "expected_title": "file systems",
+            "predicted_title": "file systems",
+            "similarity": 1.0
+          }
+        ]
+      },
+      "performance": {
+        "duration_ms": 1872,
+        "memory_before_bytes": 98725888,
+        "memory_after_bytes": 98729984,
+        "memory_delta_bytes": 4096
+      }
+    },
+    {
+      "case": "networks_with_repeated_topic",
+      "repetition": 3,
+      "outcome": "succeeded",
+      "error_message": "",
+      "expected_titles": [
+        "Network models",
+        "Ethernet and switching",
+        "IPv4 and subnetting",
+        "Routing",
+        "TCP and UDP",
+        "DNS and HTTP"
+      ],
+      "predicted_titles": [
+        "Network models",
+        "Ethernet and switching",
+        "IPv4 and subnetting",
+        "Routing",
+        "TCP and UDP",
+        "DNS and HTTP"
+      ],
+      "quality": {
+        "expected_count": 6,
+        "predicted_count": 6,
+        "true_positives": 6,
+        "false_positives": 0,
+        "false_negatives": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "quality_fuzzy": {
+        "expected_count": 6,
+        "predicted_count": 6,
+        "true_positives": 6,
+        "false_positives": 0,
+        "false_negatives": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "threshold": 0.85,
+        "matches": [
+          {
+            "expected_title": "network models",
+            "predicted_title": "network models",
+            "similarity": 1.0
+          },
+          {
+            "expected_title": "ethernet and switching",
+            "predicted_title": "ethernet and switching",
+            "similarity": 1.0
+          },
+          {
+            "expected_title": "ipv4 and subnetting",
+            "predicted_title": "ipv4 and subnetting",
+            "similarity": 1.0
+          },
+          {
+            "expected_title": "routing",
+            "predicted_title": "routing",
+            "similarity": 1.0
+          },
+          {
+            "expected_title": "tcp and udp",
+            "predicted_title": "tcp and udp",
+            "similarity": 1.0
+          },
+          {
+            "expected_title": "dns and http",
+            "predicted_title": "dns and http",
+            "similarity": 1.0
+          }
+        ]
+      },
+      "performance": {
+        "duration_ms": 1342,
+        "memory_before_bytes": 98729984,
+        "memory_after_bytes": 98746368,
+        "memory_delta_bytes": 16384
+      }
+    },
+    {
+      "case": "software_engineering_weekly_table",
+      "repetition": 3,
+      "outcome": "succeeded",
+      "error_message": "",
+      "expected_titles": [
+        "Software processes",
+        "Requirements engineering",
+        "Software modeling",
+        "Software architecture",
+        "Software testing",
+        "Software maintenance",
+        "Configuration management"
+      ],
+      "predicted_titles": [
+        "Software processes",
+        "Requirements engineering",
+        "Software modeling",
+        "Software architecture",
+        "Software testing",
+        "Software maintenance",
+        "Configuration management"
+      ],
+      "quality": {
+        "expected_count": 7,
+        "predicted_count": 7,
+        "true_positives": 7,
+        "false_positives": 0,
+        "false_negatives": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "quality_fuzzy": {
+        "expected_count": 7,
+        "predicted_count": 7,
+        "true_positives": 7,
+        "false_positives": 0,
+        "false_negatives": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "threshold": 0.85,
+        "matches": [
+          {
+            "expected_title": "software processes",
+            "predicted_title": "software processes",
+            "similarity": 1.0
+          },
+          {
+            "expected_title": "requirements engineering",
+            "predicted_title": "requirements engineering",
+            "similarity": 1.0
+          },
+          {
+            "expected_title": "software modeling",
+            "predicted_title": "software modeling",
+            "similarity": 1.0
+          },
+          {
+            "expected_title": "software architecture",
+            "predicted_title": "software architecture",
+            "similarity": 1.0
+          },
+          {
+            "expected_title": "software testing",
+            "predicted_title": "software testing",
+            "similarity": 1.0
+          },
+          {
+            "expected_title": "software maintenance",
+            "predicted_title": "software maintenance",
+            "similarity": 1.0
+          },
+          {
+            "expected_title": "configuration management",
+            "predicted_title": "configuration management",
+            "similarity": 1.0
+          }
+        ]
+      },
+      "performance": {
+        "duration_ms": 1676,
+        "memory_before_bytes": 98746368,
+        "memory_after_bytes": 98750464,
+        "memory_delta_bytes": 4096
+      }
+    },
+    {
+      "case": "data_structures_numbered_subtopics",
+      "repetition": 3,
+      "outcome": "succeeded",
+      "error_message": "",
+      "expected_titles": [
+        "Algorithm analysis",
+        "Linear data structures",
+        "Trees",
+        "Hashing",
+        "Graphs",
+        "Sorting and searching"
+      ],
+      "predicted_titles": [
+        "Algorithm analysis",
+        "Linear data structures",
+        "Trees",
+        "Hashing",
+        "Graphs",
+        "Sorting and searching"
+      ],
+      "quality": {
+        "expected_count": 6,
+        "predicted_count": 6,
+        "true_positives": 6,
+        "false_positives": 0,
+        "false_negatives": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "quality_fuzzy": {
+        "expected_count": 6,
+        "predicted_count": 6,
+        "true_positives": 6,
+        "false_positives": 0,
+        "false_negatives": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "threshold": 0.85,
+        "matches": [
+          {
+            "expected_title": "algorithm analysis",
+            "predicted_title": "algorithm analysis",
+            "similarity": 1.0
+          },
+          {
+            "expected_title": "linear data structures",
+            "predicted_title": "linear data structures",
+            "similarity": 1.0
+          },
+          {
+            "expected_title": "trees",
+            "predicted_title": "trees",
+            "similarity": 1.0
+          },
+          {
+            "expected_title": "hashing",
+            "predicted_title": "hashing",
+            "similarity": 1.0
+          },
+          {
+            "expected_title": "graphs",
+            "predicted_title": "graphs",
+            "similarity": 1.0
+          },
+          {
+            "expected_title": "sorting and searching",
+            "predicted_title": "sorting and searching",
+            "similarity": 1.0
+          }
+        ]
+      },
+      "performance": {
+        "duration_ms": 2266,
+        "memory_before_bytes": 98750464,
+        "memory_after_bytes": 98754560,
+        "memory_delta_bytes": 4096
+      }
+    },
+    {
+      "case": "web_development_repeated_content",
+      "repetition": 3,
+      "outcome": "succeeded",
+      "error_message": "",
+      "expected_titles": [
+        "Semantic HTML",
+        "Responsive CSS",
+        "JavaScript fundamentals",
+        "HTTP and REST",
+        "Server-side development",
+        "Database integration",
+        "Authentication and authorization",
+        "Web application security"
+      ],
+      "predicted_titles": [
+        "Semantic HTML",
+        "Responsive CSS",
+        "JavaScript fundamentals",
+        "HTTP and REST",
+        "Server-side development",
+        "Database integration",
+        "Authentication and authorization",
+        "Web application security"
+      ],
+      "quality": {
+        "expected_count": 8,
+        "predicted_count": 8,
+        "true_positives": 8,
+        "false_positives": 0,
+        "false_negatives": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "quality_fuzzy": {
+        "expected_count": 8,
+        "predicted_count": 8,
+        "true_positives": 8,
+        "false_positives": 0,
+        "false_negatives": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "threshold": 0.85,
+        "matches": [
+          {
+            "expected_title": "semantic html",
+            "predicted_title": "semantic html",
+            "similarity": 1.0
+          },
+          {
+            "expected_title": "responsive css",
+            "predicted_title": "responsive css",
+            "similarity": 1.0
+          },
+          {
+            "expected_title": "javascript fundamentals",
+            "predicted_title": "javascript fundamentals",
+            "similarity": 1.0
+          },
+          {
+            "expected_title": "http and rest",
+            "predicted_title": "http and rest",
+            "similarity": 1.0
+          },
+          {
+            "expected_title": "server-side development",
+            "predicted_title": "server-side development",
+            "similarity": 1.0
+          },
+          {
+            "expected_title": "database integration",
+            "predicted_title": "database integration",
+            "similarity": 1.0
+          },
+          {
+            "expected_title": "authentication and authorization",
+            "predicted_title": "authentication and authorization",
+            "similarity": 1.0
+          },
+          {
+            "expected_title": "web application security",
+            "predicted_title": "web application security",
+            "similarity": 1.0
+          }
+        ]
+      },
+      "performance": {
+        "duration_ms": 1637,
+        "memory_before_bytes": 98754560,
+        "memory_after_bytes": 98770944,
+        "memory_delta_bytes": 16384
+      }
+    }
+  ]
+}

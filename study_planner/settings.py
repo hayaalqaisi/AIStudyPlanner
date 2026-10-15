@@ -31,6 +31,14 @@ ALLOWED_HOSTS = [
     if host.strip()
 ]
 
+OPENAI_API_KEY = os.getenv("OPENAI_API_KEY", "").strip()
+
+OPENAI_MODEL = os.getenv("OPENAI_MODEL", "").strip()
+
+OPENAI_TIMEOUT_SECONDS = 60.0
+
+OPENAI_MAX_RETRIES = 0
+
 INSTALLED_APPS = [
     "django.contrib.admin",
     "django.contrib.auth",

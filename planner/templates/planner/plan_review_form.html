@@ -7,33 +7,141 @@
     <p class="eyebrow">Review and adapt</p>
     <h1>Review plan with AI</h1>
     <p>Study plan {{ plan.id }}</p>
+    <p>
+        <strong>Current daily limit:</strong>
+        {{ plan.daily_study_minutes }} minutes
+    </p>
 </section>
 
+{% if review_error %}
+<div class="form-errors" role="alert">
+    <p>{{ review_error }}</p>
+</div>
+{% endif %}
+
+{% if proposal %}
+<section class="card form-card" aria-labelledby="proposal-heading">
+    <h2 id="proposal-heading">Your AI recommendation</h2>
+
+    <p>{{ proposal.reason }}</p>
+
+    {% if proposal.action == "replan_unfinished_work" %}
+    <p>
+        <strong>Current daily limit:</strong>
+        {{ proposal.current_daily_minutes }} minutes
+    </p>
+    <p>
+        <strong>Proposed daily limit:</strong>
+        {{ proposal.daily_study_minutes }} minutes
+    </p>
+    <p>
+        <strong>Your maximum:</strong>
+        {{ proposal.maximum_daily_minutes }} minutes
+    </p>
+    <p>
+        <strong>Resume studying from:</strong>
+        <time datetime="{{ proposal.resume_date|date:'Y-m-d' }}">
+            {{ proposal.resume_date|date:"F j, Y" }}
+        </time>
+    </p>
+    <p>
+        <strong>Projected finish:</strong>
+        <time datetime="{{ proposal.option.finish_date }}">
+            {{ proposal.option.finish_date }}
+        </time>
+    </p>
+    <p>
+        <strong>Study days from the resume date:</strong>
+        {{ proposal.option.study_days }}
+    </p>
+    <p>
+        <strong>Highest scheduled daily workload:</strong>
+        {{ proposal.option.peak_daily_minutes }} minutes
+    </p>
+
+    <p>
+        Nothing has changed yet. Approving creates a replacement plan
+        and archives the original. Completed work is preserved.
+        Your saved Study settings remain unchanged.
+    </p>
+    <p>
+        This proposal expires after 10 minutes.
+        If your plan changes, request a new review.
+    </p>
+
+    <form class="review-action-form"
+          method="post"
+          data-busy-text="Applying proposal…">
+        {% csrf_token %}
+        <input type="hidden" name="action" value="apply">
+        <input type="hidden"
+               name="proposal_token"
+               value="{{ proposal.token }}">
+
+        <div class="actions">
+            <button type="submit">Approve and apply proposal</button>
+            <a href="{% url 'planner:study_plan_detail' plan.id %}">
+                Cancel without changes
+            </a>
+        </div>
+
+        <p class="processing-message" role="status" hidden>
+            Applying your approved proposal. Please wait…
+        </p>
+    </form>
+
+    {% elif proposal.action == "keep_current_plan" %}
+    <p>
+        <strong>Recommendation: keep your current plan.</strong>
+        No changes were made.
+    </p>
+
+    {% else %}
+    <p>
+        <strong>No feasible replacement was found within your maximum.</strong>
+        Your plan remains unchanged. You can request another review
+        with an earlier valid resume date or a higher maximum,
+        if realistic.
+    </p>
+    {% endif %}
+
+    <div class="actions">
+        <a class="button button-secondary"
+           href="{% url 'planner:plan_review' plan.id %}">
+            Request another review
+        </a>
+        <a href="{% url 'planner:study_plan_detail' plan.id %}">
+            Back to plan
+        </a>
+    </div>
+</section>
+
+{% else %}
 <section class="card form-card" aria-label="AI plan-review form">
     <p>
-        The agent reviews Completed, Pending, and Missed study time.
-        Pending sessions before your chosen resume date count
-        as overdue work.
+        The AI compares feasible schedules using your progress,
+        exam deadlines, and study preference.
+        It can recommend keeping your plan or adjusting the daily limit
+        within the maximum you provide.
     </p>
     <p>
-        If missed or overdue work needs rescheduling, the server
-        checks daily capacity and exam deadlines before saving
-        a replacement.
-    </p>
-    <p>
-        Completed work is preserved. A successful replacement
-        archives the original plan. If no changes are needed,
-        the current plan stays Active.
+        You will review the recommendation before applying changes.
+        Completed work and exam deadlines are preserved.
     </p>
     <p>
         <strong>
-            This review sends numeric progress totals to OpenAI
-            and uses API credit.
+            Requesting a proposal sends progress totals, scheduling dates,
+            feasible workload options, and your selected preference to
+            OpenAI and uses API credit.
         </strong>
+        Your syllabus text and topic names are not included in this review.
     </p>
 
-    <form id="review-form" method="post">
+    <form class="review-action-form"
+          method="post"
+          data-busy-text="Preparing proposal…">
         {% csrf_token %}
+        <input type="hidden" name="action" value="propose">
 
         {% if form.errors %}
         <div class="form-errors" role="alert">
@@ -43,6 +151,16 @@
         {% endif %}
 
         {% for field in form %}
+        {% if field.name == "preference" %}
+        <fieldset>
+            <legend>{{ field.label }}</legend>
+            {{ field }}
+
+            {% if field.errors %}
+            <div role="alert">{{ field.errors }}</div>
+            {% endif %}
+        </fieldset>
+        {% else %}
         <div class="form-field">
             {{ field.label_tag }}
             {{ field }}
@@ -57,42 +175,44 @@
             <div role="alert">{{ field.errors }}</div>
             {% endif %}
         </div>
+        {% endif %}
         {% endfor %}
 
         <div class="actions">
-            <button id="review-button" type="submit">
-                Review and apply changes if needed
-            </button>
+            <button type="submit">Get AI proposal</button>
             <a href="{% url 'planner:study_plan_detail' plan.id %}">
                 Cancel
             </a>
         </div>
-    </form>
 
-    <p id="review-progress" role="status" hidden>
-        Reviewing your progress. Please wait…
-    </p>
+        <p class="processing-message" role="status" hidden>
+            Comparing study options. Please wait…
+        </p>
+    </form>
 </section>
+{% endif %}
 {% endblock %}
 
 {% block extra_scripts %}
 <script>
-    const form = document.getElementById("review-form");
-    const button = document.getElementById("review-button");
-    const progress = document.getElementById("review-progress");
+        document.querySelectorAll(".review-action-form").forEach(function (form) {
+            const button = form.querySelector('button[type="submit"]');
+            const progress = form.querySelector(".processing-message");
+            const originalText = button.textContent;
 
-    form.addEventListener("submit", function () {
-        button.disabled = true;
-        button.textContent = "Reviewing…";
-        progress.hidden = false;
-        form.setAttribute("aria-busy", "true");
-    });
+            form.addEventListener("submit", function () {
+                button.disabled = true;
+                button.textContent = form.dataset.busyText;
+                progress.hidden = false;
+                form.setAttribute("aria-busy", "true");
+            });
 
-    window.addEventListener("pageshow", function () {
-        button.disabled = false;
-        button.textContent = "Review and apply changes if needed";
-        progress.hidden = true;
-        form.removeAttribute("aria-busy");
-    });
+            window.addEventListener("pageshow", function () {
+                button.disabled = false;
+                button.textContent = originalText;
+                progress.hidden = true;
+                form.removeAttribute("aria-busy");
+            });
+        });
 </script>
 {% endblock %}

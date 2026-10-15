@@ -8,7 +8,13 @@ from planner.services.replanning_service import schedule_remaining_sessions
 from planner.services.scheduling_service import SchedulingError
 
 
-def replan_study_plan(user, plan_id, form):
+def replan_study_plan(
+    user,
+    plan_id,
+    form,
+    *,
+    daily_study_minutes=None,
+):
     """Replace an owned active plan while preserving completed work."""
     if not form.is_valid():
         raise ValueError("The replanning form must be valid.")
@@ -27,6 +33,27 @@ def replan_study_plan(user, plan_id, form):
         if original_plan.status != StudyPlan.Status.ACTIVE:
             raise SchedulingError(
                 "Only an active study plan can be replanned."
+            )
+
+        target_daily_minutes = (
+            original_plan.daily_study_minutes
+            if daily_study_minutes is None
+            else daily_study_minutes
+        )
+
+        if (
+            type(target_daily_minutes) is not int
+            or not 15 <= target_daily_minutes <= 720
+        ):
+            raise SchedulingError(
+                "Daily study time must be a whole number "
+                "between 15 and 720 minutes."
+            )
+
+        if target_daily_minutes < original_plan.daily_study_minutes:
+            raise SchedulingError(
+                "The replacement plan cannot reduce "
+                "the original daily study limit."
             )
 
         earliest_resume_date = max(
@@ -60,7 +87,7 @@ def replan_study_plan(user, plan_id, form):
                 for session in original_sessions
             ],
             resume_date,
-            original_plan.daily_study_minutes,
+            target_daily_minutes,
         )
 
         sources = {
@@ -75,7 +102,7 @@ def replan_study_plan(user, plan_id, form):
             replanned_from=original_plan,
             start_date=original_plan.start_date,
             resume_date=resume_date,
-            daily_study_minutes=original_plan.daily_study_minutes,
+            daily_study_minutes=target_daily_minutes,
         )
         replacement.full_clean()
         replacement.save()
