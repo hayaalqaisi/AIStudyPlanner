@@ -24,6 +24,9 @@ staticfiles/
 .idea/
 *.pyproj.user
 
+# Microsoft Office temporary lock files
+~$*
+
 # Operating system files
 Thumbs.db
 .DS_Store

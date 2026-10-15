@@ -4,7 +4,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>ff71fb51-5733-4ea8-a8bb-4ad08bdfbde3</ProjectGuid>
     <ProjectHome>.</ProjectHome>
-    <StartupFile>AIStudyPlanner.py</StartupFile>
+    <StartupFile>manage.py</StartupFile>
     <SearchPath>
     </SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
@@ -12,6 +12,9 @@
     <Name>AIStudyPlanner</Name>
     <RootNamespace>AIStudyPlanner</RootNamespace>
     <InterpreterId>MSBuild|.venv|$(MSBuildProjectFullPath)</InterpreterId>
+    <LaunchProvider>Standard Python launcher</LaunchProvider>
+    <CommandLineArguments>runserver</CommandLineArguments>
+    <EnableNativeCodeDebugging>False</EnableNativeCodeDebugging>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <DebugSymbols>true</DebugSymbols>
@@ -31,24 +34,27 @@
     <Compile Include="accounts\models\__init__.py" />
     <Compile Include="accounts\services\registration_service.py" />
     <Compile Include="accounts\services\__init__.py" />
-    <Compile Include="accounts\tests.py" />
     <Compile Include="accounts\urls.py" />
     <Compile Include="accounts\views\login_view.py" />
     <Compile Include="accounts\views\logout_view.py" />
     <Compile Include="accounts\views\registration_view.py" />
     <Compile Include="accounts\views\__init__.py" />
     <Compile Include="accounts\__init__.py" />
-    <Compile Include="AIStudyPlanner.py" />
     <Compile Include="evaluation\cases.py" />
     <Compile Include="evaluation\run_topic_evaluation.py" />
     <Compile Include="evaluation\__init__.py" />
     <Compile Include="manage.py" />
-    <Compile Include="planner\ai\plan_review_agent.py" />
-    <Compile Include="planner\ai\plan_review_tools.py" />
+    <Compile Include="planner\admin.py" />
+    <Compile Include="planner\ai\openai_client.py" />
+    <Compile Include="planner\ai\plan_review_proposal_agent.py" />
+    <Compile Include="planner\ai\plan_review_proposal_tools.py" />
+    <Compile Include="planner\ai\plan_review_proposal_validation.py" />
+    <Compile Include="planner\ai\prompt_loader.py" />
     <Compile Include="planner\ai\topic_extractor.py" />
     <Compile Include="planner\ai\topic_schema.py" />
     <Compile Include="planner\ai\__init__.py" />
     <Compile Include="planner\api\course_list_api.py" />
+    <Compile Include="planner\api\decorators.py" />
     <Compile Include="planner\api\study_plan_detail_api.py" />
     <Compile Include="planner\api\study_plan_list_api.py" />
     <Compile Include="planner\api\study_session_status_api.py" />
@@ -57,6 +63,7 @@
     <Compile Include="planner\apps.py" />
     <Compile Include="planner\forms\course_form.py" />
     <Compile Include="planner\forms\exam_form.py" />
+    <Compile Include="planner\forms\plan_review_form.py" />
     <Compile Include="planner\forms\study_plan_form.py" />
     <Compile Include="planner\forms\study_plan_replan_form.py" />
     <Compile Include="planner\forms\study_preference_form.py" />
@@ -76,7 +83,8 @@
     <Compile Include="planner\services\agent_log_service.py" />
     <Compile Include="planner\services\course_service.py" />
     <Compile Include="planner\services\exam_service.py" />
-    <Compile Include="planner\services\plan_review_service.py" />
+    <Compile Include="planner\services\plan_review_options_service.py" />
+    <Compile Include="planner\services\plan_review_proposal_service.py" />
     <Compile Include="planner\services\replanning_service.py" />
     <Compile Include="planner\services\scheduling_service.py" />
     <Compile Include="planner\services\study_plan_archive_service.py" />
@@ -88,6 +96,21 @@
     <Compile Include="planner\services\syllabus_text_service.py" />
     <Compile Include="planner\services\topic_service.py" />
     <Compile Include="planner\services\__init__.py" />
+    <Compile Include="planner\tests\test_ai.py" />
+    <Compile Include="planner\tests\test_api_decorators.py" />
+    <Compile Include="planner\tests\test_openai_client.py" />
+    <Compile Include="planner\tests\test_ownership.py" />
+    <Compile Include="planner\tests\test_plan_review_form.py" />
+    <Compile Include="planner\tests\test_plan_review_options.py" />
+    <Compile Include="planner\tests\test_plan_review_proposal_agent.py" />
+    <Compile Include="planner\tests\test_plan_review_proposal_service.py" />
+    <Compile Include="planner\tests\test_plan_review_proposal_validation.py" />
+    <Compile Include="planner\tests\test_plan_review_view.py" />
+    <Compile Include="planner\tests\test_replanning.py" />
+    <Compile Include="planner\tests\test_replan_service.py" />
+    <Compile Include="planner\tests\test_scheduling.py" />
+    <Compile Include="planner\tests\test_topic_evaluation_runner.py" />
+    <Compile Include="planner\tests\__init__.py" />
     <Compile Include="planner\urls.py" />
     <Compile Include="planner\utils\performance.py" />
     <Compile Include="planner\utils\topic_evaluation.py" />
@@ -142,6 +165,8 @@
     <Content Include=".gitignore" />
     <Content Include="accounts\templates\accounts\login.html" />
     <Content Include="accounts\templates\accounts\register.html" />
+    <Content Include="planner\ai\prompts\plan_review.md" />
+    <Content Include="planner\ai\prompts\topic_extraction.md" />
     <Content Include="planner\templates\planner\agent_log_list.html" />
     <Content Include="planner\templates\planner\base.html" />
     <Content Include="planner\templates\planner\course_confirm_delete.html" />
@@ -178,10 +203,12 @@
     <Folder Include="accounts\views\" />
     <Folder Include="evaluation\" />
     <Folder Include="planner\" />
+    <Folder Include="planner\ai\prompts\" />
     <Folder Include="planner\models\" />
     <Folder Include="planner\forms\" />
     <Folder Include="planner\ai\" />
     <Folder Include="planner\api\" />
+    <Folder Include="planner\tests\" />
     <Folder Include="planner\static\" />
     <Folder Include="planner\static\planner\" />
     <Folder Include="planner\static\planner\css\" />
