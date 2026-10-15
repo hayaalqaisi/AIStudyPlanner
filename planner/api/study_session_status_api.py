@@ -4,8 +4,8 @@ import logging
 from django.core.exceptions import ValidationError
 from django.db import DatabaseError
 from django.http import Http404, JsonResponse
-from django.views.decorators.cache import never_cache
 
+from planner.api.decorators import api_view_json
 from planner.forms.study_session_status_form import StudySessionStatusForm
 from planner.services.study_session_service import (
     SessionStatusError,
@@ -17,29 +17,9 @@ from planner.services.study_session_service import (
 logger = logging.getLogger(__name__)
 
 
-@never_cache
+@api_view_json(methods=["PATCH"])
 def study_session_status_api(request, session_id):
     """Update an owned active-plan session from a JSON PATCH request."""
-    if not request.user.is_authenticated:
-        return JsonResponse(
-            {
-                "success": False,
-                "message": "Log in to access this API.",
-            },
-            status=401,
-        )
-
-    if request.method != "PATCH":
-        response = JsonResponse(
-            {
-                "success": False,
-                "message": "This endpoint accepts PATCH requests only.",
-            },
-            status=405,
-        )
-        response["Allow"] = "PATCH"
-        return response
-
     if request.content_type != "application/json":
         return JsonResponse(
             {

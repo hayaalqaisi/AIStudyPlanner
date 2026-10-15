@@ -2,37 +2,17 @@ import logging
 
 from django.db import DatabaseError
 from django.http import JsonResponse
-from django.views.decorators.cache import never_cache
 
+from planner.api.decorators import api_view_json
 from planner.services.study_plan_service import list_study_plans
 
 
 logger = logging.getLogger(__name__)
 
 
-@never_cache
+@api_view_json(methods=["GET"])
 def study_plan_list_api(request):
     """Return the authenticated user's study plans as JSON."""
-    if not request.user.is_authenticated:
-        return JsonResponse(
-            {
-                "success": False,
-                "message": "Log in to access this API.",
-            },
-            status=401,
-        )
-
-    if request.method != "GET":
-        response = JsonResponse(
-            {
-                "success": False,
-                "message": "This endpoint accepts GET requests only.",
-            },
-            status=405,
-        )
-        response["Allow"] = "GET"
-        return response
-
     try:
         plans = [
             {
