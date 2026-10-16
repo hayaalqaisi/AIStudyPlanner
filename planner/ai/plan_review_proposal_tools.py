@@ -32,19 +32,36 @@ PLAN_REVIEW_PROPOSAL_TOOLS = [
                         "For keep_current_plan or cannot_fit, use null."
                     ),
                 },
+                "limit_change_type": {
+                    "type": "string",
+                    "enum": [
+                        "not_needed",
+                        "preference",
+                        "required",
+                    ],
+                    "description": (
+                        "Use not_needed when no daily-limit increase "
+                        "is proposed, including keep_current_plan and "
+                        "cannot_fit. Use preference for an increase "
+                        "when the current limit is feasible. Use required "
+                        "for an increase when the current limit is not "
+                        "feasible and a higher feasible limit is selected."
+                    ),
+                },
                 "reason": {
                     "type": "string",
                     "description": (
-                        "Explain the recommendation using the student's "
-                        "preference, progress, and supplied scheduling "
-                        "options. Describe the workload and finish-date "
-                        "tradeoff without inventing facts."
+                        "Briefly explain the recommendation using "
+                        "the supplied facts and student preference. "
+                        "The explanation must agree with "
+                        "limit_change_type and the scheduling facts."
                     ),
                 },
             },
             "required": [
                 "action",
                 "daily_study_minutes",
+                "limit_change_type",
                 "reason",
             ],
             "additionalProperties": False,

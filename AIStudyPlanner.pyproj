@@ -41,6 +41,9 @@
     <Compile Include="accounts\views\__init__.py" />
     <Compile Include="accounts\__init__.py" />
     <Compile Include="evaluation\cases.py" />
+    <Compile Include="evaluation\plan_review_cases.py" />
+    <Compile Include="evaluation\plan_review_scoring.py" />
+    <Compile Include="evaluation\run_plan_review_evaluation.py" />
     <Compile Include="evaluation\run_topic_evaluation.py" />
     <Compile Include="evaluation\__init__.py" />
     <Compile Include="manage.py" />
@@ -98,8 +101,12 @@
     <Compile Include="planner\services\__init__.py" />
     <Compile Include="planner\tests\test_ai.py" />
     <Compile Include="planner\tests\test_api_decorators.py" />
+    <Compile Include="planner\tests\test_explanation_evaluation.py" />
     <Compile Include="planner\tests\test_openai_client.py" />
     <Compile Include="planner\tests\test_ownership.py" />
+    <Compile Include="planner\tests\test_plan_review_evaluation.py" />
+    <Compile Include="planner\tests\test_plan_review_evaluation_runner.py" />
+    <Compile Include="planner\tests\test_plan_review_explanation.py" />
     <Compile Include="planner\tests\test_plan_review_form.py" />
     <Compile Include="planner\tests\test_plan_review_options.py" />
     <Compile Include="planner\tests\test_plan_review_proposal_agent.py" />
@@ -109,6 +116,7 @@
     <Compile Include="planner\tests\test_replanning.py" />
     <Compile Include="planner\tests\test_replan_service.py" />
     <Compile Include="planner\tests\test_scheduling.py" />
+    <Compile Include="planner\tests\test_topic_evaluation.py" />
     <Compile Include="planner\tests\test_topic_evaluation_runner.py" />
     <Compile Include="planner\tests\__init__.py" />
     <Compile Include="planner\urls.py" />

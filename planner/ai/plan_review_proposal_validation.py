@@ -1,3 +1,6 @@
+import re
+
+
 class ProposalValidationError(Exception):
     """An invalid AI proposal that must not be applied."""
 
@@ -94,3 +97,73 @@ def validate_review_proposal(
         "daily_study_minutes": daily_minutes,
         "reason": reason.strip(),
     }
+
+
+def validate_explanation_claim(
+    proposal,
+    *,
+    limit_change_type,
+    current_daily_minutes,
+    options,
+):
+    """Check explanation claims after the proposal decision is validated."""
+    if limit_change_type not in (
+        "not_needed",
+        "preference",
+        "required",
+    ):
+        raise ProposalValidationError(
+            "The explanation has an unsupported limit change type."
+        )
+
+    current_feasible = any(
+        option["daily_study_minutes"] == current_daily_minutes
+        for option in options
+    )
+
+    if proposal["action"] == "replan_unfinished_work":
+        selected_minutes = proposal["daily_study_minutes"]
+
+        if selected_minutes == current_daily_minutes:
+            expected_type = "not_needed"
+        elif current_feasible:
+            expected_type = "preference"
+        else:
+            expected_type = "required"
+    else:
+        expected_type = "not_needed"
+
+    if limit_change_type != expected_type:
+        if limit_change_type == "required" and current_feasible:
+            raise ProposalValidationError(
+                "The current daily limit is feasible; "
+                "an increase cannot be described as required."
+            )
+
+        raise ProposalValidationError(
+            "The explanation's limit change type contradicts "
+            f"the scheduling facts. Expected '{expected_type}'."
+        )
+
+    if (
+        proposal["action"] == "replan_unfinished_work"
+        and current_feasible
+    ):
+        normalized_reason = " ".join(
+            proposal["reason"].casefold().replace("\u2019", "'").split()
+        )
+
+        unsupported_capacity_claim = re.search(
+            r"\b(?:cannot|can't|insufficient|not enough|"
+            r"won't meet|unable)\b",
+            normalized_reason,
+        )
+
+        if unsupported_capacity_claim:
+            raise ProposalValidationError(
+                "The current daily limit is feasible. "
+                "Rewrite the explanation without claiming "
+                "that it cannot accommodate the unfinished work."
+            )
+
+    return limit_change_type

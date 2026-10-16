@@ -1,0 +1,3134 @@
+{
+  "report_version": 1,
+  "created_at": "2026-10-16T19:51:34.480567+00:00",
+  "model": "gpt-4.1-mini-2025-04-14",
+  "case_count": 6,
+  "repetitions_per_case": 10,
+  "notes": [
+    "Scenarios are synthetic and expected actions are predefined.",
+    "Feasible options are calculated by the application scheduler.",
+    "No study plans or application records are changed.",
+    "The application validates AI proposals before returning them.",
+    "Rejected proposals appear as failed attempts.",
+    "Raw rejected model outputs are not captured by this runner.",
+    "Accepted-proposal rate is not a raw model safety measurement.",
+    "Action accuracy includes all attempts, including failures.",
+    "Preference alignment includes all preference-applicable attempts.",
+    "Preference checks are benchmark rubrics, not universal optima.",
+    "Lighter-workload cases prefer the lowest feasible daily limit.",
+    "Finish-sooner cases prefer the earliest finish, then lowest limit.",
+    "Explanations require manual factual and qualitative review.",
+    "Latency covers proposal generation and application validation.",
+    "Option generation and evaluation scoring are outside latency.",
+    "Memory readings describe the entire local Python process.",
+    "Memory readings are before/after samples, not peak usage.",
+    "Requests run sequentially in the same process."
+  ],
+  "summary": {
+    "attempts": 60,
+    "successful_attempts": 60,
+    "failed_attempts": 0,
+    "accepted_proposals": 60,
+    "accepted_proposal_rate": 1.0,
+    "correct_actions": 60,
+    "action_accuracy_all_attempts": 1.0,
+    "preference_applicable_attempts": 30,
+    "preference_matches": 29,
+    "preference_alignment": 0.9666666666666667,
+    "average_duration_ms": 1589.9,
+    "average_memory_after_bytes": 99584136.53333333,
+    "average_memory_delta_bytes": 413969.06666666665
+  },
+  "results": [
+    {
+      "case": "completed_plan_kept",
+      "repetition": 1,
+      "outcome": "succeeded",
+      "error_message": "",
+      "resume_date": "2030-11-02",
+      "current_daily_minutes": 60,
+      "maximum_daily_minutes": 120,
+      "preference": "manageable_workload",
+      "expected_action": "keep_current_plan",
+      "preference_check": null,
+      "progress": {
+        "completed_minutes": 60,
+        "pending_minutes": 0,
+        "missed_minutes": 0,
+        "overdue_pending_minutes": 0
+      },
+      "feasible_options": [],
+      "proposal": {
+        "action": "keep_current_plan",
+        "daily_study_minutes": null,
+        "reason": "All work is already completed with no pending, missed, or overdue tasks. Therefore, there is no unfinished work that requires replanning. Since no feasible options are supplied and all work is finished, keeping the current plan with manageable daily workload is appropriate."
+      },
+      "quality": {
+        "proposal_valid": true,
+        "action_correct": true,
+        "preference_applicable": false,
+        "preference_match": null,
+        "rubric_daily_minutes": null,
+        "validation_error": ""
+      },
+      "performance": {
+        "duration_ms": 2937,
+        "memory_before_bytes": 74985472,
+        "memory_after_bytes": 98881536,
+        "memory_delta_bytes": 23896064
+      }
+    },
+    {
+      "case": "missed_work_lighter_workload",
+      "repetition": 1,
+      "outcome": "succeeded",
+      "error_message": "",
+      "resume_date": "2030-11-02",
+      "current_daily_minutes": 60,
+      "maximum_daily_minutes": 120,
+      "preference": "manageable_workload",
+      "expected_action": "replan_unfinished_work",
+      "preference_check": "lowest_feasible_limit",
+      "progress": {
+        "completed_minutes": 0,
+        "pending_minutes": 180,
+        "missed_minutes": 60,
+        "overdue_pending_minutes": 0
+      },
+      "feasible_options": [
+        {
+          "daily_study_minutes": 60,
+          "finish_date": "2030-11-05",
+          "study_days": 4,
+          "peak_daily_minutes": 60
+        },
+        {
+          "daily_study_minutes": 75,
+          "finish_date": "2030-11-05",
+          "study_days": 4,
+          "peak_daily_minutes": 75
+        },
+        {
+          "daily_study_minutes": 90,
+          "finish_date": "2030-11-04",
+          "study_days": 3,
+          "peak_daily_minutes": 90
+        },
+        {
+          "daily_study_minutes": 105,
+          "finish_date": "2030-11-04",
+          "study_days": 3,
+          "peak_daily_minutes": 105
+        },
+        {
+          "daily_study_minutes": 120,
+          "finish_date": "2030-11-03",
+          "study_days": 2,
+          "peak_daily_minutes": 120
+        }
+      ],
+      "proposal": {
+        "action": "replan_unfinished_work",
+        "daily_study_minutes": 60,
+        "reason": "The student has unfinished work consisting of 240 minutes total (180 pending and 60 missed), which requires rescheduling. The current daily limit of 60 minutes is feasible and can accommodate the unfinished work, finishing by 2030-11-05 within four study days. Given the preference for a manageable workload, maintaining the 60-minute daily plan balances sustainable daily study time and meets the deadlines without requiring an increase. Choosing a higher daily limit could finish sooner (as soon as 2030-11-03), but it may raise the daily workload beyond the student's stated preference for manageability."
+      },
+      "quality": {
+        "proposal_valid": true,
+        "action_correct": true,
+        "preference_applicable": true,
+        "preference_match": true,
+        "rubric_daily_minutes": 60,
+        "validation_error": ""
+      },
+      "performance": {
+        "duration_ms": 2457,
+        "memory_before_bytes": 98881536,
+        "memory_after_bytes": 99000320,
+        "memory_delta_bytes": 118784
+      }
+    },
+    {
+      "case": "missed_work_finish_sooner",
+      "repetition": 1,
+      "outcome": "succeeded",
+      "error_message": "",
+      "resume_date": "2030-11-02",
+      "current_daily_minutes": 60,
+      "maximum_daily_minutes": 120,
+      "preference": "finish_sooner",
+      "expected_action": "replan_unfinished_work",
+      "preference_check": "earliest_finish_lowest_limit",
+      "progress": {
+        "completed_minutes": 0,
+        "pending_minutes": 180,
+        "missed_minutes": 60,
+        "overdue_pending_minutes": 0
+      },
+      "feasible_options": [
+        {
+          "daily_study_minutes": 60,
+          "finish_date": "2030-11-05",
+          "study_days": 4,
+          "peak_daily_minutes": 60
+        },
+        {
+          "daily_study_minutes": 75,
+          "finish_date": "2030-11-05",
+          "study_days": 4,
+          "peak_daily_minutes": 75
+        },
+        {
+          "daily_study_minutes": 90,
+          "finish_date": "2030-11-04",
+          "study_days": 3,
+          "peak_daily_minutes": 90
+        },
+        {
+          "daily_study_minutes": 105,
+          "finish_date": "2030-11-04",
+          "study_days": 3,
+          "peak_daily_minutes": 105
+        },
+        {
+          "daily_study_minutes": 120,
+          "finish_date": "2030-11-03",
+          "study_days": 2,
+          "peak_daily_minutes": 120
+        }
+      ],
+      "proposal": {
+        "action": "replan_unfinished_work",
+        "daily_study_minutes": 120,
+        "reason": "The student has 240 minutes of unfinished work, including 60 minutes missed and 180 minutes pending. The current daily study limit of 60 minutes results in finishing by 2030-11-05 with 4 study days. Higher daily limits are feasible and allow finishing sooner: 90 or 105 minutes finish one day earlier on 2030-11-04, and the maximum 120 minutes allows finishing even sooner on 2030-11-03 in just 2 study days. Since the preference is to finish sooner, increasing the daily study limit to 120 minutes is recommended to reduce the overall time needed for study and meet the finish date earlier. This option balances workload and achieves an earlier finish, which aligns with the student's stated preference."
+      },
+      "quality": {
+        "proposal_valid": true,
+        "action_correct": true,
+        "preference_applicable": true,
+        "preference_match": true,
+        "rubric_daily_minutes": 120,
+        "validation_error": ""
+      },
+      "performance": {
+        "duration_ms": 2668,
+        "memory_before_bytes": 99000320,
+        "memory_after_bytes": 99098624,
+        "memory_delta_bytes": 98304
+      }
+    },
+    {
+      "case": "completed_work_requires_higher_limit",
+      "repetition": 1,
+      "outcome": "succeeded",
+      "error_message": "",
+      "resume_date": "2030-11-02",
+      "current_daily_minutes": 60,
+      "maximum_daily_minutes": 120,
+      "preference": "manageable_workload",
+      "expected_action": "replan_unfinished_work",
+      "preference_check": "lowest_feasible_limit",
+      "progress": {
+        "completed_minutes": 30,
+        "pending_minutes": 0,
+        "missed_minutes": 60,
+        "overdue_pending_minutes": 0
+      },
+      "feasible_options": [
+        {
+          "daily_study_minutes": 90,
+          "finish_date": "2030-11-02",
+          "study_days": 1,
+          "peak_daily_minutes": 90
+        },
+        {
+          "daily_study_minutes": 105,
+          "finish_date": "2030-11-02",
+          "study_days": 1,
+          "peak_daily_minutes": 90
+        },
+        {
+          "daily_study_minutes": 120,
+          "finish_date": "2030-11-02",
+          "study_days": 1,
+          "peak_daily_minutes": 90
+        }
+      ],
+      "proposal": {
+        "action": "replan_unfinished_work",
+        "daily_study_minutes": 90,
+        "reason": "The current daily limit of 60 minutes cannot accommodate the 60 minutes of missed work by the finish date of 2030-11-02, as it is not among the feasible options. There are feasible options starting at 90 minutes daily, which can complete all unfinished work in 1 study day by the same finish date. Since the student prefers a manageable workload, recommending the lowest feasible daily limit of 90 minutes balances finishing on time with a sustainable daily study time."
+      },
+      "quality": {
+        "proposal_valid": true,
+        "action_correct": true,
+        "preference_applicable": true,
+        "preference_match": true,
+        "rubric_daily_minutes": 90,
+        "validation_error": ""
+      },
+      "performance": {
+        "duration_ms": 1729,
+        "memory_before_bytes": 99098624,
+        "memory_after_bytes": 99135488,
+        "memory_delta_bytes": 36864
+      }
+    },
+    {
+      "case": "maximum_limit_insufficient",
+      "repetition": 1,
+      "outcome": "succeeded",
+      "error_message": "",
+      "resume_date": "2030-11-02",
+      "current_daily_minutes": 60,
+      "maximum_daily_minutes": 75,
+      "preference": "finish_sooner",
+      "expected_action": "cannot_fit",
+      "preference_check": null,
+      "progress": {
+        "completed_minutes": 30,
+        "pending_minutes": 0,
+        "missed_minutes": 60,
+        "overdue_pending_minutes": 0
+      },
+      "feasible_options": [],
+      "proposal": {
+        "action": "cannot_fit",
+        "daily_study_minutes": null,
+        "reason": "There is missed work that requires rescheduling, but no feasible daily study minute option is available to fit the unfinished workload given the resume date and the maximum daily limit. Thus, no replacement plan can accommodate the unfinished work to finish sooner or later under the supplied constraints."
+      },
+      "quality": {
+        "proposal_valid": true,
+        "action_correct": true,
+        "preference_applicable": false,
+        "preference_match": null,
+        "rubric_daily_minutes": null,
+        "validation_error": ""
+      },
+      "performance": {
+        "duration_ms": 1415,
+        "memory_before_bytes": 99135488,
+        "memory_after_bytes": 99160064,
+        "memory_delta_bytes": 24576
+      }
+    },
+    {
+      "case": "exam_deadline_reached",
+      "repetition": 1,
+      "outcome": "succeeded",
+      "error_message": "",
+      "resume_date": "2030-11-02",
+      "current_daily_minutes": 60,
+      "maximum_daily_minutes": 120,
+      "preference": "finish_sooner",
+      "expected_action": "cannot_fit",
+      "preference_check": null,
+      "progress": {
+        "completed_minutes": 0,
+        "pending_minutes": 0,
+        "missed_minutes": 60,
+        "overdue_pending_minutes": 0
+      },
+      "feasible_options": [],
+      "proposal": {
+        "action": "cannot_fit",
+        "daily_study_minutes": null,
+        "reason": "The student has 60 missed minutes of work and no pending work. Currently, there are no feasible scheduling options available to accommodate the missed work starting from the resume date with the given maximum daily limit of 120 minutes. Since no feasible plan options exist, it is not possible to fit the missed work by the required deadlines."
+      },
+      "quality": {
+        "proposal_valid": true,
+        "action_correct": true,
+        "preference_applicable": false,
+        "preference_match": null,
+        "rubric_daily_minutes": null,
+        "validation_error": ""
+      },
+      "performance": {
+        "duration_ms": 3683,
+        "memory_before_bytes": 99160064,
+        "memory_after_bytes": 99188736,
+        "memory_delta_bytes": 28672
+      }
+    },
+    {
+      "case": "completed_plan_kept",
+      "repetition": 2,
+      "outcome": "succeeded",
+      "error_message": "",
+      "resume_date": "2030-11-02",
+      "current_daily_minutes": 60,
+      "maximum_daily_minutes": 120,
+      "preference": "manageable_workload",
+      "expected_action": "keep_current_plan",
+      "preference_check": null,
+      "progress": {
+        "completed_minutes": 60,
+        "pending_minutes": 0,
+        "missed_minutes": 0,
+        "overdue_pending_minutes": 0
+      },
+      "feasible_options": [],
+      "proposal": {
+        "action": "keep_current_plan",
+        "daily_study_minutes": null,
+        "reason": "The student has completed all required work, with no unfinished, pending, or missed minutes remaining. There is no unfinished work to reschedule, so keeping the current plan is appropriate. No feasible options are needed since all work is already completed and no further study is required."
+      },
+      "quality": {
+        "proposal_valid": true,
+        "action_correct": true,
+        "preference_applicable": false,
+        "preference_match": null,
+        "rubric_daily_minutes": null,
+        "validation_error": ""
+      },
+      "performance": {
+        "duration_ms": 1303,
+        "memory_before_bytes": 99188736,
+        "memory_after_bytes": 99196928,
+        "memory_delta_bytes": 8192
+      }
+    },
+    {
+      "case": "missed_work_lighter_workload",
+      "repetition": 2,
+      "outcome": "succeeded",
+      "error_message": "",
+      "resume_date": "2030-11-02",
+      "current_daily_minutes": 60,
+      "maximum_daily_minutes": 120,
+      "preference": "manageable_workload",
+      "expected_action": "replan_unfinished_work",
+      "preference_check": "lowest_feasible_limit",
+      "progress": {
+        "completed_minutes": 0,
+        "pending_minutes": 180,
+        "missed_minutes": 60,
+        "overdue_pending_minutes": 0
+      },
+      "feasible_options": [
+        {
+          "daily_study_minutes": 60,
+          "finish_date": "2030-11-05",
+          "study_days": 4,
+          "peak_daily_minutes": 60
+        },
+        {
+          "daily_study_minutes": 75,
+          "finish_date": "2030-11-05",
+          "study_days": 4,
+          "peak_daily_minutes": 75
+        },
+        {
+          "daily_study_minutes": 90,
+          "finish_date": "2030-11-04",
+          "study_days": 3,
+          "peak_daily_minutes": 90
+        },
+        {
+          "daily_study_minutes": 105,
+          "finish_date": "2030-11-04",
+          "study_days": 3,
+          "peak_daily_minutes": 105
+        },
+        {
+          "daily_study_minutes": 120,
+          "finish_date": "2030-11-03",
+          "study_days": 2,
+          "peak_daily_minutes": 120
+        }
+      ],
+      "proposal": {
+        "action": "replan_unfinished_work",
+        "daily_study_minutes": 60,
+        "reason": "The current daily limit of 60 minutes is feasible to complete all unfinished and missed work by 2030-11-05 with 4 study days and a peak of 60 minutes. This fits the manageable workload preference, avoiding a higher daily limit. Although higher limits could finish earlier (2030-11-04 or 2030-11-03), the current 60 minutes daily option balances workload and deadline without unnecessary increase."
+      },
+      "quality": {
+        "proposal_valid": true,
+        "action_correct": true,
+        "preference_applicable": true,
+        "preference_match": true,
+        "rubric_daily_minutes": 60,
+        "validation_error": ""
+      },
+      "performance": {
+        "duration_ms": 2533,
+        "memory_before_bytes": 99196928,
+        "memory_after_bytes": 99201024,
+        "memory_delta_bytes": 4096
+      }
+    },
+    {
+      "case": "missed_work_finish_sooner",
+      "repetition": 2,
+      "outcome": "succeeded",
+      "error_message": "",
+      "resume_date": "2030-11-02",
+      "current_daily_minutes": 60,
+      "maximum_daily_minutes": 120,
+      "preference": "finish_sooner",
+      "expected_action": "replan_unfinished_work",
+      "preference_check": "earliest_finish_lowest_limit",
+      "progress": {
+        "completed_minutes": 0,
+        "pending_minutes": 180,
+        "missed_minutes": 60,
+        "overdue_pending_minutes": 0
+      },
+      "feasible_options": [
+        {
+          "daily_study_minutes": 60,
+          "finish_date": "2030-11-05",
+          "study_days": 4,
+          "peak_daily_minutes": 60
+        },
+        {
+          "daily_study_minutes": 75,
+          "finish_date": "2030-11-05",
+          "study_days": 4,
+          "peak_daily_minutes": 75
+        },
+        {
+          "daily_study_minutes": 90,
+          "finish_date": "2030-11-04",
+          "study_days": 3,
+          "peak_daily_minutes": 90
+        },
+        {
+          "daily_study_minutes": 105,
+          "finish_date": "2030-11-04",
+          "study_days": 3,
+          "peak_daily_minutes": 105
+        },
+        {
+          "daily_study_minutes": 120,
+          "finish_date": "2030-11-03",
+          "study_days": 2,
+          "peak_daily_minutes": 120
+        }
+      ],
+      "proposal": {
+        "action": "replan_unfinished_work",
+        "daily_study_minutes": 120,
+        "reason": "The current daily limit of 60 minutes can accommodate the unfinished work, finishing by 2030-11-05. However, since the preference is to finish sooner, increasing the daily study time to 120 minutes can finish the work two days earlier, on 2030-11-03, reducing the total study days to 2. This approach respects the maximum daily minutes and better aligns with the preference to finish sooner."
+      },
+      "quality": {
+        "proposal_valid": true,
+        "action_correct": true,
+        "preference_applicable": true,
+        "preference_match": true,
+        "rubric_daily_minutes": 120,
+        "validation_error": ""
+      },
+      "performance": {
+        "duration_ms": 1325,
+        "memory_before_bytes": 99201024,
+        "memory_after_bytes": 99217408,
+        "memory_delta_bytes": 16384
+      }
+    },
+    {
+      "case": "completed_work_requires_higher_limit",
+      "repetition": 2,
+      "outcome": "succeeded",
+      "error_message": "",
+      "resume_date": "2030-11-02",
+      "current_daily_minutes": 60,
+      "maximum_daily_minutes": 120,
+      "preference": "manageable_workload",
+      "expected_action": "replan_unfinished_work",
+      "preference_check": "lowest_feasible_limit",
+      "progress": {
+        "completed_minutes": 30,
+        "pending_minutes": 0,
+        "missed_minutes": 60,
+        "overdue_pending_minutes": 0
+      },
+      "feasible_options": [
+        {
+          "daily_study_minutes": 90,
+          "finish_date": "2030-11-02",
+          "study_days": 1,
+          "peak_daily_minutes": 90
+        },
+        {
+          "daily_study_minutes": 105,
+          "finish_date": "2030-11-02",
+          "study_days": 1,
+          "peak_daily_minutes": 90
+        },
+        {
+          "daily_study_minutes": 120,
+          "finish_date": "2030-11-02",
+          "study_days": 1,
+          "peak_daily_minutes": 90
+        }
+      ],
+      "proposal": {
+        "action": "replan_unfinished_work",
+        "daily_study_minutes": 90,
+        "reason": "The current daily limit of 60 minutes is not among the feasible options, meaning it cannot accommodate the missed 60 minutes within the allowed schedule constraints. The feasible options start at 90 daily study minutes, which allows finishing all work on the latest finish date of 2030-11-02 in 1 study day. Since the student prefers a manageable workload and all options finish on the same date, selecting the lowest feasible daily limit of 90 minutes balances workload and scheduling needs without increasing time unnecessarily."
+      },
+      "quality": {
+        "proposal_valid": true,
+        "action_correct": true,
+        "preference_applicable": true,
+        "preference_match": true,
+        "rubric_daily_minutes": 90,
+        "validation_error": ""
+      },
+      "performance": {
+        "duration_ms": 1573,
+        "memory_before_bytes": 99217408,
+        "memory_after_bytes": 99225600,
+        "memory_delta_bytes": 8192
+      }
+    },
+    {
+      "case": "maximum_limit_insufficient",
+      "repetition": 2,
+      "outcome": "succeeded",
+      "error_message": "",
+      "resume_date": "2030-11-02",
+      "current_daily_minutes": 60,
+      "maximum_daily_minutes": 75,
+      "preference": "finish_sooner",
+      "expected_action": "cannot_fit",
+      "preference_check": null,
+      "progress": {
+        "completed_minutes": 30,
+        "pending_minutes": 0,
+        "missed_minutes": 60,
+        "overdue_pending_minutes": 0
+      },
+      "feasible_options": [],
+      "proposal": {
+        "action": "cannot_fit",
+        "daily_study_minutes": null,
+        "reason": "The plan has 60 missed minutes that need to be rescheduled, but no feasible daily study limits are available to accommodate the unfinished work given the resume date and exam deadlines. Increasing the daily limit beyond the maximum allowed is not an option, so no replacement plan fits the current constraints to finish sooner or at all."
+      },
+      "quality": {
+        "proposal_valid": true,
+        "action_correct": true,
+        "preference_applicable": false,
+        "preference_match": null,
+        "rubric_daily_minutes": null,
+        "validation_error": ""
+      },
+      "performance": {
+        "duration_ms": 1195,
+        "memory_before_bytes": 99225600,
+        "memory_after_bytes": 99254272,
+        "memory_delta_bytes": 28672
+      }
+    },
+    {
+      "case": "exam_deadline_reached",
+      "repetition": 2,
+      "outcome": "succeeded",
+      "error_message": "",
+      "resume_date": "2030-11-02",
+      "current_daily_minutes": 60,
+      "maximum_daily_minutes": 120,
+      "preference": "finish_sooner",
+      "expected_action": "cannot_fit",
+      "preference_check": null,
+      "progress": {
+        "completed_minutes": 0,
+        "pending_minutes": 0,
+        "missed_minutes": 60,
+        "overdue_pending_minutes": 0
+      },
+      "feasible_options": [],
+      "proposal": {
+        "action": "cannot_fit",
+        "daily_study_minutes": null,
+        "reason": "The student has 60 minutes of missed work which is overdue. There are no feasible daily study time options available to reschedule and complete this missed work by the required deadlines. Since no feasible replacement plans fit the supplied resume date and permitted daily limits, it is not possible to accommodate the unfinished work."
+      },
+      "quality": {
+        "proposal_valid": true,
+        "action_correct": true,
+        "preference_applicable": false,
+        "preference_match": null,
+        "rubric_daily_minutes": null,
+        "validation_error": ""
+      },
+      "performance": {
+        "duration_ms": 1357,
+        "memory_before_bytes": 99254272,
+        "memory_after_bytes": 99291136,
+        "memory_delta_bytes": 36864
+      }
+    },
+    {
+      "case": "completed_plan_kept",
+      "repetition": 3,
+      "outcome": "succeeded",
+      "error_message": "",
+      "resume_date": "2030-11-02",
+      "current_daily_minutes": 60,
+      "maximum_daily_minutes": 120,
+      "preference": "manageable_workload",
+      "expected_action": "keep_current_plan",
+      "preference_check": null,
+      "progress": {
+        "completed_minutes": 60,
+        "pending_minutes": 0,
+        "missed_minutes": 0,
+        "overdue_pending_minutes": 0
+      },
+      "feasible_options": [],
+      "proposal": {
+        "action": "keep_current_plan",
+        "daily_study_minutes": null,
+        "reason": "The student has completed all required work with no unfinished, missed, or overdue tasks. There are no feasible replanning options since all work is done. The current plan should be kept as there is no unfinished work to reschedule and no scheduling benefit to adjusting the daily study minutes."
+      },
+      "quality": {
+        "proposal_valid": true,
+        "action_correct": true,
+        "preference_applicable": false,
+        "preference_match": null,
+        "rubric_daily_minutes": null,
+        "validation_error": ""
+      },
+      "performance": {
+        "duration_ms": 1192,
+        "memory_before_bytes": 99291136,
+        "memory_after_bytes": 99426304,
+        "memory_delta_bytes": 135168
+      }
+    },
+    {
+      "case": "missed_work_lighter_workload",
+      "repetition": 3,
+      "outcome": "succeeded",
+      "error_message": "",
+      "resume_date": "2030-11-02",
+      "current_daily_minutes": 60,
+      "maximum_daily_minutes": 120,
+      "preference": "manageable_workload",
+      "expected_action": "replan_unfinished_work",
+      "preference_check": "lowest_feasible_limit",
+      "progress": {
+        "completed_minutes": 0,
+        "pending_minutes": 180,
+        "missed_minutes": 60,
+        "overdue_pending_minutes": 0
+      },
+      "feasible_options": [
+        {
+          "daily_study_minutes": 60,
+          "finish_date": "2030-11-05",
+          "study_days": 4,
+          "peak_daily_minutes": 60
+        },
+        {
+          "daily_study_minutes": 75,
+          "finish_date": "2030-11-05",
+          "study_days": 4,
+          "peak_daily_minutes": 75
+        },
+        {
+          "daily_study_minutes": 90,
+          "finish_date": "2030-11-04",
+          "study_days": 3,
+          "peak_daily_minutes": 90
+        },
+        {
+          "daily_study_minutes": 105,
+          "finish_date": "2030-11-04",
+          "study_days": 3,
+          "peak_daily_minutes": 105
+        },
+        {
+          "daily_study_minutes": 120,
+          "finish_date": "2030-11-03",
+          "study_days": 2,
+          "peak_daily_minutes": 120
+        }
+      ],
+      "proposal": {
+        "action": "replan_unfinished_work",
+        "daily_study_minutes": 60,
+        "reason": "The current daily limit of 60 minutes is included in the feasible options, meaning it can accommodate the unfinished work within the scheduled deadlines. However, there is missed work, so the schedule needs replanning. Choosing 60 minutes per day keeps the workload manageable, aligning with the student's preference. Higher daily limits could finish the work earlier, but since manageable workload is preferred, sticking to 60 minutes daily is recommended to balance completion and sustainable effort."
+      },
+      "quality": {
+        "proposal_valid": true,
+        "action_correct": true,
+        "preference_applicable": true,
+        "preference_match": true,
+        "rubric_daily_minutes": 60,
+        "validation_error": ""
+      },
+      "performance": {
+        "duration_ms": 1451,
+        "memory_before_bytes": 99426304,
+        "memory_after_bytes": 99536896,
+        "memory_delta_bytes": 110592
+      }
+    },
+    {
+      "case": "missed_work_finish_sooner",
+      "repetition": 3,
+      "outcome": "succeeded",
+      "error_message": "",
+      "resume_date": "2030-11-02",
+      "current_daily_minutes": 60,
+      "maximum_daily_minutes": 120,
+      "preference": "finish_sooner",
+      "expected_action": "replan_unfinished_work",
+      "preference_check": "earliest_finish_lowest_limit",
+      "progress": {
+        "completed_minutes": 0,
+        "pending_minutes": 180,
+        "missed_minutes": 60,
+        "overdue_pending_minutes": 0
+      },
+      "feasible_options": [
+        {
+          "daily_study_minutes": 60,
+          "finish_date": "2030-11-05",
+          "study_days": 4,
+          "peak_daily_minutes": 60
+        },
+        {
+          "daily_study_minutes": 75,
+          "finish_date": "2030-11-05",
+          "study_days": 4,
+          "peak_daily_minutes": 75
+        },
+        {
+          "daily_study_minutes": 90,
+          "finish_date": "2030-11-04",
+          "study_days": 3,
+          "peak_daily_minutes": 90
+        },
+        {
+          "daily_study_minutes": 105,
+          "finish_date": "2030-11-04",
+          "study_days": 3,
+          "peak_daily_minutes": 105
+        },
+        {
+          "daily_study_minutes": 120,
+          "finish_date": "2030-11-03",
+          "study_days": 2,
+          "peak_daily_minutes": 120
+        }
+      ],
+      "proposal": {
+        "action": "replan_unfinished_work",
+        "daily_study_minutes": 120,
+        "reason": "The current plan with 60 daily minutes would finish on 2030-11-05, but it has missed work that requires replanning. Among the feasible options, the highest daily limit of 120 minutes allows finishing the work by 2030-11-03, which is two days sooner. Since the student prefers to finish sooner, the recommendation is to increase daily study time to 120 minutes for an earlier completion, respecting the maximum allowed limit."
+      },
+      "quality": {
+        "proposal_valid": true,
+        "action_correct": true,
+        "preference_applicable": true,
+        "preference_match": true,
+        "rubric_daily_minutes": 120,
+        "validation_error": ""
+      },
+      "performance": {
+        "duration_ms": 1501,
+        "memory_before_bytes": 99536896,
+        "memory_after_bytes": 99557376,
+        "memory_delta_bytes": 20480
+      }
+    },
+    {
+      "case": "completed_work_requires_higher_limit",
+      "repetition": 3,
+      "outcome": "succeeded",
+      "error_message": "",
+      "resume_date": "2030-11-02",
+      "current_daily_minutes": 60,
+      "maximum_daily_minutes": 120,
+      "preference": "manageable_workload",
+      "expected_action": "replan_unfinished_work",
+      "preference_check": "lowest_feasible_limit",
+      "progress": {
+        "completed_minutes": 30,
+        "pending_minutes": 0,
+        "missed_minutes": 60,
+        "overdue_pending_minutes": 0
+      },
+      "feasible_options": [
+        {
+          "daily_study_minutes": 90,
+          "finish_date": "2030-11-02",
+          "study_days": 1,
+          "peak_daily_minutes": 90
+        },
+        {
+          "daily_study_minutes": 105,
+          "finish_date": "2030-11-02",
+          "study_days": 1,
+          "peak_daily_minutes": 90
+        },
+        {
+          "daily_study_minutes": 120,
+          "finish_date": "2030-11-02",
+          "study_days": 1,
+          "peak_daily_minutes": 90
+        }
+      ],
+      "proposal": {
+        "action": "replan_unfinished_work",
+        "daily_study_minutes": 90,
+        "reason": "The student has 60 missed minutes that must be addressed, but the current daily limit of 60 minutes is not among the feasible options and is insufficient to meet the deadlines. All feasible plans require at least 90 daily minutes and finish on the same date, 2030-11-02, with study completed in 1 day. Given the preference for a manageable workload, the lowest feasible daily limit of 90 minutes is recommended. Increasing the daily limit beyond 90 minutes does not improve the finish date or reduce study days."
+      },
+      "quality": {
+        "proposal_valid": true,
+        "action_correct": true,
+        "preference_applicable": true,
+        "preference_match": true,
+        "rubric_daily_minutes": 90,
+        "validation_error": ""
+      },
+      "performance": {
+        "duration_ms": 2592,
+        "memory_before_bytes": 99557376,
+        "memory_after_bytes": 99586048,
+        "memory_delta_bytes": 28672
+      }
+    },
+    {
+      "case": "maximum_limit_insufficient",
+      "repetition": 3,
+      "outcome": "succeeded",
+      "error_message": "",
+      "resume_date": "2030-11-02",
+      "current_daily_minutes": 60,
+      "maximum_daily_minutes": 75,
+      "preference": "finish_sooner",
+      "expected_action": "cannot_fit",
+      "preference_check": null,
+      "progress": {
+        "completed_minutes": 30,
+        "pending_minutes": 0,
+        "missed_minutes": 60,
+        "overdue_pending_minutes": 0
+      },
+      "feasible_options": [],
+      "proposal": {
+        "action": "cannot_fit",
+        "daily_study_minutes": null,
+        "reason": "The student has 60 missed minutes to complete, but there are no feasible daily study minute options available to reschedule this unfinished work given the resume date and permitted daily limits. Thus, no feasible plan can accommodate the missed and pending work to finish on time."
+      },
+      "quality": {
+        "proposal_valid": true,
+        "action_correct": true,
+        "preference_applicable": false,
+        "preference_match": null,
+        "rubric_daily_minutes": null,
+        "validation_error": ""
+      },
+      "performance": {
+        "duration_ms": 1205,
+        "memory_before_bytes": 99586048,
+        "memory_after_bytes": 99586048,
+        "memory_delta_bytes": 0
+      }
+    },
+    {
+      "case": "exam_deadline_reached",
+      "repetition": 3,
+      "outcome": "succeeded",
+      "error_message": "",
+      "resume_date": "2030-11-02",
+      "current_daily_minutes": 60,
+      "maximum_daily_minutes": 120,
+      "preference": "finish_sooner",
+      "expected_action": "cannot_fit",
+      "preference_check": null,
+      "progress": {
+        "completed_minutes": 0,
+        "pending_minutes": 0,
+        "missed_minutes": 60,
+        "overdue_pending_minutes": 0
+      },
+      "feasible_options": [],
+      "proposal": {
+        "action": "cannot_fit",
+        "daily_study_minutes": null,
+        "reason": "There is 60 minutes of missed work, but no feasible scheduling options are available to complete it by the exam deadlines. Despite the student's preference to finish sooner and the maximum allowable daily study time of 120 minutes, the server did not provide any viable plans to complete the missed work starting from the resume date. Therefore, no replacement plan fits the current constraints."
+      },
+      "quality": {
+        "proposal_valid": true,
+        "action_correct": true,
+        "preference_applicable": false,
+        "preference_match": null,
+        "rubric_daily_minutes": null,
+        "validation_error": ""
+      },
+      "performance": {
+        "duration_ms": 1129,
+        "memory_before_bytes": 99590144,
+        "memory_after_bytes": 99590144,
+        "memory_delta_bytes": 0
+      }
+    },
+    {
+      "case": "completed_plan_kept",
+      "repetition": 4,
+      "outcome": "succeeded",
+      "error_message": "",
+      "resume_date": "2030-11-02",
+      "current_daily_minutes": 60,
+      "maximum_daily_minutes": 120,
+      "preference": "manageable_workload",
+      "expected_action": "keep_current_plan",
+      "preference_check": null,
+      "progress": {
+        "completed_minutes": 60,
+        "pending_minutes": 0,
+        "missed_minutes": 0,
+        "overdue_pending_minutes": 0
+      },
+      "feasible_options": [],
+      "proposal": {
+        "action": "keep_current_plan",
+        "daily_study_minutes": null,
+        "reason": "All work is already completed, so there is no unfinished work to reschedule or replanning needed. The current plan can be maintained as it meets the deadlines and no changes offer any scheduling benefit."
+      },
+      "quality": {
+        "proposal_valid": true,
+        "action_correct": true,
+        "preference_applicable": false,
+        "preference_match": null,
+        "rubric_daily_minutes": null,
+        "validation_error": ""
+      },
+      "performance": {
+        "duration_ms": 1061,
+        "memory_before_bytes": 99590144,
+        "memory_after_bytes": 99590144,
+        "memory_delta_bytes": 0
+      }
+    },
+    {
+      "case": "missed_work_lighter_workload",
+      "repetition": 4,
+      "outcome": "succeeded",
+      "error_message": "",
+      "resume_date": "2030-11-02",
+      "current_daily_minutes": 60,
+      "maximum_daily_minutes": 120,
+      "preference": "manageable_workload",
+      "expected_action": "replan_unfinished_work",
+      "preference_check": "lowest_feasible_limit",
+      "progress": {
+        "completed_minutes": 0,
+        "pending_minutes": 180,
+        "missed_minutes": 60,
+        "overdue_pending_minutes": 0
+      },
+      "feasible_options": [
+        {
+          "daily_study_minutes": 60,
+          "finish_date": "2030-11-05",
+          "study_days": 4,
+          "peak_daily_minutes": 60
+        },
+        {
+          "daily_study_minutes": 75,
+          "finish_date": "2030-11-05",
+          "study_days": 4,
+          "peak_daily_minutes": 75
+        },
+        {
+          "daily_study_minutes": 90,
+          "finish_date": "2030-11-04",
+          "study_days": 3,
+          "peak_daily_minutes": 90
+        },
+        {
+          "daily_study_minutes": 105,
+          "finish_date": "2030-11-04",
+          "study_days": 3,
+          "peak_daily_minutes": 105
+        },
+        {
+          "daily_study_minutes": 120,
+          "finish_date": "2030-11-03",
+          "study_days": 2,
+          "peak_daily_minutes": 120
+        }
+      ],
+      "proposal": {
+        "action": "replan_unfinished_work",
+        "daily_study_minutes": 60,
+        "reason": "The current daily limit of 60 minutes is feasible and can accommodate the unfinished 240 minutes of work within 4 study days, finishing by 2030-11-05. The student prefers a manageable workload, so maintaining the current daily limit is recommended. Higher daily limits could finish as early as 2030-11-03 but would increase daily workload, which is not aligned with the preference."
+      },
+      "quality": {
+        "proposal_valid": true,
+        "action_correct": true,
+        "preference_applicable": true,
+        "preference_match": true,
+        "rubric_daily_minutes": 60,
+        "validation_error": ""
+      },
+      "performance": {
+        "duration_ms": 1285,
+        "memory_before_bytes": 99590144,
+        "memory_after_bytes": 99590144,
+        "memory_delta_bytes": 0
+      }
+    },
+    {
+      "case": "missed_work_finish_sooner",
+      "repetition": 4,
+      "outcome": "succeeded",
+      "error_message": "",
+      "resume_date": "2030-11-02",
+      "current_daily_minutes": 60,
+      "maximum_daily_minutes": 120,
+      "preference": "finish_sooner",
+      "expected_action": "replan_unfinished_work",
+      "preference_check": "earliest_finish_lowest_limit",
+      "progress": {
+        "completed_minutes": 0,
+        "pending_minutes": 180,
+        "missed_minutes": 60,
+        "overdue_pending_minutes": 0
+      },
+      "feasible_options": [
+        {
+          "daily_study_minutes": 60,
+          "finish_date": "2030-11-05",
+          "study_days": 4,
+          "peak_daily_minutes": 60
+        },
+        {
+          "daily_study_minutes": 75,
+          "finish_date": "2030-11-05",
+          "study_days": 4,
+          "peak_daily_minutes": 75
+        },
+        {
+          "daily_study_minutes": 90,
+          "finish_date": "2030-11-04",
+          "study_days": 3,
+          "peak_daily_minutes": 90
+        },
+        {
+          "daily_study_minutes": 105,
+          "finish_date": "2030-11-04",
+          "study_days": 3,
+          "peak_daily_minutes": 105
+        },
+        {
+          "daily_study_minutes": 120,
+          "finish_date": "2030-11-03",
+          "study_days": 2,
+          "peak_daily_minutes": 120
+        }
+      ],
+      "proposal": {
+        "action": "replan_unfinished_work",
+        "daily_study_minutes": 120,
+        "reason": "The student has 240 total unfinished minutes (180 pending + 60 missed) that need to be scheduled starting from the resume date 2030-11-02. With the current daily limit of 60 minutes, completion is possible by 2030-11-05, but there is a feasible option to finish sooner by increasing the daily limit. Given the preference to finish sooner, choosing the highest feasible daily study minutes of 120 allows completing the review in 2 study days by 2030-11-03, which is earlier than the 4 study days required under the current limit. This reprioritizes schedule acceleration over workload manageability and aligns with the student's finish sooner preference."
+      },
+      "quality": {
+        "proposal_valid": true,
+        "action_correct": true,
+        "preference_applicable": true,
+        "preference_match": true,
+        "rubric_daily_minutes": 120,
+        "validation_error": ""
+      },
+      "performance": {
+        "duration_ms": 1529,
+        "memory_before_bytes": 99590144,
+        "memory_after_bytes": 99602432,
+        "memory_delta_bytes": 12288
+      }
+    },
+    {
+      "case": "completed_work_requires_higher_limit",
+      "repetition": 4,
+      "outcome": "succeeded",
+      "error_message": "",
+      "resume_date": "2030-11-02",
+      "current_daily_minutes": 60,
+      "maximum_daily_minutes": 120,
+      "preference": "manageable_workload",
+      "expected_action": "replan_unfinished_work",
+      "preference_check": "lowest_feasible_limit",
+      "progress": {
+        "completed_minutes": 30,
+        "pending_minutes": 0,
+        "missed_minutes": 60,
+        "overdue_pending_minutes": 0
+      },
+      "feasible_options": [
+        {
+          "daily_study_minutes": 90,
+          "finish_date": "2030-11-02",
+          "study_days": 1,
+          "peak_daily_minutes": 90
+        },
+        {
+          "daily_study_minutes": 105,
+          "finish_date": "2030-11-02",
+          "study_days": 1,
+          "peak_daily_minutes": 90
+        },
+        {
+          "daily_study_minutes": 120,
+          "finish_date": "2030-11-02",
+          "study_days": 1,
+          "peak_daily_minutes": 90
+        }
+      ],
+      "proposal": {
+        "action": "replan_unfinished_work",
+        "daily_study_minutes": 90,
+        "reason": "The current daily limit of 60 minutes is not included in the feasible options, so it cannot accommodate the unfinished work including the missed 60 minutes by the required finish date of 2030-11-02. All feasible options have a finish date of 2030-11-02 with study days of 1 and peak daily minutes of 90. Since the student prefers a manageable workload, the lowest feasible daily limit of 90 minutes is recommended. This meets the deadline and keeps the daily workload as sustainable as possible given the constraints."
+      },
+      "quality": {
+        "proposal_valid": true,
+        "action_correct": true,
+        "preference_applicable": true,
+        "preference_match": true,
+        "rubric_daily_minutes": 90,
+        "validation_error": ""
+      },
+      "performance": {
+        "duration_ms": 1874,
+        "memory_before_bytes": 99602432,
+        "memory_after_bytes": 99614720,
+        "memory_delta_bytes": 12288
+      }
+    },
+    {
+      "case": "maximum_limit_insufficient",
+      "repetition": 4,
+      "outcome": "succeeded",
+      "error_message": "",
+      "resume_date": "2030-11-02",
+      "current_daily_minutes": 60,
+      "maximum_daily_minutes": 75,
+      "preference": "finish_sooner",
+      "expected_action": "cannot_fit",
+      "preference_check": null,
+      "progress": {
+        "completed_minutes": 30,
+        "pending_minutes": 0,
+        "missed_minutes": 60,
+        "overdue_pending_minutes": 0
+      },
+      "feasible_options": [],
+      "proposal": {
+        "action": "cannot_fit",
+        "daily_study_minutes": null,
+        "reason": "The student has 60 missed minutes and no pending minutes, indicating unfinished work that is already overdue. The current daily study limit is 60 minutes, with a maximum allowed of 75 minutes, but no feasible options are available to accommodate rescheduling this work starting from the resume date. Therefore, no replacement plan fits the supplied constraints, and it is not possible to meet the deadlines with the given limits."
+      },
+      "quality": {
+        "proposal_valid": true,
+        "action_correct": true,
+        "preference_applicable": false,
+        "preference_match": null,
+        "rubric_daily_minutes": null,
+        "validation_error": ""
+      },
+      "performance": {
+        "duration_ms": 1306,
+        "memory_before_bytes": 99614720,
+        "memory_after_bytes": 99627008,
+        "memory_delta_bytes": 12288
+      }
+    },
+    {
+      "case": "exam_deadline_reached",
+      "repetition": 4,
+      "outcome": "succeeded",
+      "error_message": "",
+      "resume_date": "2030-11-02",
+      "current_daily_minutes": 60,
+      "maximum_daily_minutes": 120,
+      "preference": "finish_sooner",
+      "expected_action": "cannot_fit",
+      "preference_check": null,
+      "progress": {
+        "completed_minutes": 0,
+        "pending_minutes": 0,
+        "missed_minutes": 60,
+        "overdue_pending_minutes": 0
+      },
+      "feasible_options": [],
+      "proposal": {
+        "action": "cannot_fit",
+        "daily_study_minutes": null,
+        "reason": "There are 60 missed minutes that require rescheduling, but no feasible options are available to accommodate them starting from the resume date with the given maximum daily limit of 120 minutes. Therefore, it is not possible to fit the unfinished work within the supplied constraints to achieve an earlier finish."
+      },
+      "quality": {
+        "proposal_valid": true,
+        "action_correct": true,
+        "preference_applicable": false,
+        "preference_match": null,
+        "rubric_daily_minutes": null,
+        "validation_error": ""
+      },
+      "performance": {
+        "duration_ms": 1100,
+        "memory_before_bytes": 99627008,
+        "memory_after_bytes": 99639296,
+        "memory_delta_bytes": 12288
+      }
+    },
+    {
+      "case": "completed_plan_kept",
+      "repetition": 5,
+      "outcome": "succeeded",
+      "error_message": "",
+      "resume_date": "2030-11-02",
+      "current_daily_minutes": 60,
+      "maximum_daily_minutes": 120,
+      "preference": "manageable_workload",
+      "expected_action": "keep_current_plan",
+      "preference_check": null,
+      "progress": {
+        "completed_minutes": 60,
+        "pending_minutes": 0,
+        "missed_minutes": 0,
+        "overdue_pending_minutes": 0
+      },
+      "feasible_options": [],
+      "proposal": {
+        "action": "keep_current_plan",
+        "daily_study_minutes": null,
+        "reason": "All work is already completed; there is no unfinished or overdue work to reschedule. Since there are no unfinished tasks, no replanning is necessary. Keeping the current plan maintains a manageable workload without any tradeoffs or scheduling conflicts."
+      },
+      "quality": {
+        "proposal_valid": true,
+        "action_correct": true,
+        "preference_applicable": false,
+        "preference_match": null,
+        "rubric_daily_minutes": null,
+        "validation_error": ""
+      },
+      "performance": {
+        "duration_ms": 1359,
+        "memory_before_bytes": 99639296,
+        "memory_after_bytes": 99663872,
+        "memory_delta_bytes": 24576
+      }
+    },
+    {
+      "case": "missed_work_lighter_workload",
+      "repetition": 5,
+      "outcome": "succeeded",
+      "error_message": "",
+      "resume_date": "2030-11-02",
+      "current_daily_minutes": 60,
+      "maximum_daily_minutes": 120,
+      "preference": "manageable_workload",
+      "expected_action": "replan_unfinished_work",
+      "preference_check": "lowest_feasible_limit",
+      "progress": {
+        "completed_minutes": 0,
+        "pending_minutes": 180,
+        "missed_minutes": 60,
+        "overdue_pending_minutes": 0
+      },
+      "feasible_options": [
+        {
+          "daily_study_minutes": 60,
+          "finish_date": "2030-11-05",
+          "study_days": 4,
+          "peak_daily_minutes": 60
+        },
+        {
+          "daily_study_minutes": 75,
+          "finish_date": "2030-11-05",
+          "study_days": 4,
+          "peak_daily_minutes": 75
+        },
+        {
+          "daily_study_minutes": 90,
+          "finish_date": "2030-11-04",
+          "study_days": 3,
+          "peak_daily_minutes": 90
+        },
+        {
+          "daily_study_minutes": 105,
+          "finish_date": "2030-11-04",
+          "study_days": 3,
+          "peak_daily_minutes": 105
+        },
+        {
+          "daily_study_minutes": 120,
+          "finish_date": "2030-11-03",
+          "study_days": 2,
+          "peak_daily_minutes": 120
+        }
+      ],
+      "proposal": {
+        "action": "replan_unfinished_work",
+        "daily_study_minutes": 60,
+        "reason": "The student has 240 minutes of unfinished work (180 pending + 60 missed). The current daily study limit of 60 minutes is among the feasible options and can accommodate this workload, finishing by 2030-11-05 with 4 study days. Since the preference is for a manageable workload, this plan provides an achievable daily time without increasing the daily limit. Although higher daily limits can achieve an earlier finish date, they require more daily study time, which does not align with the student's preference for manageable workload."
+      },
+      "quality": {
+        "proposal_valid": true,
+        "action_correct": true,
+        "preference_applicable": true,
+        "preference_match": true,
+        "rubric_daily_minutes": 60,
+        "validation_error": ""
+      },
+      "performance": {
+        "duration_ms": 1584,
+        "memory_before_bytes": 99663872,
+        "memory_after_bytes": 99700736,
+        "memory_delta_bytes": 36864
+      }
+    },
+    {
+      "case": "missed_work_finish_sooner",
+      "repetition": 5,
+      "outcome": "succeeded",
+      "error_message": "",
+      "resume_date": "2030-11-02",
+      "current_daily_minutes": 60,
+      "maximum_daily_minutes": 120,
+      "preference": "finish_sooner",
+      "expected_action": "replan_unfinished_work",
+      "preference_check": "earliest_finish_lowest_limit",
+      "progress": {
+        "completed_minutes": 0,
+        "pending_minutes": 180,
+        "missed_minutes": 60,
+        "overdue_pending_minutes": 0
+      },
+      "feasible_options": [
+        {
+          "daily_study_minutes": 60,
+          "finish_date": "2030-11-05",
+          "study_days": 4,
+          "peak_daily_minutes": 60
+        },
+        {
+          "daily_study_minutes": 75,
+          "finish_date": "2030-11-05",
+          "study_days": 4,
+          "peak_daily_minutes": 75
+        },
+        {
+          "daily_study_minutes": 90,
+          "finish_date": "2030-11-04",
+          "study_days": 3,
+          "peak_daily_minutes": 90
+        },
+        {
+          "daily_study_minutes": 105,
+          "finish_date": "2030-11-04",
+          "study_days": 3,
+          "peak_daily_minutes": 105
+        },
+        {
+          "daily_study_minutes": 120,
+          "finish_date": "2030-11-03",
+          "study_days": 2,
+          "peak_daily_minutes": 120
+        }
+      ],
+      "proposal": {
+        "action": "replan_unfinished_work",
+        "daily_study_minutes": 120,
+        "reason": "The current daily limit of 60 minutes is included in the feasible options and allows finishing on 2030-11-05 after 4 study days. However, because the preference is to finish sooner, increasing the daily study time to 120 minutes allows completion in only 2 days by 2030-11-03. This option shortens the finish date significantly by using the maximum daily allowed time, so it provides a meaningful scheduling benefit in line with the preference."
+      },
+      "quality": {
+        "proposal_valid": true,
+        "action_correct": true,
+        "preference_applicable": true,
+        "preference_match": true,
+        "rubric_daily_minutes": 120,
+        "validation_error": ""
+      },
+      "performance": {
+        "duration_ms": 1989,
+        "memory_before_bytes": 99700736,
+        "memory_after_bytes": 99704832,
+        "memory_delta_bytes": 4096
+      }
+    },
+    {
+      "case": "completed_work_requires_higher_limit",
+      "repetition": 5,
+      "outcome": "succeeded",
+      "error_message": "",
+      "resume_date": "2030-11-02",
+      "current_daily_minutes": 60,
+      "maximum_daily_minutes": 120,
+      "preference": "manageable_workload",
+      "expected_action": "replan_unfinished_work",
+      "preference_check": "lowest_feasible_limit",
+      "progress": {
+        "completed_minutes": 30,
+        "pending_minutes": 0,
+        "missed_minutes": 60,
+        "overdue_pending_minutes": 0
+      },
+      "feasible_options": [
+        {
+          "daily_study_minutes": 90,
+          "finish_date": "2030-11-02",
+          "study_days": 1,
+          "peak_daily_minutes": 90
+        },
+        {
+          "daily_study_minutes": 105,
+          "finish_date": "2030-11-02",
+          "study_days": 1,
+          "peak_daily_minutes": 90
+        },
+        {
+          "daily_study_minutes": 120,
+          "finish_date": "2030-11-02",
+          "study_days": 1,
+          "peak_daily_minutes": 90
+        }
+      ],
+      "proposal": {
+        "action": "replan_unfinished_work",
+        "daily_study_minutes": 90,
+        "reason": "The current daily limit of 60 minutes cannot accommodate the 60 minutes of missed work by the finish date. Feasible options start at 90 minutes daily, all finishing on the same date. Since the student prefers a manageable workload, the lowest feasible daily limit of 90 minutes is recommended. Increasing beyond 90 minutes offers no earlier finish benefit, as all options finish simultaneously on 2030-11-02."
+      },
+      "quality": {
+        "proposal_valid": true,
+        "action_correct": true,
+        "preference_applicable": true,
+        "preference_match": true,
+        "rubric_daily_minutes": 90,
+        "validation_error": ""
+      },
+      "performance": {
+        "duration_ms": 1554,
+        "memory_before_bytes": 99704832,
+        "memory_after_bytes": 99708928,
+        "memory_delta_bytes": 4096
+      }
+    },
+    {
+      "case": "maximum_limit_insufficient",
+      "repetition": 5,
+      "outcome": "succeeded",
+      "error_message": "",
+      "resume_date": "2030-11-02",
+      "current_daily_minutes": 60,
+      "maximum_daily_minutes": 75,
+      "preference": "finish_sooner",
+      "expected_action": "cannot_fit",
+      "preference_check": null,
+      "progress": {
+        "completed_minutes": 30,
+        "pending_minutes": 0,
+        "missed_minutes": 60,
+        "overdue_pending_minutes": 0
+      },
+      "feasible_options": [],
+      "proposal": {
+        "action": "cannot_fit",
+        "daily_study_minutes": null,
+        "reason": "The student has 60 missed minutes of work that remain unfinished. However, no feasible daily study time options are available to reschedule this incomplete work given the resume date and daily study limits. This indicates that a replacement plan that fits the student's deadlines and constraints cannot be created at this time."
+      },
+      "quality": {
+        "proposal_valid": true,
+        "action_correct": true,
+        "preference_applicable": false,
+        "preference_match": null,
+        "rubric_daily_minutes": null,
+        "validation_error": ""
+      },
+      "performance": {
+        "duration_ms": 1310,
+        "memory_before_bytes": 99708928,
+        "memory_after_bytes": 99713024,
+        "memory_delta_bytes": 4096
+      }
+    },
+    {
+      "case": "exam_deadline_reached",
+      "repetition": 5,
+      "outcome": "succeeded",
+      "error_message": "",
+      "resume_date": "2030-11-02",
+      "current_daily_minutes": 60,
+      "maximum_daily_minutes": 120,
+      "preference": "finish_sooner",
+      "expected_action": "cannot_fit",
+      "preference_check": null,
+      "progress": {
+        "completed_minutes": 0,
+        "pending_minutes": 0,
+        "missed_minutes": 60,
+        "overdue_pending_minutes": 0
+      },
+      "feasible_options": [],
+      "proposal": {
+        "action": "cannot_fit",
+        "daily_study_minutes": null,
+        "reason": "There is 60 minutes of missed work that still needs to be scheduled, but there are no feasible options provided to fit this unfinished work with the current resume date and within the student's maximum daily study limit of 120 minutes. Since no alternatives are available, it is not possible to propose a replacement plan that completes the required study before the deadlines."
+      },
+      "quality": {
+        "proposal_valid": true,
+        "action_correct": true,
+        "preference_applicable": false,
+        "preference_match": null,
+        "rubric_daily_minutes": null,
+        "validation_error": ""
+      },
+      "performance": {
+        "duration_ms": 1264,
+        "memory_before_bytes": 99713024,
+        "memory_after_bytes": 99725312,
+        "memory_delta_bytes": 12288
+      }
+    },
+    {
+      "case": "completed_plan_kept",
+      "repetition": 6,
+      "outcome": "succeeded",
+      "error_message": "",
+      "resume_date": "2030-11-02",
+      "current_daily_minutes": 60,
+      "maximum_daily_minutes": 120,
+      "preference": "manageable_workload",
+      "expected_action": "keep_current_plan",
+      "preference_check": null,
+      "progress": {
+        "completed_minutes": 60,
+        "pending_minutes": 0,
+        "missed_minutes": 0,
+        "overdue_pending_minutes": 0
+      },
+      "feasible_options": [],
+      "proposal": {
+        "action": "keep_current_plan",
+        "daily_study_minutes": null,
+        "reason": "All work is already completed, so there is no unfinished work that requires replanning. Since there are no feasible options due to no pending or missed tasks, keeping the current plan with a daily limit of 60 minutes is appropriate and aligns with the manageable workload preference."
+      },
+      "quality": {
+        "proposal_valid": true,
+        "action_correct": true,
+        "preference_applicable": false,
+        "preference_match": null,
+        "rubric_daily_minutes": null,
+        "validation_error": ""
+      },
+      "performance": {
+        "duration_ms": 1115,
+        "memory_before_bytes": 99725312,
+        "memory_after_bytes": 99725312,
+        "memory_delta_bytes": 0
+      }
+    },
+    {
+      "case": "missed_work_lighter_workload",
+      "repetition": 6,
+      "outcome": "succeeded",
+      "error_message": "",
+      "resume_date": "2030-11-02",
+      "current_daily_minutes": 60,
+      "maximum_daily_minutes": 120,
+      "preference": "manageable_workload",
+      "expected_action": "replan_unfinished_work",
+      "preference_check": "lowest_feasible_limit",
+      "progress": {
+        "completed_minutes": 0,
+        "pending_minutes": 180,
+        "missed_minutes": 60,
+        "overdue_pending_minutes": 0
+      },
+      "feasible_options": [
+        {
+          "daily_study_minutes": 60,
+          "finish_date": "2030-11-05",
+          "study_days": 4,
+          "peak_daily_minutes": 60
+        },
+        {
+          "daily_study_minutes": 75,
+          "finish_date": "2030-11-05",
+          "study_days": 4,
+          "peak_daily_minutes": 75
+        },
+        {
+          "daily_study_minutes": 90,
+          "finish_date": "2030-11-04",
+          "study_days": 3,
+          "peak_daily_minutes": 90
+        },
+        {
+          "daily_study_minutes": 105,
+          "finish_date": "2030-11-04",
+          "study_days": 3,
+          "peak_daily_minutes": 105
+        },
+        {
+          "daily_study_minutes": 120,
+          "finish_date": "2030-11-03",
+          "study_days": 2,
+          "peak_daily_minutes": 120
+        }
+      ],
+      "proposal": {
+        "action": "replan_unfinished_work",
+        "daily_study_minutes": 60,
+        "reason": "The current daily limit of 60 minutes is sufficient to complete all pending and missed work by November 5, taking 4 study days with a peak of 60 minutes daily. Choosing this option fits the student's manageable workload preference without increasing daily study time. Higher daily limits could finish sooner, but this is less aligned with the preference for a sustainable daily workload."
+      },
+      "quality": {
+        "proposal_valid": true,
+        "action_correct": true,
+        "preference_applicable": true,
+        "preference_match": true,
+        "rubric_daily_minutes": 60,
+        "validation_error": ""
+      },
+      "performance": {
+        "duration_ms": 1310,
+        "memory_before_bytes": 99725312,
+        "memory_after_bytes": 99725312,
+        "memory_delta_bytes": 0
+      }
+    },
+    {
+      "case": "missed_work_finish_sooner",
+      "repetition": 6,
+      "outcome": "succeeded",
+      "error_message": "",
+      "resume_date": "2030-11-02",
+      "current_daily_minutes": 60,
+      "maximum_daily_minutes": 120,
+      "preference": "finish_sooner",
+      "expected_action": "replan_unfinished_work",
+      "preference_check": "earliest_finish_lowest_limit",
+      "progress": {
+        "completed_minutes": 0,
+        "pending_minutes": 180,
+        "missed_minutes": 60,
+        "overdue_pending_minutes": 0
+      },
+      "feasible_options": [
+        {
+          "daily_study_minutes": 60,
+          "finish_date": "2030-11-05",
+          "study_days": 4,
+          "peak_daily_minutes": 60
+        },
+        {
+          "daily_study_minutes": 75,
+          "finish_date": "2030-11-05",
+          "study_days": 4,
+          "peak_daily_minutes": 75
+        },
+        {
+          "daily_study_minutes": 90,
+          "finish_date": "2030-11-04",
+          "study_days": 3,
+          "peak_daily_minutes": 90
+        },
+        {
+          "daily_study_minutes": 105,
+          "finish_date": "2030-11-04",
+          "study_days": 3,
+          "peak_daily_minutes": 105
+        },
+        {
+          "daily_study_minutes": 120,
+          "finish_date": "2030-11-03",
+          "study_days": 2,
+          "peak_daily_minutes": 120
+        }
+      ],
+      "proposal": {
+        "action": "replan_unfinished_work",
+        "daily_study_minutes": 120,
+        "reason": "The student has 240 minutes of unfinished work (180 pending plus 60 missed). Their current plan with a daily limit of 60 minutes cannot complete this work by the deadlines. Among the feasible options, only higher daily limits allow timely completion. Since the student's preference is to finish sooner, the highest daily limit of 120 daily minutes is recommended. This option finishes on 2030-11-03 within 2 study days, which is earlier than the other options with lower daily limits finishing on 2030-11-04 or 2030-11-05. Increasing the daily limit to 120 minutes accelerates finishing the work to meet the deadlines."
+      },
+      "quality": {
+        "proposal_valid": true,
+        "action_correct": true,
+        "preference_applicable": true,
+        "preference_match": true,
+        "rubric_daily_minutes": 120,
+        "validation_error": ""
+      },
+      "performance": {
+        "duration_ms": 2664,
+        "memory_before_bytes": 99725312,
+        "memory_after_bytes": 99725312,
+        "memory_delta_bytes": 0
+      }
+    },
+    {
+      "case": "completed_work_requires_higher_limit",
+      "repetition": 6,
+      "outcome": "succeeded",
+      "error_message": "",
+      "resume_date": "2030-11-02",
+      "current_daily_minutes": 60,
+      "maximum_daily_minutes": 120,
+      "preference": "manageable_workload",
+      "expected_action": "replan_unfinished_work",
+      "preference_check": "lowest_feasible_limit",
+      "progress": {
+        "completed_minutes": 30,
+        "pending_minutes": 0,
+        "missed_minutes": 60,
+        "overdue_pending_minutes": 0
+      },
+      "feasible_options": [
+        {
+          "daily_study_minutes": 90,
+          "finish_date": "2030-11-02",
+          "study_days": 1,
+          "peak_daily_minutes": 90
+        },
+        {
+          "daily_study_minutes": 105,
+          "finish_date": "2030-11-02",
+          "study_days": 1,
+          "peak_daily_minutes": 90
+        },
+        {
+          "daily_study_minutes": 120,
+          "finish_date": "2030-11-02",
+          "study_days": 1,
+          "peak_daily_minutes": 90
+        }
+      ],
+      "proposal": {
+        "action": "replan_unfinished_work",
+        "daily_study_minutes": 90,
+        "reason": "The current daily limit of 60 minutes is not sufficient to complete the 60 missed minutes by the required finish date. However, a feasible option exists with a daily study time of 90 minutes, which fits in one study day and meets the deadline. This option balances the manageable workload preference while allowing the work to be completed on time. Higher daily limits do not improve the finish date, so 90 minutes is recommended as a sustainable and sufficient daily study time."
+      },
+      "quality": {
+        "proposal_valid": true,
+        "action_correct": true,
+        "preference_applicable": true,
+        "preference_match": true,
+        "rubric_daily_minutes": 90,
+        "validation_error": ""
+      },
+      "performance": {
+        "duration_ms": 1391,
+        "memory_before_bytes": 99725312,
+        "memory_after_bytes": 99659776,
+        "memory_delta_bytes": -65536
+      }
+    },
+    {
+      "case": "maximum_limit_insufficient",
+      "repetition": 6,
+      "outcome": "succeeded",
+      "error_message": "",
+      "resume_date": "2030-11-02",
+      "current_daily_minutes": 60,
+      "maximum_daily_minutes": 75,
+      "preference": "finish_sooner",
+      "expected_action": "cannot_fit",
+      "preference_check": null,
+      "progress": {
+        "completed_minutes": 30,
+        "pending_minutes": 0,
+        "missed_minutes": 60,
+        "overdue_pending_minutes": 0
+      },
+      "feasible_options": [],
+      "proposal": {
+        "action": "cannot_fit",
+        "daily_study_minutes": null,
+        "reason": "The student has 60 minutes of missed work and no pending work, but the server provided no feasible options for rescheduling any unfinished work starting from the resume date of 2030-11-02 under the maximum daily limit of 75 minutes. Since the current plan cannot be maintained and no feasible alternatives exist, there is no way to fit the unfinished work before the deadlines with the supplied constraints."
+      },
+      "quality": {
+        "proposal_valid": true,
+        "action_correct": true,
+        "preference_applicable": false,
+        "preference_match": null,
+        "rubric_daily_minutes": null,
+        "validation_error": ""
+      },
+      "performance": {
+        "duration_ms": 1775,
+        "memory_before_bytes": 99659776,
+        "memory_after_bytes": 99659776,
+        "memory_delta_bytes": 0
+      }
+    },
+    {
+      "case": "exam_deadline_reached",
+      "repetition": 6,
+      "outcome": "succeeded",
+      "error_message": "",
+      "resume_date": "2030-11-02",
+      "current_daily_minutes": 60,
+      "maximum_daily_minutes": 120,
+      "preference": "finish_sooner",
+      "expected_action": "cannot_fit",
+      "preference_check": null,
+      "progress": {
+        "completed_minutes": 0,
+        "pending_minutes": 0,
+        "missed_minutes": 60,
+        "overdue_pending_minutes": 0
+      },
+      "feasible_options": [],
+      "proposal": {
+        "action": "cannot_fit",
+        "daily_study_minutes": null,
+        "reason": "The student has 60 minutes of missed work pending, but there are no feasible scheduling options available to complete this work by the required deadlines given the resume date and maximum daily limit constraints. Therefore, no replacement plan fits the unfinished work with the current conditions."
+      },
+      "quality": {
+        "proposal_valid": true,
+        "action_correct": true,
+        "preference_applicable": false,
+        "preference_match": null,
+        "rubric_daily_minutes": null,
+        "validation_error": ""
+      },
+      "performance": {
+        "duration_ms": 1125,
+        "memory_before_bytes": 99659776,
+        "memory_after_bytes": 99667968,
+        "memory_delta_bytes": 8192
+      }
+    },
+    {
+      "case": "completed_plan_kept",
+      "repetition": 7,
+      "outcome": "succeeded",
+      "error_message": "",
+      "resume_date": "2030-11-02",
+      "current_daily_minutes": 60,
+      "maximum_daily_minutes": 120,
+      "preference": "manageable_workload",
+      "expected_action": "keep_current_plan",
+      "preference_check": null,
+      "progress": {
+        "completed_minutes": 60,
+        "pending_minutes": 0,
+        "missed_minutes": 0,
+        "overdue_pending_minutes": 0
+      },
+      "feasible_options": [],
+      "proposal": {
+        "action": "keep_current_plan",
+        "daily_study_minutes": null,
+        "reason": "All work is completed with no pending or missed minutes. There is no unfinished work to reschedule, so the current plan can be kept as is without any changes or increases in daily study time."
+      },
+      "quality": {
+        "proposal_valid": true,
+        "action_correct": true,
+        "preference_applicable": false,
+        "preference_match": null,
+        "rubric_daily_minutes": null,
+        "validation_error": ""
+      },
+      "performance": {
+        "duration_ms": 1385,
+        "memory_before_bytes": 99667968,
+        "memory_after_bytes": 99680256,
+        "memory_delta_bytes": 12288
+      }
+    },
+    {
+      "case": "missed_work_lighter_workload",
+      "repetition": 7,
+      "outcome": "succeeded",
+      "error_message": "",
+      "resume_date": "2030-11-02",
+      "current_daily_minutes": 60,
+      "maximum_daily_minutes": 120,
+      "preference": "manageable_workload",
+      "expected_action": "replan_unfinished_work",
+      "preference_check": "lowest_feasible_limit",
+      "progress": {
+        "completed_minutes": 0,
+        "pending_minutes": 180,
+        "missed_minutes": 60,
+        "overdue_pending_minutes": 0
+      },
+      "feasible_options": [
+        {
+          "daily_study_minutes": 60,
+          "finish_date": "2030-11-05",
+          "study_days": 4,
+          "peak_daily_minutes": 60
+        },
+        {
+          "daily_study_minutes": 75,
+          "finish_date": "2030-11-05",
+          "study_days": 4,
+          "peak_daily_minutes": 75
+        },
+        {
+          "daily_study_minutes": 90,
+          "finish_date": "2030-11-04",
+          "study_days": 3,
+          "peak_daily_minutes": 90
+        },
+        {
+          "daily_study_minutes": 105,
+          "finish_date": "2030-11-04",
+          "study_days": 3,
+          "peak_daily_minutes": 105
+        },
+        {
+          "daily_study_minutes": 120,
+          "finish_date": "2030-11-03",
+          "study_days": 2,
+          "peak_daily_minutes": 120
+        }
+      ],
+      "proposal": {
+        "action": "replan_unfinished_work",
+        "daily_study_minutes": 60,
+        "reason": "The current daily study limit of 60 minutes appears among the feasible options and can complete the unfinished work including missed and pending tasks by November 5, 2030, in 4 study days. This schedule fits the manageable workload preference by avoiding higher daily limits. While higher daily limits could finish the work earlier (up to November 3), increasing the daily study time is not necessary and may increase daily workload beyond the preferred manageable level."
+      },
+      "quality": {
+        "proposal_valid": true,
+        "action_correct": true,
+        "preference_applicable": true,
+        "preference_match": true,
+        "rubric_daily_minutes": 60,
+        "validation_error": ""
+      },
+      "performance": {
+        "duration_ms": 1363,
+        "memory_before_bytes": 99680256,
+        "memory_after_bytes": 99684352,
+        "memory_delta_bytes": 4096
+      }
+    },
+    {
+      "case": "missed_work_finish_sooner",
+      "repetition": 7,
+      "outcome": "succeeded",
+      "error_message": "",
+      "resume_date": "2030-11-02",
+      "current_daily_minutes": 60,
+      "maximum_daily_minutes": 120,
+      "preference": "finish_sooner",
+      "expected_action": "replan_unfinished_work",
+      "preference_check": "earliest_finish_lowest_limit",
+      "progress": {
+        "completed_minutes": 0,
+        "pending_minutes": 180,
+        "missed_minutes": 60,
+        "overdue_pending_minutes": 0
+      },
+      "feasible_options": [
+        {
+          "daily_study_minutes": 60,
+          "finish_date": "2030-11-05",
+          "study_days": 4,
+          "peak_daily_minutes": 60
+        },
+        {
+          "daily_study_minutes": 75,
+          "finish_date": "2030-11-05",
+          "study_days": 4,
+          "peak_daily_minutes": 75
+        },
+        {
+          "daily_study_minutes": 90,
+          "finish_date": "2030-11-04",
+          "study_days": 3,
+          "peak_daily_minutes": 90
+        },
+        {
+          "daily_study_minutes": 105,
+          "finish_date": "2030-11-04",
+          "study_days": 3,
+          "peak_daily_minutes": 105
+        },
+        {
+          "daily_study_minutes": 120,
+          "finish_date": "2030-11-03",
+          "study_days": 2,
+          "peak_daily_minutes": 120
+        }
+      ],
+      "proposal": {
+        "action": "replan_unfinished_work",
+        "daily_study_minutes": 120,
+        "reason": "The current limit of 60 minutes per day can accommodate the unfinished work but results in finishing by 2030-11-05. Increasing to 120 minutes daily shortens the finish date to 2030-11-03, which aligns with the student's preference to finish sooner. Although this requires doubling the daily study time, it achieves an earlier completion by one to two days compared to lower daily limits."
+      },
+      "quality": {
+        "proposal_valid": true,
+        "action_correct": true,
+        "preference_applicable": true,
+        "preference_match": true,
+        "rubric_daily_minutes": 120,
+        "validation_error": ""
+      },
+      "performance": {
+        "duration_ms": 1453,
+        "memory_before_bytes": 99684352,
+        "memory_after_bytes": 99684352,
+        "memory_delta_bytes": 0
+      }
+    },
+    {
+      "case": "completed_work_requires_higher_limit",
+      "repetition": 7,
+      "outcome": "succeeded",
+      "error_message": "",
+      "resume_date": "2030-11-02",
+      "current_daily_minutes": 60,
+      "maximum_daily_minutes": 120,
+      "preference": "manageable_workload",
+      "expected_action": "replan_unfinished_work",
+      "preference_check": "lowest_feasible_limit",
+      "progress": {
+        "completed_minutes": 30,
+        "pending_minutes": 0,
+        "missed_minutes": 60,
+        "overdue_pending_minutes": 0
+      },
+      "feasible_options": [
+        {
+          "daily_study_minutes": 90,
+          "finish_date": "2030-11-02",
+          "study_days": 1,
+          "peak_daily_minutes": 90
+        },
+        {
+          "daily_study_minutes": 105,
+          "finish_date": "2030-11-02",
+          "study_days": 1,
+          "peak_daily_minutes": 90
+        },
+        {
+          "daily_study_minutes": 120,
+          "finish_date": "2030-11-02",
+          "study_days": 1,
+          "peak_daily_minutes": 90
+        }
+      ],
+      "proposal": {
+        "action": "replan_unfinished_work",
+        "daily_study_minutes": 90,
+        "reason": "The current daily limit of 60 minutes is not among the feasible options, so it cannot accommodate the missed 60 minutes of work. The feasible options start at 90 daily minutes, which can finish the work in 1 day by 2030-11-02. Since the student prefers a manageable workload, the lowest feasible daily limit of 90 minutes is recommended. Increasing beyond 90 minutes does not bring an earlier finish date, so 90 minutes balances workload and deadline."
+      },
+      "quality": {
+        "proposal_valid": true,
+        "action_correct": true,
+        "preference_applicable": true,
+        "preference_match": true,
+        "rubric_daily_minutes": 90,
+        "validation_error": ""
+      },
+      "performance": {
+        "duration_ms": 1778,
+        "memory_before_bytes": 99684352,
+        "memory_after_bytes": 99688448,
+        "memory_delta_bytes": 4096
+      }
+    },
+    {
+      "case": "maximum_limit_insufficient",
+      "repetition": 7,
+      "outcome": "succeeded",
+      "error_message": "",
+      "resume_date": "2030-11-02",
+      "current_daily_minutes": 60,
+      "maximum_daily_minutes": 75,
+      "preference": "finish_sooner",
+      "expected_action": "cannot_fit",
+      "preference_check": null,
+      "progress": {
+        "completed_minutes": 30,
+        "pending_minutes": 0,
+        "missed_minutes": 60,
+        "overdue_pending_minutes": 0
+      },
+      "feasible_options": [],
+      "proposal": {
+        "action": "cannot_fit",
+        "daily_study_minutes": null,
+        "reason": "The student has 60 missed minutes and no feasible scheduling options are available to reschedule the unfinished work starting from the resume date with the permitted daily limits. Therefore, no replacement plan fits the constraints to finish sooner or manage the workload."
+      },
+      "quality": {
+        "proposal_valid": true,
+        "action_correct": true,
+        "preference_applicable": false,
+        "preference_match": null,
+        "rubric_daily_minutes": null,
+        "validation_error": ""
+      },
+      "performance": {
+        "duration_ms": 1043,
+        "memory_before_bytes": 99688448,
+        "memory_after_bytes": 99688448,
+        "memory_delta_bytes": 0
+      }
+    },
+    {
+      "case": "exam_deadline_reached",
+      "repetition": 7,
+      "outcome": "succeeded",
+      "error_message": "",
+      "resume_date": "2030-11-02",
+      "current_daily_minutes": 60,
+      "maximum_daily_minutes": 120,
+      "preference": "finish_sooner",
+      "expected_action": "cannot_fit",
+      "preference_check": null,
+      "progress": {
+        "completed_minutes": 0,
+        "pending_minutes": 0,
+        "missed_minutes": 60,
+        "overdue_pending_minutes": 0
+      },
+      "feasible_options": [],
+      "proposal": {
+        "action": "cannot_fit",
+        "daily_study_minutes": null,
+        "reason": "The student has 60 minutes of missed work and no pending work. There are no feasible options provided by the server to reschedule this missed work given the resume date and the allowed daily study limits. Therefore, it is not possible to fit the missed work into a revised plan that meets the exam deadlines or constraints. The current daily limit cannot be used to address this issue since no feasible schedules are available."
+      },
+      "quality": {
+        "proposal_valid": true,
+        "action_correct": true,
+        "preference_applicable": false,
+        "preference_match": null,
+        "rubric_daily_minutes": null,
+        "validation_error": ""
+      },
+      "performance": {
+        "duration_ms": 1996,
+        "memory_before_bytes": 99688448,
+        "memory_after_bytes": 99692544,
+        "memory_delta_bytes": 4096
+      }
+    },
+    {
+      "case": "completed_plan_kept",
+      "repetition": 8,
+      "outcome": "succeeded",
+      "error_message": "",
+      "resume_date": "2030-11-02",
+      "current_daily_minutes": 60,
+      "maximum_daily_minutes": 120,
+      "preference": "manageable_workload",
+      "expected_action": "keep_current_plan",
+      "preference_check": null,
+      "progress": {
+        "completed_minutes": 60,
+        "pending_minutes": 0,
+        "missed_minutes": 0,
+        "overdue_pending_minutes": 0
+      },
+      "feasible_options": [],
+      "proposal": {
+        "action": "keep_current_plan",
+        "daily_study_minutes": null,
+        "reason": "All work has been completed, with no missed or pending minutes remaining. Since there is no unfinished work left to schedule, no changes to the current plan are necessary. The current workload is manageable as no additional study time is required."
+      },
+      "quality": {
+        "proposal_valid": true,
+        "action_correct": true,
+        "preference_applicable": false,
+        "preference_match": null,
+        "rubric_daily_minutes": null,
+        "validation_error": ""
+      },
+      "performance": {
+        "duration_ms": 1493,
+        "memory_before_bytes": 99692544,
+        "memory_after_bytes": 99692544,
+        "memory_delta_bytes": 0
+      }
+    },
+    {
+      "case": "missed_work_lighter_workload",
+      "repetition": 8,
+      "outcome": "succeeded",
+      "error_message": "",
+      "resume_date": "2030-11-02",
+      "current_daily_minutes": 60,
+      "maximum_daily_minutes": 120,
+      "preference": "manageable_workload",
+      "expected_action": "replan_unfinished_work",
+      "preference_check": "lowest_feasible_limit",
+      "progress": {
+        "completed_minutes": 0,
+        "pending_minutes": 180,
+        "missed_minutes": 60,
+        "overdue_pending_minutes": 0
+      },
+      "feasible_options": [
+        {
+          "daily_study_minutes": 60,
+          "finish_date": "2030-11-05",
+          "study_days": 4,
+          "peak_daily_minutes": 60
+        },
+        {
+          "daily_study_minutes": 75,
+          "finish_date": "2030-11-05",
+          "study_days": 4,
+          "peak_daily_minutes": 75
+        },
+        {
+          "daily_study_minutes": 90,
+          "finish_date": "2030-11-04",
+          "study_days": 3,
+          "peak_daily_minutes": 90
+        },
+        {
+          "daily_study_minutes": 105,
+          "finish_date": "2030-11-04",
+          "study_days": 3,
+          "peak_daily_minutes": 105
+        },
+        {
+          "daily_study_minutes": 120,
+          "finish_date": "2030-11-03",
+          "study_days": 2,
+          "peak_daily_minutes": 120
+        }
+      ],
+      "proposal": {
+        "action": "replan_unfinished_work",
+        "daily_study_minutes": 60,
+        "reason": "The student has 240 minutes of unfinished work (180 pending + 60 missed). The current plan assumes 60 daily study minutes, which is feasible and finishes by November 5, allowing 4 study days from the resume date. This matches the student's current daily limit and respects their preference for a manageable workload. While higher daily limits could shorten the schedule by one or two days, this would increase daily effort beyond the student's preference and offer limited advancement. Therefore, it is recommended to replan the unfinished work at 60 minutes per day to fit within the schedule and preference."
+      },
+      "quality": {
+        "proposal_valid": true,
+        "action_correct": true,
+        "preference_applicable": true,
+        "preference_match": true,
+        "rubric_daily_minutes": 60,
+        "validation_error": ""
+      },
+      "performance": {
+        "duration_ms": 1524,
+        "memory_before_bytes": 99692544,
+        "memory_after_bytes": 99704832,
+        "memory_delta_bytes": 12288
+      }
+    },
+    {
+      "case": "missed_work_finish_sooner",
+      "repetition": 8,
+      "outcome": "succeeded",
+      "error_message": "",
+      "resume_date": "2030-11-02",
+      "current_daily_minutes": 60,
+      "maximum_daily_minutes": 120,
+      "preference": "finish_sooner",
+      "expected_action": "replan_unfinished_work",
+      "preference_check": "earliest_finish_lowest_limit",
+      "progress": {
+        "completed_minutes": 0,
+        "pending_minutes": 180,
+        "missed_minutes": 60,
+        "overdue_pending_minutes": 0
+      },
+      "feasible_options": [
+        {
+          "daily_study_minutes": 60,
+          "finish_date": "2030-11-05",
+          "study_days": 4,
+          "peak_daily_minutes": 60
+        },
+        {
+          "daily_study_minutes": 75,
+          "finish_date": "2030-11-05",
+          "study_days": 4,
+          "peak_daily_minutes": 75
+        },
+        {
+          "daily_study_minutes": 90,
+          "finish_date": "2030-11-04",
+          "study_days": 3,
+          "peak_daily_minutes": 90
+        },
+        {
+          "daily_study_minutes": 105,
+          "finish_date": "2030-11-04",
+          "study_days": 3,
+          "peak_daily_minutes": 105
+        },
+        {
+          "daily_study_minutes": 120,
+          "finish_date": "2030-11-03",
+          "study_days": 2,
+          "peak_daily_minutes": 120
+        }
+      ],
+      "proposal": {
+        "action": "replan_unfinished_work",
+        "daily_study_minutes": 120,
+        "reason": "There is missed work, so the current plan cannot be kept without rescheduling. The feasible options show that studying 120 minutes daily allows finishing by 2030-11-03, which is earlier than all other options. Given the preference to finish sooner, increasing the daily study time to 120 minutes achieves the earliest completion. Lower daily limits finish later on 2030-11-04 or 2030-11-05, so this higher limit aligns with the preference to finish as soon as possible."
+      },
+      "quality": {
+        "proposal_valid": true,
+        "action_correct": true,
+        "preference_applicable": true,
+        "preference_match": true,
+        "rubric_daily_minutes": 120,
+        "validation_error": ""
+      },
+      "performance": {
+        "duration_ms": 1345,
+        "memory_before_bytes": 99704832,
+        "memory_after_bytes": 99708928,
+        "memory_delta_bytes": 4096
+      }
+    },
+    {
+      "case": "completed_work_requires_higher_limit",
+      "repetition": 8,
+      "outcome": "succeeded",
+      "error_message": "",
+      "resume_date": "2030-11-02",
+      "current_daily_minutes": 60,
+      "maximum_daily_minutes": 120,
+      "preference": "manageable_workload",
+      "expected_action": "replan_unfinished_work",
+      "preference_check": "lowest_feasible_limit",
+      "progress": {
+        "completed_minutes": 30,
+        "pending_minutes": 0,
+        "missed_minutes": 60,
+        "overdue_pending_minutes": 0
+      },
+      "feasible_options": [
+        {
+          "daily_study_minutes": 90,
+          "finish_date": "2030-11-02",
+          "study_days": 1,
+          "peak_daily_minutes": 90
+        },
+        {
+          "daily_study_minutes": 105,
+          "finish_date": "2030-11-02",
+          "study_days": 1,
+          "peak_daily_minutes": 90
+        },
+        {
+          "daily_study_minutes": 120,
+          "finish_date": "2030-11-02",
+          "study_days": 1,
+          "peak_daily_minutes": 90
+        }
+      ],
+      "proposal": {
+        "action": "replan_unfinished_work",
+        "daily_study_minutes": 90,
+        "reason": "There is missed work totaling 60 minutes, and the current daily limit of 60 minutes is not among the feasible options, indicating it cannot meet the deadlines. The feasible options start at 90 daily minutes, which accommodates the missed work and allows finishing by the due date of 2030-11-02 in 1 study day. Since the student prefers a manageable workload, selecting the lowest feasible daily limit (90 minutes) balances finishing on time with manageable daily effort."
+      },
+      "quality": {
+        "proposal_valid": true,
+        "action_correct": true,
+        "preference_applicable": true,
+        "preference_match": true,
+        "rubric_daily_minutes": 90,
+        "validation_error": ""
+      },
+      "performance": {
+        "duration_ms": 1450,
+        "memory_before_bytes": 99708928,
+        "memory_after_bytes": 99717120,
+        "memory_delta_bytes": 8192
+      }
+    },
+    {
+      "case": "maximum_limit_insufficient",
+      "repetition": 8,
+      "outcome": "succeeded",
+      "error_message": "",
+      "resume_date": "2030-11-02",
+      "current_daily_minutes": 60,
+      "maximum_daily_minutes": 75,
+      "preference": "finish_sooner",
+      "expected_action": "cannot_fit",
+      "preference_check": null,
+      "progress": {
+        "completed_minutes": 30,
+        "pending_minutes": 0,
+        "missed_minutes": 60,
+        "overdue_pending_minutes": 0
+      },
+      "feasible_options": [],
+      "proposal": {
+        "action": "cannot_fit",
+        "daily_study_minutes": null,
+        "reason": "The student has 60 missed minutes of work and no pending minutes, but there are no feasible daily study minute options provided to reschedule the unfinished work. The current daily limit of 60 minutes and the maximum allowed of 75 minutes cannot fit the missed work within the given constraints. Therefore, no replacement plan fits the resume date and permitted daily limits for finishing sooner or at all."
+      },
+      "quality": {
+        "proposal_valid": true,
+        "action_correct": true,
+        "preference_applicable": false,
+        "preference_match": null,
+        "rubric_daily_minutes": null,
+        "validation_error": ""
+      },
+      "performance": {
+        "duration_ms": 1409,
+        "memory_before_bytes": 99717120,
+        "memory_after_bytes": 99717120,
+        "memory_delta_bytes": 0
+      }
+    },
+    {
+      "case": "exam_deadline_reached",
+      "repetition": 8,
+      "outcome": "succeeded",
+      "error_message": "",
+      "resume_date": "2030-11-02",
+      "current_daily_minutes": 60,
+      "maximum_daily_minutes": 120,
+      "preference": "finish_sooner",
+      "expected_action": "cannot_fit",
+      "preference_check": null,
+      "progress": {
+        "completed_minutes": 0,
+        "pending_minutes": 0,
+        "missed_minutes": 60,
+        "overdue_pending_minutes": 0
+      },
+      "feasible_options": [],
+      "proposal": {
+        "action": "cannot_fit",
+        "daily_study_minutes": null,
+        "reason": "The student has 60 minutes of missed work, and no feasible daily study minute options are available for rescheduling the unfinished work given the current resume date and maximum daily limit. Therefore, no replacement plan can fit the required work to finish sooner or at all under the constraints."
+      },
+      "quality": {
+        "proposal_valid": true,
+        "action_correct": true,
+        "preference_applicable": false,
+        "preference_match": null,
+        "rubric_daily_minutes": null,
+        "validation_error": ""
+      },
+      "performance": {
+        "duration_ms": 1213,
+        "memory_before_bytes": 99717120,
+        "memory_after_bytes": 99717120,
+        "memory_delta_bytes": 0
+      }
+    },
+    {
+      "case": "completed_plan_kept",
+      "repetition": 9,
+      "outcome": "succeeded",
+      "error_message": "",
+      "resume_date": "2030-11-02",
+      "current_daily_minutes": 60,
+      "maximum_daily_minutes": 120,
+      "preference": "manageable_workload",
+      "expected_action": "keep_current_plan",
+      "preference_check": null,
+      "progress": {
+        "completed_minutes": 60,
+        "pending_minutes": 0,
+        "missed_minutes": 0,
+        "overdue_pending_minutes": 0
+      },
+      "feasible_options": [],
+      "proposal": {
+        "action": "keep_current_plan",
+        "daily_study_minutes": null,
+        "reason": "All study work is already completed, so no unfinished or missed work remains. There are no feasible options because replanning is unnecessary. The current plan can be kept as it stands."
+      },
+      "quality": {
+        "proposal_valid": true,
+        "action_correct": true,
+        "preference_applicable": false,
+        "preference_match": null,
+        "rubric_daily_minutes": null,
+        "validation_error": ""
+      },
+      "performance": {
+        "duration_ms": 1043,
+        "memory_before_bytes": 99717120,
+        "memory_after_bytes": 99733504,
+        "memory_delta_bytes": 16384
+      }
+    },
+    {
+      "case": "missed_work_lighter_workload",
+      "repetition": 9,
+      "outcome": "succeeded",
+      "error_message": "",
+      "resume_date": "2030-11-02",
+      "current_daily_minutes": 60,
+      "maximum_daily_minutes": 120,
+      "preference": "manageable_workload",
+      "expected_action": "replan_unfinished_work",
+      "preference_check": "lowest_feasible_limit",
+      "progress": {
+        "completed_minutes": 0,
+        "pending_minutes": 180,
+        "missed_minutes": 60,
+        "overdue_pending_minutes": 0
+      },
+      "feasible_options": [
+        {
+          "daily_study_minutes": 60,
+          "finish_date": "2030-11-05",
+          "study_days": 4,
+          "peak_daily_minutes": 60
+        },
+        {
+          "daily_study_minutes": 75,
+          "finish_date": "2030-11-05",
+          "study_days": 4,
+          "peak_daily_minutes": 75
+        },
+        {
+          "daily_study_minutes": 90,
+          "finish_date": "2030-11-04",
+          "study_days": 3,
+          "peak_daily_minutes": 90
+        },
+        {
+          "daily_study_minutes": 105,
+          "finish_date": "2030-11-04",
+          "study_days": 3,
+          "peak_daily_minutes": 105
+        },
+        {
+          "daily_study_minutes": 120,
+          "finish_date": "2030-11-03",
+          "study_days": 2,
+          "peak_daily_minutes": 120
+        }
+      ],
+      "proposal": {
+        "action": "replan_unfinished_work",
+        "daily_study_minutes": 60,
+        "reason": "The current plan with a daily limit of 60 minutes is feasible to complete the 240 unfinished minutes (180 pending + 60 missed) by the finish date, requiring 4 study days. This matches the manageable workload preference by using the lowest daily limit that fits the deadlines, avoiding higher daily time demands. Selecting higher daily limits would shorten the finish time by 1-2 days but increase daily workload, which is less aligned with the preference for manageable daily time."
+      },
+      "quality": {
+        "proposal_valid": true,
+        "action_correct": true,
+        "preference_applicable": true,
+        "preference_match": true,
+        "rubric_daily_minutes": 60,
+        "validation_error": ""
+      },
+      "performance": {
+        "duration_ms": 1445,
+        "memory_before_bytes": 99733504,
+        "memory_after_bytes": 99745792,
+        "memory_delta_bytes": 12288
+      }
+    },
+    {
+      "case": "missed_work_finish_sooner",
+      "repetition": 9,
+      "outcome": "succeeded",
+      "error_message": "",
+      "resume_date": "2030-11-02",
+      "current_daily_minutes": 60,
+      "maximum_daily_minutes": 120,
+      "preference": "finish_sooner",
+      "expected_action": "replan_unfinished_work",
+      "preference_check": "earliest_finish_lowest_limit",
+      "progress": {
+        "completed_minutes": 0,
+        "pending_minutes": 180,
+        "missed_minutes": 60,
+        "overdue_pending_minutes": 0
+      },
+      "feasible_options": [
+        {
+          "daily_study_minutes": 60,
+          "finish_date": "2030-11-05",
+          "study_days": 4,
+          "peak_daily_minutes": 60
+        },
+        {
+          "daily_study_minutes": 75,
+          "finish_date": "2030-11-05",
+          "study_days": 4,
+          "peak_daily_minutes": 75
+        },
+        {
+          "daily_study_minutes": 90,
+          "finish_date": "2030-11-04",
+          "study_days": 3,
+          "peak_daily_minutes": 90
+        },
+        {
+          "daily_study_minutes": 105,
+          "finish_date": "2030-11-04",
+          "study_days": 3,
+          "peak_daily_minutes": 105
+        },
+        {
+          "daily_study_minutes": 120,
+          "finish_date": "2030-11-03",
+          "study_days": 2,
+          "peak_daily_minutes": 120
+        }
+      ],
+      "proposal": {
+        "action": "replan_unfinished_work",
+        "daily_study_minutes": 120,
+        "reason": "The student has 240 minutes of unfinished work including 60 missed minutes, which cannot be completed by the deadlines with the current daily limit of 60 minutes. Among the feasible options, increasing the daily study time to 120 minutes allows finishing the work earliest by 2030-11-03, which aligns well with the student's preference to finish sooner. Higher daily limits reduce the study days and bring an earlier finish date. This option balances the need to meet deadlines with the preference for an earlier completion."
+      },
+      "quality": {
+        "proposal_valid": true,
+        "action_correct": true,
+        "preference_applicable": true,
+        "preference_match": true,
+        "rubric_daily_minutes": 120,
+        "validation_error": ""
+      },
+      "performance": {
+        "duration_ms": 1671,
+        "memory_before_bytes": 99745792,
+        "memory_after_bytes": 99758080,
+        "memory_delta_bytes": 12288
+      }
+    },
+    {
+      "case": "completed_work_requires_higher_limit",
+      "repetition": 9,
+      "outcome": "succeeded",
+      "error_message": "",
+      "resume_date": "2030-11-02",
+      "current_daily_minutes": 60,
+      "maximum_daily_minutes": 120,
+      "preference": "manageable_workload",
+      "expected_action": "replan_unfinished_work",
+      "preference_check": "lowest_feasible_limit",
+      "progress": {
+        "completed_minutes": 30,
+        "pending_minutes": 0,
+        "missed_minutes": 60,
+        "overdue_pending_minutes": 0
+      },
+      "feasible_options": [
+        {
+          "daily_study_minutes": 90,
+          "finish_date": "2030-11-02",
+          "study_days": 1,
+          "peak_daily_minutes": 90
+        },
+        {
+          "daily_study_minutes": 105,
+          "finish_date": "2030-11-02",
+          "study_days": 1,
+          "peak_daily_minutes": 90
+        },
+        {
+          "daily_study_minutes": 120,
+          "finish_date": "2030-11-02",
+          "study_days": 1,
+          "peak_daily_minutes": 90
+        }
+      ],
+      "proposal": {
+        "action": "replan_unfinished_work",
+        "daily_study_minutes": 90,
+        "reason": "The current daily limit of 60 minutes is not among the feasible options, indicating it cannot accommodate the 60 missed minutes. Among the feasible options, 90 minutes daily achieves completion in one day by the deadline. Since the student prefers a manageable workload, choosing 90 minutes balances daily effort without exceeding peak daily minutes, and enables finishing all missed work on a single day. Increasing daily minutes beyond 90 offers no earlier finish date or scheduling benefit, so 90 minutes is recommended."
+      },
+      "quality": {
+        "proposal_valid": true,
+        "action_correct": true,
+        "preference_applicable": true,
+        "preference_match": true,
+        "rubric_daily_minutes": 90,
+        "validation_error": ""
+      },
+      "performance": {
+        "duration_ms": 1433,
+        "memory_before_bytes": 99758080,
+        "memory_after_bytes": 99778560,
+        "memory_delta_bytes": 20480
+      }
+    },
+    {
+      "case": "maximum_limit_insufficient",
+      "repetition": 9,
+      "outcome": "succeeded",
+      "error_message": "",
+      "resume_date": "2030-11-02",
+      "current_daily_minutes": 60,
+      "maximum_daily_minutes": 75,
+      "preference": "finish_sooner",
+      "expected_action": "cannot_fit",
+      "preference_check": null,
+      "progress": {
+        "completed_minutes": 30,
+        "pending_minutes": 0,
+        "missed_minutes": 60,
+        "overdue_pending_minutes": 0
+      },
+      "feasible_options": [],
+      "proposal": {
+        "action": "cannot_fit",
+        "daily_study_minutes": null,
+        "reason": "The plan has 60 missed minutes that must be rescheduled, but there are no feasible options available to fit the unfinished work within the permitted daily study limits and before the deadlines. The current daily limit of 60 minutes and the maximum allowable limit of 75 minutes both cannot accommodate the required work starting from the resume date. Therefore, no replacement schedule can be proposed."
+      },
+      "quality": {
+        "proposal_valid": true,
+        "action_correct": true,
+        "preference_applicable": false,
+        "preference_match": null,
+        "rubric_daily_minutes": null,
+        "validation_error": ""
+      },
+      "performance": {
+        "duration_ms": 1322,
+        "memory_before_bytes": 99778560,
+        "memory_after_bytes": 99790848,
+        "memory_delta_bytes": 12288
+      }
+    },
+    {
+      "case": "exam_deadline_reached",
+      "repetition": 9,
+      "outcome": "succeeded",
+      "error_message": "",
+      "resume_date": "2030-11-02",
+      "current_daily_minutes": 60,
+      "maximum_daily_minutes": 120,
+      "preference": "finish_sooner",
+      "expected_action": "cannot_fit",
+      "preference_check": null,
+      "progress": {
+        "completed_minutes": 0,
+        "pending_minutes": 0,
+        "missed_minutes": 60,
+        "overdue_pending_minutes": 0
+      },
+      "feasible_options": [],
+      "proposal": {
+        "action": "cannot_fit",
+        "daily_study_minutes": null,
+        "reason": "The student has 60 minutes of missed work and no feasible scheduling options are available to complete this work starting from the resume date. The current daily limit of 60 minutes is not adequate, and since there are no feasible options up to the maximum allowed daily limit of 120 minutes, no replacement plan can fit the unfinished work and meet the deadlines."
+      },
+      "quality": {
+        "proposal_valid": true,
+        "action_correct": true,
+        "preference_applicable": false,
+        "preference_match": null,
+        "rubric_daily_minutes": null,
+        "validation_error": ""
+      },
+      "performance": {
+        "duration_ms": 1319,
+        "memory_before_bytes": 99790848,
+        "memory_after_bytes": 99790848,
+        "memory_delta_bytes": 0
+      }
+    },
+    {
+      "case": "completed_plan_kept",
+      "repetition": 10,
+      "outcome": "succeeded",
+      "error_message": "",
+      "resume_date": "2030-11-02",
+      "current_daily_minutes": 60,
+      "maximum_daily_minutes": 120,
+      "preference": "manageable_workload",
+      "expected_action": "keep_current_plan",
+      "preference_check": null,
+      "progress": {
+        "completed_minutes": 60,
+        "pending_minutes": 0,
+        "missed_minutes": 0,
+        "overdue_pending_minutes": 0
+      },
+      "feasible_options": [],
+      "proposal": {
+        "action": "keep_current_plan",
+        "daily_study_minutes": null,
+        "reason": "The study plan has no unfinished or missed work, so there is no need to replan. Also, no feasible alternative scheduling options were provided. Therefore, the current plan can be kept as is, with no tradeoff to consider."
+      },
+      "quality": {
+        "proposal_valid": true,
+        "action_correct": true,
+        "preference_applicable": false,
+        "preference_match": null,
+        "rubric_daily_minutes": null,
+        "validation_error": ""
+      },
+      "performance": {
+        "duration_ms": 1166,
+        "memory_before_bytes": 99790848,
+        "memory_after_bytes": 99803136,
+        "memory_delta_bytes": 12288
+      }
+    },
+    {
+      "case": "missed_work_lighter_workload",
+      "repetition": 10,
+      "outcome": "succeeded",
+      "error_message": "",
+      "resume_date": "2030-11-02",
+      "current_daily_minutes": 60,
+      "maximum_daily_minutes": 120,
+      "preference": "manageable_workload",
+      "expected_action": "replan_unfinished_work",
+      "preference_check": "lowest_feasible_limit",
+      "progress": {
+        "completed_minutes": 0,
+        "pending_minutes": 180,
+        "missed_minutes": 60,
+        "overdue_pending_minutes": 0
+      },
+      "feasible_options": [
+        {
+          "daily_study_minutes": 60,
+          "finish_date": "2030-11-05",
+          "study_days": 4,
+          "peak_daily_minutes": 60
+        },
+        {
+          "daily_study_minutes": 75,
+          "finish_date": "2030-11-05",
+          "study_days": 4,
+          "peak_daily_minutes": 75
+        },
+        {
+          "daily_study_minutes": 90,
+          "finish_date": "2030-11-04",
+          "study_days": 3,
+          "peak_daily_minutes": 90
+        },
+        {
+          "daily_study_minutes": 105,
+          "finish_date": "2030-11-04",
+          "study_days": 3,
+          "peak_daily_minutes": 105
+        },
+        {
+          "daily_study_minutes": 120,
+          "finish_date": "2030-11-03",
+          "study_days": 2,
+          "peak_daily_minutes": 120
+        }
+      ],
+      "proposal": {
+        "action": "replan_unfinished_work",
+        "daily_study_minutes": 75,
+        "reason": "The current plan with a daily limit of 60 minutes can finish the work by 2030-11-05 over 4 days, which meets deadlines but is at the current limit. Increasing to 75 minutes daily does not shorten the finish date but increases the peak daily minutes from 60 to 75, still manageable for the student. This slight increase can provide some schedule flexibility without adding much extra daily effort, respecting the student's preference for a manageable workload while maintaining the same finish date."
+      },
+      "quality": {
+        "proposal_valid": true,
+        "action_correct": true,
+        "preference_applicable": true,
+        "preference_match": false,
+        "rubric_daily_minutes": 60,
+        "validation_error": ""
+      },
+      "performance": {
+        "duration_ms": 2070,
+        "memory_before_bytes": 99803136,
+        "memory_after_bytes": 99807232,
+        "memory_delta_bytes": 4096
+      }
+    },
+    {
+      "case": "missed_work_finish_sooner",
+      "repetition": 10,
+      "outcome": "succeeded",
+      "error_message": "",
+      "resume_date": "2030-11-02",
+      "current_daily_minutes": 60,
+      "maximum_daily_minutes": 120,
+      "preference": "finish_sooner",
+      "expected_action": "replan_unfinished_work",
+      "preference_check": "earliest_finish_lowest_limit",
+      "progress": {
+        "completed_minutes": 0,
+        "pending_minutes": 180,
+        "missed_minutes": 60,
+        "overdue_pending_minutes": 0
+      },
+      "feasible_options": [
+        {
+          "daily_study_minutes": 60,
+          "finish_date": "2030-11-05",
+          "study_days": 4,
+          "peak_daily_minutes": 60
+        },
+        {
+          "daily_study_minutes": 75,
+          "finish_date": "2030-11-05",
+          "study_days": 4,
+          "peak_daily_minutes": 75
+        },
+        {
+          "daily_study_minutes": 90,
+          "finish_date": "2030-11-04",
+          "study_days": 3,
+          "peak_daily_minutes": 90
+        },
+        {
+          "daily_study_minutes": 105,
+          "finish_date": "2030-11-04",
+          "study_days": 3,
+          "peak_daily_minutes": 105
+        },
+        {
+          "daily_study_minutes": 120,
+          "finish_date": "2030-11-03",
+          "study_days": 2,
+          "peak_daily_minutes": 120
+        }
+      ],
+      "proposal": {
+        "action": "replan_unfinished_work",
+        "daily_study_minutes": 120,
+        "reason": "The student has missed 60 minutes and has 180 minutes pending, totaling 240 unfinished minutes. The current daily study limit of 60 minutes could finish the work in 4 days by 2030-11-05, but the student prefers to finish sooner. Choosing the highest feasible daily limit of 120 minutes reduces the study days to 2 and finishes by 2030-11-03, significantly shortening the completion time. This higher workload aligns with the preference to finish sooner and makes better use of the allowed daily study limit without exceeding the maximum."
+      },
+      "quality": {
+        "proposal_valid": true,
+        "action_correct": true,
+        "preference_applicable": true,
+        "preference_match": true,
+        "rubric_daily_minutes": 120,
+        "validation_error": ""
+      },
+      "performance": {
+        "duration_ms": 1510,
+        "memory_before_bytes": 99807232,
+        "memory_after_bytes": 99819520,
+        "memory_delta_bytes": 12288
+      }
+    },
+    {
+      "case": "completed_work_requires_higher_limit",
+      "repetition": 10,
+      "outcome": "succeeded",
+      "error_message": "",
+      "resume_date": "2030-11-02",
+      "current_daily_minutes": 60,
+      "maximum_daily_minutes": 120,
+      "preference": "manageable_workload",
+      "expected_action": "replan_unfinished_work",
+      "preference_check": "lowest_feasible_limit",
+      "progress": {
+        "completed_minutes": 30,
+        "pending_minutes": 0,
+        "missed_minutes": 60,
+        "overdue_pending_minutes": 0
+      },
+      "feasible_options": [
+        {
+          "daily_study_minutes": 90,
+          "finish_date": "2030-11-02",
+          "study_days": 1,
+          "peak_daily_minutes": 90
+        },
+        {
+          "daily_study_minutes": 105,
+          "finish_date": "2030-11-02",
+          "study_days": 1,
+          "peak_daily_minutes": 90
+        },
+        {
+          "daily_study_minutes": 120,
+          "finish_date": "2030-11-02",
+          "study_days": 1,
+          "peak_daily_minutes": 90
+        }
+      ],
+      "proposal": {
+        "action": "replan_unfinished_work",
+        "daily_study_minutes": 90,
+        "reason": "The student has missed 60 minutes of work and currently studies 60 minutes daily, which is not feasible to complete by the deadlines. The feasible options all finish by 2030-11-02 with one study day and a peak of 90 daily minutes. Since the student prefers a manageable workload, the smallest feasible daily limit of 90 minutes is recommended, which allows finishing on time with the least increase from the current daily limit."
+      },
+      "quality": {
+        "proposal_valid": true,
+        "action_correct": true,
+        "preference_applicable": true,
+        "preference_match": true,
+        "rubric_daily_minutes": 90,
+        "validation_error": ""
+      },
+      "performance": {
+        "duration_ms": 2436,
+        "memory_before_bytes": 99819520,
+        "memory_after_bytes": 99819520,
+        "memory_delta_bytes": 0
+      }
+    },
+    {
+      "case": "maximum_limit_insufficient",
+      "repetition": 10,
+      "outcome": "succeeded",
+      "error_message": "",
+      "resume_date": "2030-11-02",
+      "current_daily_minutes": 60,
+      "maximum_daily_minutes": 75,
+      "preference": "finish_sooner",
+      "expected_action": "cannot_fit",
+      "preference_check": null,
+      "progress": {
+        "completed_minutes": 30,
+        "pending_minutes": 0,
+        "missed_minutes": 60,
+        "overdue_pending_minutes": 0
+      },
+      "feasible_options": [],
+      "proposal": {
+        "action": "cannot_fit",
+        "daily_study_minutes": null,
+        "reason": "The student has 60 minutes of missed work and no feasible daily study time options are available to complete this unfinished work by the required deadlines. The current daily limit of 60 minutes and the maximum allowed 75 minutes do not provide any feasible schedules. Therefore, no replacement plan fits the resume date and permitted daily limits to finish sooner."
+      },
+      "quality": {
+        "proposal_valid": true,
+        "action_correct": true,
+        "preference_applicable": false,
+        "preference_match": null,
+        "rubric_daily_minutes": null,
+        "validation_error": ""
+      },
+      "performance": {
+        "duration_ms": 1226,
+        "memory_before_bytes": 99819520,
+        "memory_after_bytes": 99819520,
+        "memory_delta_bytes": 0
+      }
+    },
+    {
+      "case": "exam_deadline_reached",
+      "repetition": 10,
+      "outcome": "succeeded",
+      "error_message": "",
+      "resume_date": "2030-11-02",
+      "current_daily_minutes": 60,
+      "maximum_daily_minutes": 120,
+      "preference": "finish_sooner",
+      "expected_action": "cannot_fit",
+      "preference_check": null,
+      "progress": {
+        "completed_minutes": 0,
+        "pending_minutes": 0,
+        "missed_minutes": 60,
+        "overdue_pending_minutes": 0
+      },
+      "feasible_options": [],
+      "proposal": {
+        "action": "cannot_fit",
+        "daily_study_minutes": null,
+        "reason": "There is 60 minutes of missed work, indicating outdated scheduling, but there are no feasible options available to fit this unfinished work by the required deadlines. The current daily limit of 60 minutes cannot be maintained as it is not in the feasible options list, and no permissible higher daily limits result in a workable schedule. Thus, no replacement plan fits the resume date and permitted daily limits, especially given the preference to finish sooner."
+      },
+      "quality": {
+        "proposal_valid": true,
+        "action_correct": true,
+        "preference_applicable": false,
+        "preference_match": null,
+        "rubric_daily_minutes": null,
+        "validation_error": ""
+      },
+      "performance": {
+        "duration_ms": 1461,
+        "memory_before_bytes": 99819520,
+        "memory_after_bytes": 99827712,
+        "memory_delta_bytes": 8192
+      }
+    }
+  ]
+}
